@@ -7,13 +7,14 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
 
 public class BallView extends View {
-    private static final float SENSITIVITY_THRESHOLD = 1f;
-    private static final int MOVE_SCALE = 5;
+    private static final float SENSITIVITY_THRESHOLD = 0.5f;
+    private static final int MOVE_SCALE = 10;
     private int SCREEN_WIDTH;
     private int SCREEN_HEIGHT;
     private int BALL_LEFT;
@@ -105,7 +106,7 @@ public class BallView extends View {
     private Rect findIntersectingWall() {
         Rect ball = getBall();
         for (Rect wall : walls) {
-            if(Rect.intersects(ball, wall)) {
+            if (Rect.intersects(ball, wall)) {
                 return wall;
             }
         }
@@ -113,9 +114,15 @@ public class BallView extends View {
     }
 
     private void setUpMaze() {
-        createVerticalWall(4, 13, 3);
-        createVerticalWall(6, 14, 2);
+        createVerticalWall(4,13,3);
+        createVerticalWall(6,14,2);
+        createVerticalWall(7,13,2);
+        createVerticalWall(8,10,2);
+        createVerticalWall(8,13,2);
         createHorizontalWall(4,13,3);
+        createHorizontalWall(5,11,2);
+        createHorizontalWall(8,12,2);
+        createHorizontalWall(8,13,1);
     }
 
     @NonNull
@@ -125,11 +132,31 @@ public class BallView extends View {
     }
 
     public void moveLeft(int moveAmount) {
-        BALL_LEFT -= moveAmount;
-        Rect intersectingWall = findIntersectingWall();
-        if(intersectingWall != null) {
-            while(Rect.intersects(getBall(), intersectingWall)) {
-                BALL_LEFT++;
+        if (moveAmount <= VERTICAL_WALL_WIDTH) {
+            BALL_LEFT -= moveAmount;
+            Rect intersectingWall = findIntersectingWall();
+            if (intersectingWall != null) {
+                while (Rect.intersects(getBall(), intersectingWall)) {
+                    BALL_LEFT++;
+                }
+            }
+        } else {
+            int timesToCheck = moveAmount / VERTICAL_WALL_WIDTH;
+            int leftOverToMove = moveAmount - VERTICAL_WALL_WIDTH * timesToCheck;
+            boolean didIntersect = false;
+            for (int i = 1; i <= timesToCheck; i++) {
+                BALL_LEFT -= VERTICAL_WALL_WIDTH;
+                Rect intersectingWall = findIntersectingWall();
+                if (intersectingWall != null) {
+                    didIntersect = true;
+                    while (Rect.intersects(getBall(), intersectingWall)) {
+                        BALL_LEFT++;
+                    }
+                    break;
+                }
+            }
+            if (!didIntersect) {
+                BALL_LEFT -= leftOverToMove;
             }
         }
         if (BALL_LEFT < 0) {
@@ -139,11 +166,31 @@ public class BallView extends View {
     }
 
     public void moveRight(int moveAmount) {
-        BALL_LEFT += moveAmount;
-        Rect intersectingWall = findIntersectingWall();
-        if(intersectingWall != null) {
-            while(Rect.intersects(getBall(), intersectingWall)) {
-                BALL_LEFT--;
+        if (moveAmount <= VERTICAL_WALL_WIDTH) {
+            BALL_LEFT += moveAmount;
+            Rect intersectingWall = findIntersectingWall();
+            if (intersectingWall != null) {
+                while (Rect.intersects(getBall(), intersectingWall)) {
+                    BALL_LEFT--;
+                }
+            }
+        } else {
+            int timesToCheck = moveAmount / VERTICAL_WALL_WIDTH;
+            int leftOverToMove = moveAmount - VERTICAL_WALL_WIDTH * timesToCheck;
+            boolean didCollide = false;
+            for (int i = 1; i <= timesToCheck; i++) {
+                BALL_LEFT += VERTICAL_WALL_WIDTH;
+                Rect intersectingWall = findIntersectingWall();
+                if (intersectingWall != null) {
+                    didCollide = true;
+                    while (Rect.intersects(getBall(), intersectingWall)) {
+                        BALL_LEFT--;
+                    }
+                    break;
+                }
+            }
+            if (!didCollide) {
+                BALL_LEFT += leftOverToMove;
             }
         }
         if (BALL_LEFT + BALL_SIZE > SCREEN_WIDTH) {
@@ -153,11 +200,31 @@ public class BallView extends View {
     }
 
     public void moveUp(int moveAmount) {
-        BALL_TOP -= moveAmount;
-        Rect intersectingWall = findIntersectingWall();
-        if(intersectingWall != null) {
-            while(Rect.intersects(getBall(), intersectingWall)) {
-                BALL_TOP++;
+        if (moveAmount <= HORIZONTAL_WALL_HEIGHT) {
+            BALL_TOP -= moveAmount;
+            Rect intersectingWall = findIntersectingWall();
+            if (intersectingWall != null) {
+                while (Rect.intersects(getBall(), intersectingWall)) {
+                    BALL_TOP++;
+                }
+            }
+        } else {
+            int timesToCheck = moveAmount / HORIZONTAL_WALL_HEIGHT;
+            int leftOverToMove = moveAmount - HORIZONTAL_WALL_HEIGHT * timesToCheck;
+            boolean didCollide = false;
+            for (int i = 1; i <= timesToCheck; i++) {
+                BALL_TOP -= HORIZONTAL_WALL_HEIGHT;
+                Rect intersectingWall = findIntersectingWall();
+                if (intersectingWall != null) {
+                    didCollide = true;
+                    while (Rect.intersects(getBall(), intersectingWall)) {
+                        BALL_TOP++;
+                    }
+                    break;
+                }
+            }
+            if (!didCollide) {
+                BALL_TOP -= leftOverToMove;
             }
         }
         if (BALL_TOP < 0) {
@@ -167,11 +234,31 @@ public class BallView extends View {
     }
 
     public void moveDown(int moveAmount) {
-        BALL_TOP += moveAmount;
-        Rect intersectingWall = findIntersectingWall();
-        if(intersectingWall != null) {
-            while(Rect.intersects(getBall(), intersectingWall)) {
-                BALL_TOP--;
+        if(moveAmount <= HORIZONTAL_WALL_HEIGHT) {
+            BALL_TOP += moveAmount;
+            Rect intersectingWall = findIntersectingWall();
+            if (intersectingWall != null) {
+                while (Rect.intersects(getBall(), intersectingWall)) {
+                    BALL_TOP--;
+                }
+            }
+        }  else {
+            int timesToCheck = moveAmount / HORIZONTAL_WALL_HEIGHT;
+            int leftOverToMove = moveAmount - HORIZONTAL_WALL_HEIGHT * timesToCheck;
+            boolean didCollide = false;
+            for (int i = 1; i <= timesToCheck; i++) {
+                BALL_TOP += HORIZONTAL_WALL_HEIGHT;
+                Rect intersectingWall = findIntersectingWall();
+                if (intersectingWall != null) {
+                    didCollide = true;
+                    while (Rect.intersects(getBall(), intersectingWall)) {
+                        BALL_TOP--;
+                    }
+                    break;
+                }
+            }
+            if (!didCollide) {
+                BALL_TOP += leftOverToMove;
             }
         }
         if (BALL_TOP + BALL_SIZE > SCREEN_HEIGHT) {
@@ -181,23 +268,25 @@ public class BallView extends View {
     }
 
     public void move(float[] values) {
-        float x = values[0];
-        float y = values[1];
-        if (x > SENSITIVITY_THRESHOLD) {
-            int moveAmount = (int) (x * MOVE_SCALE);
-            moveLeft(moveAmount);
-        }
-        if (x * -1 > SENSITIVITY_THRESHOLD) {
-            int moveAmount = (int) (-1 * x * MOVE_SCALE);
-            moveRight(moveAmount);
-        }
-        if (y > SENSITIVITY_THRESHOLD) {
-            int moveAmount = (int) (y * MOVE_SCALE);
-            moveDown(moveAmount);
-        }
-        if (y * -1 > SENSITIVITY_THRESHOLD) {
-            int moveAmount = (int) (-1 * y * MOVE_SCALE);
-            moveUp(moveAmount);
+        if (SCREEN_HEIGHT > 0 && SCREEN_WIDTH > 0) {
+            float x = values[0];
+            float y = values[1];
+            if (x > SENSITIVITY_THRESHOLD) {
+                int moveAmount = (int) (x * MOVE_SCALE);
+                moveLeft(moveAmount);
+            }
+            if (x * -1 > SENSITIVITY_THRESHOLD) {
+                int moveAmount = (int) (-1 * x * MOVE_SCALE);
+                moveRight(moveAmount);
+            }
+            if (y > SENSITIVITY_THRESHOLD) {
+                int moveAmount = (int) (y * MOVE_SCALE);
+                moveDown(moveAmount);
+            }
+            if (y * -1 > SENSITIVITY_THRESHOLD) {
+                int moveAmount = (int) (-1 * y * MOVE_SCALE);
+                moveUp(moveAmount);
+            }
         }
     }
 }

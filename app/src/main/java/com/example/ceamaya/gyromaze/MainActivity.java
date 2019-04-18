@@ -25,22 +25,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public void leftClick(View view) {
         BallView ballView = findViewById(R.id.ball_view);
-        ballView.moveLeft(10);
+        ballView.moveLeft(40);
     }
 
     public void rightClick(View view) {
         BallView ballView = findViewById(R.id.ball_view);
-        ballView.moveRight(10);
+        ballView.moveRight(40);
     }
 
     public void upClick(View view) {
         BallView ballView = findViewById(R.id.ball_view);
-        ballView.moveUp(10);
+        ballView.moveUp(40);
     }
 
     public void downClick(View view) {
         BallView ballView = findViewById(R.id.ball_view);
-        ballView.moveDown(10);
+        ballView.moveDown(40);
     }
 
     @Override
