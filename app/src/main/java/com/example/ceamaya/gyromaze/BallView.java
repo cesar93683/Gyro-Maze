@@ -120,7 +120,7 @@ public class BallView extends View {
     }
 
     public void moveLeft(int moveAmount) {
-        if (moveAmount > VERTICAL_WALL_WIDTH) {
+        if (moveAmount >= VERTICAL_WALL_WIDTH) {
             BALL_LEFT -= VERTICAL_WALL_WIDTH;
         } else {
             BALL_LEFT -= moveAmount;
@@ -136,7 +136,7 @@ public class BallView extends View {
     }
 
     public void moveRight(int moveAmount) {
-        if (moveAmount > VERTICAL_WALL_WIDTH) {
+        if (moveAmount >= VERTICAL_WALL_WIDTH) {
             BALL_LEFT += VERTICAL_WALL_WIDTH;
         } else {
             BALL_LEFT += moveAmount;
@@ -152,7 +152,7 @@ public class BallView extends View {
     }
 
     public void moveUp(int moveAmount) {
-        if (moveAmount > HORIZONTAL_WALL_HEIGHT) {
+        if (moveAmount >= HORIZONTAL_WALL_HEIGHT) {
             BALL_TOP -= HORIZONTAL_WALL_HEIGHT;
         } else {
             BALL_TOP -= moveAmount;
@@ -168,7 +168,7 @@ public class BallView extends View {
     }
 
     public void moveDown(int moveAmount) {
-        if (moveAmount > HORIZONTAL_WALL_HEIGHT) {
+        if (moveAmount >= HORIZONTAL_WALL_HEIGHT) {
             BALL_TOP += HORIZONTAL_WALL_HEIGHT;
         } else {
             BALL_TOP += moveAmount;
