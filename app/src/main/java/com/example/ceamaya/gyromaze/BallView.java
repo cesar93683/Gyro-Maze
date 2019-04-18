@@ -120,134 +120,66 @@ public class BallView extends View {
     }
 
     public void moveLeft(int moveAmount) {
-        if (moveAmount <= VERTICAL_WALL_WIDTH) {
-            BALL_LEFT -= moveAmount;
-            Rect intersectingWall = findIntersectingWall();
-            if (intersectingWall != null) {
-                BALL_LEFT = intersectingWall.right;
-            }
+        if (moveAmount > VERTICAL_WALL_WIDTH) {
+            BALL_LEFT -= VERTICAL_WALL_WIDTH;
         } else {
-            int timesToCheck = moveAmount / VERTICAL_WALL_WIDTH;
-            int leftOverToMove = moveAmount - VERTICAL_WALL_WIDTH * timesToCheck;
-            boolean didIntersect = false;
-            for (int i = 1; i <= timesToCheck; i++) {
-                BALL_LEFT -= VERTICAL_WALL_WIDTH;
-                Rect intersectingWall = findIntersectingWall();
-                if (intersectingWall != null) {
-                    didIntersect = true;
-                    BALL_LEFT = intersectingWall.right;
-                    break;
-                }
-            }
-            if (!didIntersect) {
-                BALL_LEFT -= leftOverToMove;
-                Rect intersectingWall = findIntersectingWall();
-                if (intersectingWall != null) {
-                    BALL_LEFT = intersectingWall.right;
-                }
-            }
+            BALL_LEFT -= moveAmount;
         }
-        if (BALL_LEFT < 0) {
+        Rect intersectingWall = findIntersectingWall();
+        if (intersectingWall != null) {
+            BALL_LEFT = intersectingWall.right;
+        } else if (BALL_LEFT < 0) {
             BALL_LEFT = 0;
+        } else if (moveAmount > VERTICAL_WALL_WIDTH) {
+            moveLeft(moveAmount - VERTICAL_WALL_WIDTH);
         }
     }
 
     public void moveRight(int moveAmount) {
-        if (moveAmount <= VERTICAL_WALL_WIDTH) {
-            BALL_LEFT += moveAmount;
-            Rect intersectingWall = findIntersectingWall();
-            if (intersectingWall != null) {
-                BALL_LEFT = intersectingWall.left - BALL_SIZE;
-            }
+        if (moveAmount > VERTICAL_WALL_WIDTH) {
+            BALL_LEFT += VERTICAL_WALL_WIDTH;
         } else {
-            int timesToCheck = moveAmount / VERTICAL_WALL_WIDTH;
-            int leftOverToMove = moveAmount - VERTICAL_WALL_WIDTH * timesToCheck;
-            boolean didCollide = false;
-            for (int i = 1; i <= timesToCheck; i++) {
-                BALL_LEFT += VERTICAL_WALL_WIDTH;
-                Rect intersectingWall = findIntersectingWall();
-                if (intersectingWall != null) {
-                    didCollide = true;
-                    BALL_LEFT = intersectingWall.left - BALL_SIZE;
-                    break;
-                }
-            }
-            if (!didCollide) {
-                BALL_LEFT += leftOverToMove;
-                Rect intersectingWall = findIntersectingWall();
-                if (intersectingWall != null) {
-                    BALL_LEFT = intersectingWall.left - BALL_SIZE;
-                }
-            }
+            BALL_LEFT += moveAmount;
         }
-        if (BALL_LEFT + BALL_SIZE > SCREEN_WIDTH) {
+        Rect intersectingWall = findIntersectingWall();
+        if (intersectingWall != null) {
+            BALL_LEFT = intersectingWall.left - BALL_SIZE;
+        } else if (BALL_LEFT + BALL_SIZE > SCREEN_WIDTH) {
             BALL_LEFT = SCREEN_WIDTH - BALL_SIZE;
+        } else if (moveAmount > VERTICAL_WALL_WIDTH) {
+            moveRight(moveAmount - VERTICAL_WALL_WIDTH);
         }
     }
 
     public void moveUp(int moveAmount) {
-        if (moveAmount <= HORIZONTAL_WALL_HEIGHT) {
-            BALL_TOP -= moveAmount;
-            Rect intersectingWall = findIntersectingWall();
-            if (intersectingWall != null) {
-                BALL_TOP = intersectingWall.bottom;
-            }
+        if (moveAmount > HORIZONTAL_WALL_HEIGHT) {
+            BALL_TOP -= HORIZONTAL_WALL_HEIGHT;
         } else {
-            int timesToCheck = moveAmount / HORIZONTAL_WALL_HEIGHT;
-            int leftOverToMove = moveAmount - HORIZONTAL_WALL_HEIGHT * timesToCheck;
-            boolean didCollide = false;
-            for (int i = 1; i <= timesToCheck; i++) {
-                BALL_TOP -= HORIZONTAL_WALL_HEIGHT;
-                Rect intersectingWall = findIntersectingWall();
-                if (intersectingWall != null) {
-                    didCollide = true;
-                    BALL_TOP = intersectingWall.bottom;
-                    break;
-                }
-            }
-            if (!didCollide) {
-                BALL_TOP -= leftOverToMove;
-                Rect intersectingWall = findIntersectingWall();
-                if (intersectingWall != null) {
-                    BALL_TOP = intersectingWall.bottom;
-                }
-            }
+            BALL_TOP -= moveAmount;
         }
-        if (BALL_TOP < 0) {
+        Rect intersectingWall = findIntersectingWall();
+        if (intersectingWall != null) {
+            BALL_TOP = intersectingWall.bottom;
+        } else if (BALL_TOP < 0) {
             BALL_TOP = 0;
+        } else if (moveAmount > HORIZONTAL_WALL_HEIGHT) {
+            moveUp(moveAmount - HORIZONTAL_WALL_HEIGHT);
         }
     }
 
     public void moveDown(int moveAmount) {
-        if (moveAmount <= HORIZONTAL_WALL_HEIGHT) {
-            BALL_TOP += moveAmount;
-            Rect intersectingWall = findIntersectingWall();
-            if (intersectingWall != null) {
-                BALL_TOP = intersectingWall.top - BALL_SIZE;
-            }
+        if (moveAmount > HORIZONTAL_WALL_HEIGHT) {
+            BALL_TOP += HORIZONTAL_WALL_HEIGHT;
         } else {
-            int timesToCheck = moveAmount / HORIZONTAL_WALL_HEIGHT;
-            int leftOverToMove = moveAmount - HORIZONTAL_WALL_HEIGHT * timesToCheck;
-            boolean didCollide = false;
-            for (int i = 1; i <= timesToCheck; i++) {
-                BALL_TOP += HORIZONTAL_WALL_HEIGHT;
-                Rect intersectingWall = findIntersectingWall();
-                if (intersectingWall != null) {
-                    didCollide = true;
-                    BALL_TOP = intersectingWall.top - BALL_SIZE;
-                    break;
-                }
-            }
-            if (!didCollide) {
-                BALL_TOP += leftOverToMove;
-                Rect intersectingWall = findIntersectingWall();
-                if (intersectingWall != null) {
-                    BALL_TOP = intersectingWall.top - BALL_SIZE;
-                }
-            }
+            BALL_TOP += moveAmount;
         }
-        if (BALL_TOP + BALL_SIZE > SCREEN_HEIGHT) {
+        Rect intersectingWall = findIntersectingWall();
+        if (intersectingWall != null) {
+            BALL_TOP = intersectingWall.top - BALL_SIZE;
+        } else if (BALL_TOP + BALL_SIZE > SCREEN_HEIGHT) {
             BALL_TOP = SCREEN_HEIGHT - BALL_SIZE;
+        } else if (moveAmount > HORIZONTAL_WALL_HEIGHT) {
+            moveDown(moveAmount - HORIZONTAL_WALL_HEIGHT);
         }
     }
 
