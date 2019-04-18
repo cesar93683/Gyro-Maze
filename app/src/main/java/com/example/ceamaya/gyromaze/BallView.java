@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -104,7 +103,8 @@ public class BallView extends View {
     }
 
     private Rect findIntersectingWall() {
-        Rect ball = getBall();
+        Rect ball = new Rect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
+                BALL_TOP + BALL_SIZE);
         for (Rect wall : walls) {
             if (Rect.intersects(ball, wall)) {
                 return wall;
@@ -114,21 +114,9 @@ public class BallView extends View {
     }
 
     private void setUpMaze() {
-        createVerticalWall(4,13,3);
-        createVerticalWall(6,14,2);
-        createVerticalWall(7,13,2);
-        createVerticalWall(8,10,2);
-        createVerticalWall(8,13,2);
-        createHorizontalWall(4,13,3);
-        createHorizontalWall(5,11,2);
-        createHorizontalWall(8,12,2);
-        createHorizontalWall(8,13,1);
-    }
-
-    @NonNull
-    private Rect getBall() {
-        return new Rect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
-                BALL_TOP + BALL_SIZE);
+        createVerticalWall(4, 13, 3);
+        createVerticalWall(8, 13, 3);
+        createHorizontalWall(4, 13, 4);
     }
 
     public void moveLeft(int moveAmount) {
@@ -136,9 +124,7 @@ public class BallView extends View {
             BALL_LEFT -= moveAmount;
             Rect intersectingWall = findIntersectingWall();
             if (intersectingWall != null) {
-                while (Rect.intersects(getBall(), intersectingWall)) {
-                    BALL_LEFT++;
-                }
+                BALL_LEFT = intersectingWall.right;
             }
         } else {
             int timesToCheck = moveAmount / VERTICAL_WALL_WIDTH;
@@ -149,20 +135,21 @@ public class BallView extends View {
                 Rect intersectingWall = findIntersectingWall();
                 if (intersectingWall != null) {
                     didIntersect = true;
-                    while (Rect.intersects(getBall(), intersectingWall)) {
-                        BALL_LEFT++;
-                    }
+                    BALL_LEFT = intersectingWall.right;
                     break;
                 }
             }
             if (!didIntersect) {
                 BALL_LEFT -= leftOverToMove;
+                Rect intersectingWall = findIntersectingWall();
+                if (intersectingWall != null) {
+                    BALL_LEFT = intersectingWall.right;
+                }
             }
         }
         if (BALL_LEFT < 0) {
             BALL_LEFT = 0;
         }
-        postInvalidate();
     }
 
     public void moveRight(int moveAmount) {
@@ -170,9 +157,7 @@ public class BallView extends View {
             BALL_LEFT += moveAmount;
             Rect intersectingWall = findIntersectingWall();
             if (intersectingWall != null) {
-                while (Rect.intersects(getBall(), intersectingWall)) {
-                    BALL_LEFT--;
-                }
+                BALL_LEFT = intersectingWall.left - BALL_SIZE;
             }
         } else {
             int timesToCheck = moveAmount / VERTICAL_WALL_WIDTH;
@@ -183,20 +168,21 @@ public class BallView extends View {
                 Rect intersectingWall = findIntersectingWall();
                 if (intersectingWall != null) {
                     didCollide = true;
-                    while (Rect.intersects(getBall(), intersectingWall)) {
-                        BALL_LEFT--;
-                    }
+                    BALL_LEFT = intersectingWall.left - BALL_SIZE;
                     break;
                 }
             }
             if (!didCollide) {
                 BALL_LEFT += leftOverToMove;
+                Rect intersectingWall = findIntersectingWall();
+                if (intersectingWall != null) {
+                    BALL_LEFT = intersectingWall.left - BALL_SIZE;
+                }
             }
         }
         if (BALL_LEFT + BALL_SIZE > SCREEN_WIDTH) {
             BALL_LEFT = SCREEN_WIDTH - BALL_SIZE;
         }
-        postInvalidate();
     }
 
     public void moveUp(int moveAmount) {
@@ -204,9 +190,7 @@ public class BallView extends View {
             BALL_TOP -= moveAmount;
             Rect intersectingWall = findIntersectingWall();
             if (intersectingWall != null) {
-                while (Rect.intersects(getBall(), intersectingWall)) {
-                    BALL_TOP++;
-                }
+                BALL_TOP = intersectingWall.bottom;
             }
         } else {
             int timesToCheck = moveAmount / HORIZONTAL_WALL_HEIGHT;
@@ -217,32 +201,31 @@ public class BallView extends View {
                 Rect intersectingWall = findIntersectingWall();
                 if (intersectingWall != null) {
                     didCollide = true;
-                    while (Rect.intersects(getBall(), intersectingWall)) {
-                        BALL_TOP++;
-                    }
+                    BALL_TOP = intersectingWall.bottom;
                     break;
                 }
             }
             if (!didCollide) {
                 BALL_TOP -= leftOverToMove;
+                Rect intersectingWall = findIntersectingWall();
+                if (intersectingWall != null) {
+                    BALL_TOP = intersectingWall.bottom;
+                }
             }
         }
         if (BALL_TOP < 0) {
             BALL_TOP = 0;
         }
-        postInvalidate();
     }
 
     public void moveDown(int moveAmount) {
-        if(moveAmount <= HORIZONTAL_WALL_HEIGHT) {
+        if (moveAmount <= HORIZONTAL_WALL_HEIGHT) {
             BALL_TOP += moveAmount;
             Rect intersectingWall = findIntersectingWall();
             if (intersectingWall != null) {
-                while (Rect.intersects(getBall(), intersectingWall)) {
-                    BALL_TOP--;
-                }
+                BALL_TOP = intersectingWall.top - BALL_SIZE;
             }
-        }  else {
+        } else {
             int timesToCheck = moveAmount / HORIZONTAL_WALL_HEIGHT;
             int leftOverToMove = moveAmount - HORIZONTAL_WALL_HEIGHT * timesToCheck;
             boolean didCollide = false;
@@ -251,41 +234,50 @@ public class BallView extends View {
                 Rect intersectingWall = findIntersectingWall();
                 if (intersectingWall != null) {
                     didCollide = true;
-                    while (Rect.intersects(getBall(), intersectingWall)) {
-                        BALL_TOP--;
-                    }
+                    BALL_TOP = intersectingWall.top - BALL_SIZE;
                     break;
                 }
             }
             if (!didCollide) {
                 BALL_TOP += leftOverToMove;
+                Rect intersectingWall = findIntersectingWall();
+                if (intersectingWall != null) {
+                    BALL_TOP = intersectingWall.top - BALL_SIZE;
+                }
             }
         }
         if (BALL_TOP + BALL_SIZE > SCREEN_HEIGHT) {
             BALL_TOP = SCREEN_HEIGHT - BALL_SIZE;
         }
-        postInvalidate();
     }
 
     public void move(float[] values) {
         if (SCREEN_HEIGHT > 0 && SCREEN_WIDTH > 0) {
             float x = values[0];
             float y = values[1];
+            boolean didMove = false;
             if (x > SENSITIVITY_THRESHOLD) {
                 int moveAmount = (int) (x * MOVE_SCALE);
                 moveLeft(moveAmount);
+                didMove = true;
             }
             if (x * -1 > SENSITIVITY_THRESHOLD) {
                 int moveAmount = (int) (-1 * x * MOVE_SCALE);
                 moveRight(moveAmount);
+                didMove = true;
             }
             if (y > SENSITIVITY_THRESHOLD) {
                 int moveAmount = (int) (y * MOVE_SCALE);
                 moveDown(moveAmount);
+                didMove = true;
             }
             if (y * -1 > SENSITIVITY_THRESHOLD) {
                 int moveAmount = (int) (-1 * y * MOVE_SCALE);
                 moveUp(moveAmount);
+                didMove = true;
+            }
+            if (didMove) {
+                postInvalidate();
             }
         }
     }

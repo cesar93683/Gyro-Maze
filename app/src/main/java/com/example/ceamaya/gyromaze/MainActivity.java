@@ -6,12 +6,15 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
+    private int moveAmount = 100;
+    private final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,29 +28,29 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public void leftClick(View view) {
         BallView ballView = findViewById(R.id.ball_view);
-        ballView.moveLeft(40);
+        ballView.moveLeft(moveAmount);
     }
 
     public void rightClick(View view) {
         BallView ballView = findViewById(R.id.ball_view);
-        ballView.moveRight(40);
+        ballView.moveRight(moveAmount);
     }
 
     public void upClick(View view) {
         BallView ballView = findViewById(R.id.ball_view);
-        ballView.moveUp(40);
+        ballView.moveUp(moveAmount);
     }
 
     public void downClick(View view) {
         BallView ballView = findViewById(R.id.ball_view);
-        ballView.moveDown(40);
+        ballView.moveDown(moveAmount);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         sensorManager.registerListener(
-                this, accelerometer,SensorManager.SENSOR_DELAY_GAME);
+                this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
 
     @Override
