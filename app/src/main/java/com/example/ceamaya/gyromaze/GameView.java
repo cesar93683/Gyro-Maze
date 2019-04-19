@@ -11,7 +11,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-public class BallView extends View {
+public class GameView extends View {
     private static final float SENSITIVITY_THRESHOLD = 0.5f;
     private static final int MOVE_SCALE = 10;
     private int SCREEN_WIDTH;
@@ -27,10 +27,10 @@ public class BallView extends View {
     private Paint BLACK_PAINT;
     private boolean IS_FIRST_RUN = true;
     private ArrayList<Rect> walls;
-    private final String TAG = "BallView";
+    private final String TAG = GameView.class.getSimpleName();
 
 
-    public BallView(Context context, @Nullable AttributeSet attrs) {
+    public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setUpPaints();
         walls = new ArrayList<>();
@@ -72,6 +72,12 @@ public class BallView extends View {
         SPACE_BETWEEN_HORIZONTAL_WALLS = (int) Math.round((double) HORIZONTAL_WALL_HEIGHT * 11.0625);
     }
 
+    private void setUpMaze() {
+        createVerticalWall(4, 13, 3);
+        createVerticalWall(8, 13, 3);
+        createHorizontalWall(4, 13, 4);
+    }
+
     private void createVerticalWall(int leftScale, int topScale, int size) {
         if (leftScale < 1) {
             throw new RuntimeException("ERROR: leftScale must be greater than 0");
@@ -111,12 +117,6 @@ public class BallView extends View {
             }
         }
         return null;
-    }
-
-    private void setUpMaze() {
-        createVerticalWall(4, 13, 3);
-        createVerticalWall(8, 13, 3);
-        createHorizontalWall(4, 13, 4);
     }
 
     public void moveLeft(int moveAmount) {

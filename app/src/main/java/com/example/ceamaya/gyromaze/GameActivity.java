@@ -6,15 +6,14 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class GameActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private int moveAmount = 100;
-    private final String TAG = "MainActivity";
+    private final String TAG = GameActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,23 +26,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void leftClick(View view) {
-        BallView ballView = findViewById(R.id.ball_view);
-        ballView.moveLeft(moveAmount);
+        GameView gameView = findViewById(R.id.ball_view);
+        gameView.moveLeft(moveAmount);
     }
 
     public void rightClick(View view) {
-        BallView ballView = findViewById(R.id.ball_view);
-        ballView.moveRight(moveAmount);
+        GameView gameView = findViewById(R.id.ball_view);
+        gameView.moveRight(moveAmount);
     }
 
     public void upClick(View view) {
-        BallView ballView = findViewById(R.id.ball_view);
-        ballView.moveUp(moveAmount);
+        GameView gameView = findViewById(R.id.ball_view);
+        gameView.moveUp(moveAmount);
     }
 
     public void downClick(View view) {
-        BallView ballView = findViewById(R.id.ball_view);
-        ballView.moveDown(moveAmount);
+        GameView gameView = findViewById(R.id.ball_view);
+        gameView.moveDown(moveAmount);
     }
 
     @Override
@@ -61,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        BallView ballView = findViewById(R.id.ball_view);
-        ballView.move(event.values);
+        GameView gameView = findViewById(R.id.ball_view);
+        gameView.move(event.values);
     }
 
     @Override
