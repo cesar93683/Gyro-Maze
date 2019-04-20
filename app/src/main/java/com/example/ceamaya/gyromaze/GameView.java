@@ -12,8 +12,8 @@ import android.view.View;
 import java.util.ArrayList;
 
 public class GameView extends View {
-    private static final float SENSITIVITY_THRESHOLD = 0.5f;
-    private static final int MOVE_SCALE = 10;
+    private final float SENSITIVITY_THRESHOLD = 0.5f;
+    private final int MOVE_SCALE = 10;
     private int SCREEN_WIDTH;
     private int SCREEN_HEIGHT;
     private int BALL_LEFT;
@@ -65,7 +65,7 @@ public class GameView extends View {
             canvas.drawRect(wall, BLACK_PAINT);
         }
         for (Rect hole : holes) {
-            canvas.drawRect(hole, BLACK_PAINT);
+            canvas.drawRect(hole, GREEN_PAINT);
         }
         canvas.drawRect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
                 BALL_TOP + BALL_SIZE, RED_PAINT);
@@ -90,18 +90,28 @@ public class GameView extends View {
     }
 
     private void createHole(int leftScale, int topScale) {
-        int top = 0;
-        if (topScale > 0) {
-            top = SPACE_BETWEEN_HORIZONTAL_WALLS * topScale + (topScale - 1) * HORIZONTAL_WALL_HEIGHT;
-        }
-        int left = 0;
-        if (leftScale > 0) {
-            left = leftScale * SPACE_BETWEEN_VERTICAL_WALLS + (leftScale - 1) * VERTICAL_WALL_WIDTH;
-        }
+        int top = getTopCord(topScale);
+        int left = getLeftCord(leftScale);
         int right = left + HOLE_SIZE;
         int bottom = top + HOLE_SIZE;
         Rect wall = new Rect(left, top, right, bottom);
         holes.add(wall);
+    }
+
+    private int getLeftCord(int leftScale) {
+        int left = 0;
+        if (leftScale > 0) {
+            left = leftScale * SPACE_BETWEEN_VERTICAL_WALLS + (leftScale - 1) * VERTICAL_WALL_WIDTH;
+        }
+        return left;
+    }
+
+    private int getTopCord(int topScale) {
+        int top = 0;
+        if (topScale > 0) {
+            top = SPACE_BETWEEN_HORIZONTAL_WALLS * topScale + (topScale - 1) * HORIZONTAL_WALL_HEIGHT;
+        }
+        return top;
     }
 
     private void setUpMaze() {
@@ -113,11 +123,8 @@ public class GameView extends View {
         if (leftScale < 1) {
             throw new RuntimeException("ERROR: leftScale must be greater than 0");
         }
-        int top = 0;
-        if (topScale > 0) {
-            top = SPACE_BETWEEN_HORIZONTAL_WALLS * topScale + (topScale - 1) * HORIZONTAL_WALL_HEIGHT;
-        }
-        int left = leftScale * SPACE_BETWEEN_VERTICAL_WALLS + (leftScale - 1) * VERTICAL_WALL_WIDTH;
+        int top = getTopCord(topScale);
+        int left = getLeftCord(leftScale);
         int right = left + VERTICAL_WALL_WIDTH;
         int bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS * size + HORIZONTAL_WALL_HEIGHT * size;
         Rect wall = new Rect(left, top, right, bottom);
@@ -128,11 +135,8 @@ public class GameView extends View {
         if (topScale < 1) {
             throw new RuntimeException("ERROR: topScale must be greater than 0");
         }
-        int top = SPACE_BETWEEN_HORIZONTAL_WALLS * topScale + (topScale - 1) * HORIZONTAL_WALL_HEIGHT;
-        int left = 0;
-        if (leftScale > 0) {
-            left = leftScale * SPACE_BETWEEN_VERTICAL_WALLS + (leftScale - 1) * VERTICAL_WALL_WIDTH;
-        }
+        int top = getTopCord(topScale);
+        int left = getLeftCord(leftScale);
         int right = left + SPACE_BETWEEN_VERTICAL_WALLS * size + VERTICAL_WALL_WIDTH * size;
         int bottom = top + HORIZONTAL_WALL_HEIGHT;
         Rect wall = new Rect(left, top, right, bottom);
