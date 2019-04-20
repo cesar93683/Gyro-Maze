@@ -4,9 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -23,10 +23,13 @@ public class GameView extends View {
     private int VERTICAL_WALL_WIDTH;
     private int SPACE_BETWEEN_HORIZONTAL_WALLS;
     private int HORIZONTAL_WALL_HEIGHT;
+    private int HOLE_SIZE;
     private Paint RED_PAINT;
     private Paint BLACK_PAINT;
+    private Paint GREEN_PAINT;
     private boolean IS_FIRST_RUN = true;
     private ArrayList<Rect> walls;
+    private ArrayList<Rect> holes;
     private final String TAG = GameView.class.getSimpleName();
 
 
@@ -34,6 +37,7 @@ public class GameView extends View {
         super(context, attrs);
         setUpPaints();
         walls = new ArrayList<>();
+        holes = new ArrayList<>();
     }
 
     private void setUpPaints() {
@@ -43,6 +47,9 @@ public class GameView extends View {
         BLACK_PAINT = new Paint();
         BLACK_PAINT.setARGB(255, 0, 0, 0);
         BLACK_PAINT.setStyle(Paint.Style.FILL_AND_STROKE);
+        GREEN_PAINT = new Paint();
+        GREEN_PAINT.setARGB(255, 0, 255, 0);
+        GREEN_PAINT.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
     @Override
@@ -52,9 +59,13 @@ public class GameView extends View {
             IS_FIRST_RUN = false;
             setUpDimensions();
             setUpMaze();
+            setUpHoles();
         }
         for (Rect wall : walls) {
             canvas.drawRect(wall, BLACK_PAINT);
+        }
+        for (Rect hole : holes) {
+            canvas.drawRect(hole, BLACK_PAINT);
         }
         canvas.drawRect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
                 BALL_TOP + BALL_SIZE, RED_PAINT);
@@ -70,12 +81,32 @@ public class GameView extends View {
         SPACE_BETWEEN_VERTICAL_WALLS = (int) Math.round((double) VERTICAL_WALL_WIDTH * 11.11);
         HORIZONTAL_WALL_HEIGHT = (int) Math.round((double) SCREEN_HEIGHT / 192.33);
         SPACE_BETWEEN_HORIZONTAL_WALLS = (int) Math.round((double) HORIZONTAL_WALL_HEIGHT * 11.0625);
+        HOLE_SIZE = SCREEN_HEIGHT / 16;
+    }
+
+    private void setUpHoles() {
+        createHole(1, 1);
+        createHole(2, 2);
+    }
+
+    private void createHole(int leftScale, int topScale) {
+        int top = 0;
+        if (topScale > 0) {
+            top = SPACE_BETWEEN_HORIZONTAL_WALLS * topScale + (topScale - 1) * HORIZONTAL_WALL_HEIGHT;
+        }
+        int left = 0;
+        if (leftScale > 0) {
+            left = leftScale * SPACE_BETWEEN_VERTICAL_WALLS + (leftScale - 1) * VERTICAL_WALL_WIDTH;
+        }
+        int right = left + HOLE_SIZE;
+        int bottom = top + HOLE_SIZE;
+        Rect wall = new Rect(left, top, right, bottom);
+        holes.add(wall);
     }
 
     private void setUpMaze() {
         createVerticalWall(4, 13, 3);
         createVerticalWall(8, 13, 3);
-        createHorizontalWall(4, 13, 4);
     }
 
     private void createVerticalWall(int leftScale, int topScale, int size) {
@@ -108,81 +139,6 @@ public class GameView extends View {
         walls.add(wall);
     }
 
-    private Rect findIntersectingWall() {
-        Rect ball = new Rect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
-                BALL_TOP + BALL_SIZE);
-        for (Rect wall : walls) {
-            if (Rect.intersects(ball, wall)) {
-                return wall;
-            }
-        }
-        return null;
-    }
-
-    public void moveLeft(int moveAmount) {
-        if (moveAmount >= VERTICAL_WALL_WIDTH) {
-            BALL_LEFT -= VERTICAL_WALL_WIDTH;
-        } else {
-            BALL_LEFT -= moveAmount;
-        }
-        Rect intersectingWall = findIntersectingWall();
-        if (intersectingWall != null) {
-            BALL_LEFT = intersectingWall.right;
-        } else if (BALL_LEFT < 0) {
-            BALL_LEFT = 0;
-        } else if (moveAmount > VERTICAL_WALL_WIDTH) {
-            moveLeft(moveAmount - VERTICAL_WALL_WIDTH);
-        }
-    }
-
-    public void moveRight(int moveAmount) {
-        if (moveAmount >= VERTICAL_WALL_WIDTH) {
-            BALL_LEFT += VERTICAL_WALL_WIDTH;
-        } else {
-            BALL_LEFT += moveAmount;
-        }
-        Rect intersectingWall = findIntersectingWall();
-        if (intersectingWall != null) {
-            BALL_LEFT = intersectingWall.left - BALL_SIZE;
-        } else if (BALL_LEFT + BALL_SIZE > SCREEN_WIDTH) {
-            BALL_LEFT = SCREEN_WIDTH - BALL_SIZE;
-        } else if (moveAmount > VERTICAL_WALL_WIDTH) {
-            moveRight(moveAmount - VERTICAL_WALL_WIDTH);
-        }
-    }
-
-    public void moveUp(int moveAmount) {
-        if (moveAmount >= HORIZONTAL_WALL_HEIGHT) {
-            BALL_TOP -= HORIZONTAL_WALL_HEIGHT;
-        } else {
-            BALL_TOP -= moveAmount;
-        }
-        Rect intersectingWall = findIntersectingWall();
-        if (intersectingWall != null) {
-            BALL_TOP = intersectingWall.bottom;
-        } else if (BALL_TOP < 0) {
-            BALL_TOP = 0;
-        } else if (moveAmount > HORIZONTAL_WALL_HEIGHT) {
-            moveUp(moveAmount - HORIZONTAL_WALL_HEIGHT);
-        }
-    }
-
-    public void moveDown(int moveAmount) {
-        if (moveAmount >= HORIZONTAL_WALL_HEIGHT) {
-            BALL_TOP += HORIZONTAL_WALL_HEIGHT;
-        } else {
-            BALL_TOP += moveAmount;
-        }
-        Rect intersectingWall = findIntersectingWall();
-        if (intersectingWall != null) {
-            BALL_TOP = intersectingWall.top - BALL_SIZE;
-        } else if (BALL_TOP + BALL_SIZE > SCREEN_HEIGHT) {
-            BALL_TOP = SCREEN_HEIGHT - BALL_SIZE;
-        } else if (moveAmount > HORIZONTAL_WALL_HEIGHT) {
-            moveDown(moveAmount - HORIZONTAL_WALL_HEIGHT);
-        }
-    }
-
     public void move(float[] values) {
         if (SCREEN_HEIGHT > 0 && SCREEN_WIDTH > 0) {
             float x = values[0];
@@ -213,4 +169,108 @@ public class GameView extends View {
             }
         }
     }
+
+    public void moveLeft(int moveAmount) {
+        if (moveAmount >= VERTICAL_WALL_WIDTH) {
+            BALL_LEFT -= VERTICAL_WALL_WIDTH;
+        } else {
+            BALL_LEFT -= moveAmount;
+        }
+        Rect intersectingWall = findIntersectingWall();
+        if (doesHitHole()) {
+            resetBall();
+        } else if (intersectingWall != null) {
+            BALL_LEFT = intersectingWall.right;
+        } else if (BALL_LEFT < 0) {
+            BALL_LEFT = 0;
+        } else if (moveAmount >= VERTICAL_WALL_WIDTH) {
+            moveLeft(moveAmount - VERTICAL_WALL_WIDTH);
+        }
+    }
+
+    public void moveRight(int moveAmount) {
+        if (moveAmount >= VERTICAL_WALL_WIDTH) {
+            BALL_LEFT += VERTICAL_WALL_WIDTH;
+        } else {
+            BALL_LEFT += moveAmount;
+        }
+        Rect intersectingWall = findIntersectingWall();
+        if (doesHitHole()) {
+            resetBall();
+        } else if (intersectingWall != null) {
+            BALL_LEFT = intersectingWall.left - BALL_SIZE;
+        } else if (BALL_LEFT + BALL_SIZE > SCREEN_WIDTH) {
+            BALL_LEFT = SCREEN_WIDTH - BALL_SIZE;
+        } else if (moveAmount >= VERTICAL_WALL_WIDTH) {
+            moveRight(moveAmount - VERTICAL_WALL_WIDTH);
+        }
+    }
+
+    public void moveUp(int moveAmount) {
+        if (moveAmount >= HORIZONTAL_WALL_HEIGHT) {
+            BALL_TOP -= HORIZONTAL_WALL_HEIGHT;
+        } else {
+            BALL_TOP -= moveAmount;
+        }
+        Rect intersectingWall = findIntersectingWall();
+        if (doesHitHole()) {
+            resetBall();
+        } else if (intersectingWall != null) {
+            BALL_TOP = intersectingWall.bottom;
+        } else if (BALL_TOP < 0) {
+            BALL_TOP = 0;
+        } else if (moveAmount >= HORIZONTAL_WALL_HEIGHT) {
+            moveUp(moveAmount - HORIZONTAL_WALL_HEIGHT);
+        }
+    }
+
+    public void moveDown(int moveAmount) {
+        if (moveAmount >= HORIZONTAL_WALL_HEIGHT) {
+            BALL_TOP += HORIZONTAL_WALL_HEIGHT;
+        } else {
+            BALL_TOP += moveAmount;
+        }
+        Rect intersectingWall = findIntersectingWall();
+        if (doesHitHole()) {
+            resetBall();
+        } else if (intersectingWall != null) {
+            BALL_TOP = intersectingWall.top - BALL_SIZE;
+        } else if (BALL_TOP + BALL_SIZE > SCREEN_HEIGHT) {
+            BALL_TOP = SCREEN_HEIGHT - BALL_SIZE;
+        } else if (moveAmount >= HORIZONTAL_WALL_HEIGHT) {
+            moveDown(moveAmount - HORIZONTAL_WALL_HEIGHT);
+        }
+    }
+
+    private boolean doesHitHole() {
+        Rect ball = getBall();
+        for (Rect hole : holes) {
+            if (Rect.intersects(hole, ball)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void resetBall() {
+        BALL_LEFT = SCREEN_WIDTH / 2 - BALL_SIZE / 2;
+        BALL_TOP = SCREEN_HEIGHT - BALL_SIZE;
+    }
+
+    private Rect findIntersectingWall() {
+        Rect ball = getBall();
+        for (Rect wall : walls) {
+            if (Rect.intersects(ball, wall)) {
+                return wall;
+            }
+        }
+        return null;
+    }
+
+    @NonNull
+    private Rect getBall() {
+        return new Rect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
+                BALL_TOP + BALL_SIZE);
+    }
+
 }
