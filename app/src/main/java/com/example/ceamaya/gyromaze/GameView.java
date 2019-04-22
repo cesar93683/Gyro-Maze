@@ -42,7 +42,7 @@ public class GameView extends View {
     public void setLevel(int levelNumber) {
         level = Levels.getLevelByNumber(levelNumber);
         IS_FIRST_RUN = true;
-        walls = new ArrayList<>(level.walls.length);
+        walls = new ArrayList<>(level.verticalWalls.length + level.horizontalWalls.length);
         holes = new ArrayList<>(level.holes.length);
     }
 
@@ -122,12 +122,17 @@ public class GameView extends View {
     }
 
     private void setUpWalls() {
-        for(Wall wall : level.walls) {
-            createVerticalWall(wall.leftScale, wall.topScale, wall.size);
+        for(Wall wall : level.verticalWalls) {
+            Rect newWall = createVerticalWall(wall.leftScale, wall.topScale, wall.size);
+            walls.add(newWall);
+        }
+        for(Wall wall : level.horizontalWalls) {
+            Rect newWall = createHorizontalWall(wall.leftScale, wall.topScale, wall.size);
+            walls.add(newWall);
         }
     }
 
-    private void createVerticalWall(int leftScale, int topScale, int size) {
+    private Rect createVerticalWall(int leftScale, int topScale, int size) {
         if (leftScale < 1) {
             throw new RuntimeException("ERROR: leftScale must be greater than 0");
         }
@@ -135,11 +140,10 @@ public class GameView extends View {
         int left = getLeftCord(leftScale);
         int right = left + VERTICAL_WALL_WIDTH;
         int bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS * size + HORIZONTAL_WALL_HEIGHT * size;
-        Rect wall = new Rect(left, top, right, bottom);
-        walls.add(wall);
+        return new Rect(left, top, right, bottom);
     }
 
-    private void createHorizontalWall(int leftScale, int topScale, int size) {
+    private Rect createHorizontalWall(int leftScale, int topScale, int size) {
         if (topScale < 1) {
             throw new RuntimeException("ERROR: topScale must be greater than 0");
         }
@@ -147,8 +151,7 @@ public class GameView extends View {
         int left = getLeftCord(leftScale);
         int right = left + SPACE_BETWEEN_VERTICAL_WALLS * size + VERTICAL_WALL_WIDTH * size;
         int bottom = top + HORIZONTAL_WALL_HEIGHT;
-        Rect wall = new Rect(left, top, right, bottom);
-        walls.add(wall);
+        return new Rect(left, top, right, bottom);
     }
 
     public void move(float[] values) {
