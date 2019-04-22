@@ -1,5 +1,6 @@
 package com.example.ceamaya.gyromaze;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -17,6 +18,10 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        Intent intent = getIntent();
+        int levelNumber = intent.getIntExtra(LevelActivity.EXTRA_LEVEL_NUMBER,Levels.level1.levelNumber);
+        GameView gameView = findViewById(R.id.ball_view);
+        gameView.setLevel(levelNumber);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);

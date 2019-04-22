@@ -27,17 +27,23 @@ public class GameView extends View {
     private Paint RED_PAINT;
     private Paint BLACK_PAINT;
     private Paint GREEN_PAINT;
-    private boolean IS_FIRST_RUN = true;
+    private boolean IS_FIRST_RUN = false;
     private ArrayList<Rect> walls;
     private ArrayList<Rect> holes;
     private final String TAG = GameView.class.getSimpleName();
+    private Level level;
 
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         setUpPaints();
-        walls = new ArrayList<>();
-        holes = new ArrayList<>();
+    }
+
+    public void setLevel(int levelNumber) {
+        level = Levels.getLevelByNumber(levelNumber);
+        IS_FIRST_RUN = true;
+        walls = new ArrayList<>(level.walls.length);
+        holes = new ArrayList<>(level.holes.length);
     }
 
     private void setUpPaints() {
@@ -58,7 +64,7 @@ public class GameView extends View {
         if (IS_FIRST_RUN) {
             IS_FIRST_RUN = false;
             setUpDimensions();
-            setUpMaze();
+            setUpWalls();
             setUpHoles();
         }
         for (Rect wall : walls) {
@@ -85,8 +91,9 @@ public class GameView extends View {
     }
 
     private void setUpHoles() {
-        createHole(1, 1);
-        createHole(2, 2);
+        for(Hole hole : level.holes) {
+            createHole(hole.leftScale, hole.topScale);
+        }
     }
 
     private void createHole(int leftScale, int topScale) {
@@ -114,9 +121,10 @@ public class GameView extends View {
         return top;
     }
 
-    private void setUpMaze() {
-        createVerticalWall(4, 13, 3);
-        createVerticalWall(8, 13, 3);
+    private void setUpWalls() {
+        for(Wall wall : level.walls) {
+            createVerticalWall(wall.leftScale, wall.topScale, wall.size);
+        }
     }
 
     private void createVerticalWall(int leftScale, int topScale, int size) {
@@ -276,5 +284,4 @@ public class GameView extends View {
         return new Rect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
                 BALL_TOP + BALL_SIZE);
     }
-
 }
