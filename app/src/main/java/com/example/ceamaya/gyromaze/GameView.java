@@ -23,7 +23,8 @@ public class GameView extends View {
     private int VERTICAL_WALL_WIDTH;
     private int SPACE_BETWEEN_HORIZONTAL_WALLS;
     private int HORIZONTAL_WALL_HEIGHT;
-    private int HOLE_SIZE;
+    private int HOLE_HEIGHT;
+    private int HOLE_WIDTH;
     private Paint RED_PAINT;
     private Paint BLACK_PAINT;
     private Paint GREEN_PAINT;
@@ -67,6 +68,10 @@ public class GameView extends View {
             setUpWalls();
             setUpHoles();
         }
+
+        // for easier maze creation
+        createGrid(canvas);
+
         for (Rect wall : walls) {
             canvas.drawRect(wall, BLACK_PAINT);
         }
@@ -75,6 +80,21 @@ public class GameView extends View {
         }
         canvas.drawRect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
                 BALL_TOP + BALL_SIZE, RED_PAINT);
+    }
+
+    private void createGrid(Canvas canvas) {
+        ArrayList<Rect> grid = new ArrayList<>();
+        for (int i = 1; i < 16; i++) {
+            grid.add(createHorizontalWall(0,i,10));
+        }
+
+        for(int i = 1; i < 10; i++) {
+            grid.add(createVerticalWall(i,0,16));
+        }
+
+        for (Rect wall : grid) {
+            canvas.drawRect(wall, RED_PAINT);
+        }
     }
 
     private void setUpDimensions() {
@@ -87,7 +107,8 @@ public class GameView extends View {
         SPACE_BETWEEN_VERTICAL_WALLS = (int) Math.round((double) VERTICAL_WALL_WIDTH * 11.11);
         HORIZONTAL_WALL_HEIGHT = (int) Math.round((double) SCREEN_HEIGHT / 192.33);
         SPACE_BETWEEN_HORIZONTAL_WALLS = (int) Math.round((double) HORIZONTAL_WALL_HEIGHT * 11.0625);
-        HOLE_SIZE = SCREEN_HEIGHT / 16;
+        HOLE_HEIGHT = SPACE_BETWEEN_HORIZONTAL_WALLS;
+        HOLE_WIDTH = SPACE_BETWEEN_VERTICAL_WALLS;
     }
 
     private void setUpHoles() {
@@ -97,10 +118,10 @@ public class GameView extends View {
     }
 
     private void createHole(int leftScale, int topScale) {
-        int top = getTopCord(topScale);
-        int left = getLeftCord(leftScale);
-        int right = left + HOLE_SIZE;
-        int bottom = top + HOLE_SIZE;
+        int top = getTopCord(topScale) + HORIZONTAL_WALL_HEIGHT;
+        int left = getLeftCord(leftScale) + VERTICAL_WALL_WIDTH;
+        int right = left + HOLE_HEIGHT;
+        int bottom = top + HOLE_WIDTH;
         Rect wall = new Rect(left, top, right, bottom);
         holes.add(wall);
     }

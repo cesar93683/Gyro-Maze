@@ -11,8 +11,7 @@ public final class Levels {
             new Wall(6,10,4)
     };
     public static final Hole[] level1Holes = new Hole[]{
-            new Hole(1,1),
-            new Hole(2,3)
+            new Hole(9,10)
     };
     public static final Level level1 = new Level(1, level1VerticalWalls, level1HorizontalWalls, level1Holes);
     public static final Level level2 = new Level(2, level1VerticalWalls, level1HorizontalWalls, level1Holes);
