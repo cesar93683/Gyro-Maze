@@ -2,6 +2,7 @@ package com.example.ceamaya.gyromaze;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
@@ -83,14 +84,23 @@ public class GameView extends View {
     }
 
     private void createGrid(Canvas canvas) {
+        Paint blackPaint = new Paint();
+        blackPaint.setColor(Color.BLACK);
+        blackPaint.setTextSize(40);
+
         ArrayList<Rect> grid = new ArrayList<>();
         for (int i = 1; i < 16; i++) {
             grid.add(createHorizontalWall(0,i,10));
+            int topScale = getTopCord(i);
+            canvas.drawText("" + i, 10, topScale, blackPaint);
         }
 
         for(int i = 1; i < 10; i++) {
             grid.add(createVerticalWall(i,0,16));
+            int leftScale = getLeftCord(i);
+            canvas.drawText("" + i, leftScale + 5, 40, blackPaint);
         }
+
 
         for (Rect wall : grid) {
             canvas.drawRect(wall, RED_PAINT);
