@@ -5,11 +5,15 @@ public final class Levels {
             new Wall(4,12,4),
             new Wall(6,13,3),
             new Wall(8,12,3),
-            new Wall(8,10,1)
+            new Wall(8,10,1),
+            new Wall(4,9,1),
+            new Wall(6,9,1),
     };
     private static final Wall[] level1HorizontalWalls = new Wall[]{
             new Wall(4,12,4),
-            new Wall(6,10,4)
+            new Wall(6,10,4),
+            new Wall(4,9,2),
+            new Wall(2,10,2),
     };
     private static final Hole[] level1Holes = new Hole[]{
             new Hole(9,10)
