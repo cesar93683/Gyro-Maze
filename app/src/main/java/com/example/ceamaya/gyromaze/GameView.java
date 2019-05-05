@@ -9,12 +9,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class GameView extends View {
-    private final float SENSITIVITY_THRESHOLD = 0.5f;
-    private final int MOVE_SCALE = 10;
     private int SCREEN_WIDTH;
     private int SCREEN_HEIGHT;
     private int BALL_LEFT;
@@ -29,15 +28,19 @@ public class GameView extends View {
     private Paint RED_PAINT;
     private Paint BLACK_PAINT;
     private Paint GREEN_PAINT;
+    private Paint YELLOW_PAINT;
     private boolean IS_FIRST_RUN = false;
     private ArrayList<Rect> walls;
     private ArrayList<Rect> holes;
     private final String TAG = GameView.class.getSimpleName();
     private Level level;
+    private Rect finishedBox;
+    Context context;
 
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         setUpPaints();
     }
 
@@ -58,6 +61,9 @@ public class GameView extends View {
         GREEN_PAINT = new Paint();
         GREEN_PAINT.setARGB(255, 0, 255, 0);
         GREEN_PAINT.setStyle(Paint.Style.FILL_AND_STROKE);
+        YELLOW_PAINT = new Paint();
+        YELLOW_PAINT.setARGB(255, 255, 255, 0);
+        YELLOW_PAINT.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
     @Override
@@ -68,10 +74,15 @@ public class GameView extends View {
             setUpDimensions();
             setUpWalls();
             setUpHoles();
+            int top = 0;
+            int left = getLeftCord(4) + VERTICAL_WALL_WIDTH;
+            int right = left + 2 * SPACE_BETWEEN_VERTICAL_WALLS + VERTICAL_WALL_WIDTH;
+            int bottom = SPACE_BETWEEN_HORIZONTAL_WALLS + HORIZONTAL_WALL_HEIGHT;
+            finishedBox = new Rect(left,top,right,bottom);
         }
 
         // for easier maze creation
-        createGrid(canvas);
+         createGrid(canvas);
 
         for (Rect wall : walls) {
             canvas.drawRect(wall, BLACK_PAINT);
@@ -79,6 +90,7 @@ public class GameView extends View {
         for (Rect hole : holes) {
             canvas.drawRect(hole, GREEN_PAINT);
         }
+        canvas.drawRect(finishedBox, YELLOW_PAINT);
         canvas.drawRect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
                 BALL_TOP + BALL_SIZE, RED_PAINT);
     }
@@ -195,6 +207,8 @@ public class GameView extends View {
     }
 
     public void move(float[] values) {
+        int MOVE_SCALE = 7;
+        float SENSITIVITY_THRESHOLD = 0.25f;
         if (SCREEN_HEIGHT > 0 && SCREEN_WIDTH > 0) {
             float x = values[0];
             float y = values[1];
@@ -232,7 +246,7 @@ public class GameView extends View {
             BALL_LEFT -= moveAmount;
         }
         Rect intersectingWall = findIntersectingWall();
-        if (doesHitHole()) {
+        if (intersectsHole()) {
             resetBall();
         } else if (intersectingWall != null) {
             BALL_LEFT = intersectingWall.right;
@@ -240,6 +254,8 @@ public class GameView extends View {
             BALL_LEFT = 0;
         } else if (moveAmount >= VERTICAL_WALL_WIDTH) {
             moveLeft(moveAmount - VERTICAL_WALL_WIDTH);
+        } else if (intersectsFinish()) {
+            userWins();
         }
     }
 
@@ -250,7 +266,7 @@ public class GameView extends View {
             BALL_LEFT += moveAmount;
         }
         Rect intersectingWall = findIntersectingWall();
-        if (doesHitHole()) {
+        if (intersectsHole()) {
             resetBall();
         } else if (intersectingWall != null) {
             BALL_LEFT = intersectingWall.left - BALL_SIZE;
@@ -258,6 +274,8 @@ public class GameView extends View {
             BALL_LEFT = SCREEN_WIDTH - BALL_SIZE;
         } else if (moveAmount >= VERTICAL_WALL_WIDTH) {
             moveRight(moveAmount - VERTICAL_WALL_WIDTH);
+        } else if (intersectsFinish()) {
+            userWins();
         }
     }
 
@@ -268,7 +286,7 @@ public class GameView extends View {
             BALL_TOP -= moveAmount;
         }
         Rect intersectingWall = findIntersectingWall();
-        if (doesHitHole()) {
+        if (intersectsHole()) {
             resetBall();
         } else if (intersectingWall != null) {
             BALL_TOP = intersectingWall.bottom;
@@ -276,6 +294,8 @@ public class GameView extends View {
             BALL_TOP = 0;
         } else if (moveAmount >= HORIZONTAL_WALL_HEIGHT) {
             moveUp(moveAmount - HORIZONTAL_WALL_HEIGHT);
+        } else if (intersectsFinish()) {
+            userWins();
         }
     }
 
@@ -286,7 +306,7 @@ public class GameView extends View {
             BALL_TOP += moveAmount;
         }
         Rect intersectingWall = findIntersectingWall();
-        if (doesHitHole()) {
+        if (intersectsHole()) {
             resetBall();
         } else if (intersectingWall != null) {
             BALL_TOP = intersectingWall.top - BALL_SIZE;
@@ -294,10 +314,20 @@ public class GameView extends View {
             BALL_TOP = SCREEN_HEIGHT - BALL_SIZE;
         } else if (moveAmount >= HORIZONTAL_WALL_HEIGHT) {
             moveDown(moveAmount - HORIZONTAL_WALL_HEIGHT);
+        } else if (intersectsFinish()) {
+            userWins();
         }
     }
 
-    private boolean doesHitHole() {
+    private boolean intersectsFinish(){
+        return Rect.intersects(getBall(), finishedBox);
+    }
+
+    private void userWins() {
+        Toast.makeText(context, "You win", Toast.LENGTH_LONG).show();
+    }
+
+    private boolean intersectsHole() {
         Rect ball = getBall();
         for (Rect hole : holes) {
             if (Rect.intersects(hole, ball)) {
