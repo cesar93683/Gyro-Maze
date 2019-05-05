@@ -101,7 +101,6 @@ public class GameView extends View {
             canvas.drawText("" + i, leftScale + 5, 40, blackPaint);
         }
 
-
         for (Rect wall : grid) {
             canvas.drawRect(wall, RED_PAINT);
         }
@@ -170,7 +169,12 @@ public class GameView extends View {
         int top = getTopCord(topScale);
         int left = getLeftCord(leftScale);
         int right = left + VERTICAL_WALL_WIDTH;
-        int bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS * size + HORIZONTAL_WALL_HEIGHT * (1 + size);
+        int bottom;
+        if(top == 0) {
+            bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS * size + HORIZONTAL_WALL_HEIGHT * size;
+        } else {
+            bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS * size + HORIZONTAL_WALL_HEIGHT * (1 + size);
+        }
         return new Rect(left, top, right, bottom);
     }
 
@@ -180,7 +184,12 @@ public class GameView extends View {
         }
         int top = getTopCord(topScale);
         int left = getLeftCord(leftScale);
-        int right = left + SPACE_BETWEEN_VERTICAL_WALLS * size + VERTICAL_WALL_WIDTH * (1 + size);
+        int right;
+        if(left == 0) {
+            right = left + SPACE_BETWEEN_VERTICAL_WALLS * size + VERTICAL_WALL_WIDTH * size;
+        } else {
+            right = left + SPACE_BETWEEN_VERTICAL_WALLS * size + VERTICAL_WALL_WIDTH * (1 + size);
+        }
         int bottom = top + HORIZONTAL_WALL_HEIGHT;
         return new Rect(left, top, right, bottom);
     }
