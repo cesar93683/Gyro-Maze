@@ -58,11 +58,16 @@ public final class Levels {
             new Wall(7,4,3),
     };
     private static final Hole[] level1Holes = new Hole[]{
-            new Hole(9,10)
+            new Hole(9,10),
+            new Hole(4,7),
+            new Hole(4,5),
+            new Hole(5,5),
+            new Hole(0,0),
     };
-    public static final Level level1 = new Level(1, level1VerticalWalls, level1HorizontalWalls, level1Holes);
-    public static final Level level2 = new Level(2, level1VerticalWalls, level1HorizontalWalls, level1Holes);
-    public static final Level level3 = new Level(3, level1VerticalWalls, level1HorizontalWalls, level1Holes);
+    private static final FinishBox level1FinishBox = new FinishBox(4,0,2);
+    public static final Level level1 = new Level(1, level1VerticalWalls, level1HorizontalWalls, level1Holes, level1FinishBox);
+    public static final Level level2 = new Level(2, level1VerticalWalls, level1HorizontalWalls, level1Holes, level1FinishBox);
+    public static final Level level3 = new Level(3, level1VerticalWalls, level1HorizontalWalls, level1Holes, level1FinishBox);
     private static final Level[] levels = new Level[]{level1, level2, level3};
 
     public static Level getLevelByNumber(int levelNumber) {
@@ -80,12 +85,14 @@ class Level {
     public Wall[] verticalWalls;
     public Wall[] horizontalWalls;
     public Hole[] holes;
+    public FinishBox finishBox;
 
-    Level(int levelNumber, Wall[] verticalWalls, Wall[] horizontalWalls, Hole[] holes) {
+    Level(int levelNumber, Wall[] verticalWalls, Wall[] horizontalWalls, Hole[] holes, FinishBox finishBox) {
         this.levelNumber = levelNumber;
         this.verticalWalls = verticalWalls;
         this.horizontalWalls = horizontalWalls;
         this.holes = holes;
+        this.finishBox = finishBox;
     }
 }
 
@@ -106,5 +113,16 @@ class Hole {
     Hole(int leftScale, int topScale) {
         this.leftScale = leftScale;
         this.topScale = topScale;
+    }
+}
+
+class FinishBox {
+    int leftScale;
+    int topScale;
+    int horizontalSize;
+    FinishBox(int leftScale, int topScale, int horizontalSize) {
+        this.leftScale = leftScale;
+        this.topScale = topScale;
+        this.horizontalSize = horizontalSize;
     }
 }

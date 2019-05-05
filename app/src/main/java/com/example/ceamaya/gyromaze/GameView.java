@@ -34,7 +34,7 @@ public class GameView extends View {
     private ArrayList<Rect> holes;
     private final String TAG = GameView.class.getSimpleName();
     private Level level;
-    private Rect finishedBox;
+    private Rect finishBox;
     Context context;
 
 
@@ -74,25 +74,32 @@ public class GameView extends View {
             setUpDimensions();
             setUpWalls();
             setUpHoles();
-            int top = 0;
-            int left = getLeftCord(4) + VERTICAL_WALL_WIDTH;
-            int right = left + 2 * SPACE_BETWEEN_VERTICAL_WALLS + VERTICAL_WALL_WIDTH;
-            int bottom = SPACE_BETWEEN_HORIZONTAL_WALLS + HORIZONTAL_WALL_HEIGHT;
-            finishedBox = new Rect(left,top,right,bottom);
+            setUpFinishBox();
         }
 
         // for easier maze creation
-         createGrid(canvas);
+        //createGrid(canvas);
 
         for (Rect wall : walls) {
             canvas.drawRect(wall, BLACK_PAINT);
         }
+
         for (Rect hole : holes) {
             canvas.drawRect(hole, GREEN_PAINT);
         }
-        canvas.drawRect(finishedBox, YELLOW_PAINT);
+
+        canvas.drawRect(finishBox, YELLOW_PAINT);
         canvas.drawRect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
                 BALL_TOP + BALL_SIZE, RED_PAINT);
+    }
+
+    private void setUpFinishBox() {
+        int top = getTopCord(level.finishBox.topScale);
+        int left = getLeftCord(level.finishBox.leftScale) + VERTICAL_WALL_WIDTH;
+        int right = left + level.finishBox.horizontalSize * SPACE_BETWEEN_VERTICAL_WALLS
+                + VERTICAL_WALL_WIDTH;
+        int bottom = SPACE_BETWEEN_HORIZONTAL_WALLS + HORIZONTAL_WALL_HEIGHT;
+        finishBox = new Rect(left,top,right,bottom);
     }
 
     private void createGrid(Canvas canvas) {
@@ -139,8 +146,18 @@ public class GameView extends View {
     }
 
     private void createHole(int leftScale, int topScale) {
-        int top = getTopCord(topScale) + HORIZONTAL_WALL_HEIGHT;
-        int left = getLeftCord(leftScale) + VERTICAL_WALL_WIDTH;
+        int top;
+        if(topScale == 0) {
+            top = 0;
+        } else {
+            top = getTopCord(topScale) + HORIZONTAL_WALL_HEIGHT;
+        }
+        int left;
+        if(leftScale == 0) {
+            left = 0;
+        } else {
+            left = getLeftCord(leftScale) + VERTICAL_WALL_WIDTH;
+        }
         int right = left + HOLE_HEIGHT;
         int bottom = top + HOLE_WIDTH;
         Rect wall = new Rect(left, top, right, bottom);
@@ -320,7 +337,7 @@ public class GameView extends View {
     }
 
     private boolean intersectsFinish(){
-        return Rect.intersects(getBall(), finishedBox);
+        return Rect.intersects(getBall(), finishBox);
     }
 
     private void userWins() {
