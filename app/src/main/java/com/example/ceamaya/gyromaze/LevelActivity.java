@@ -18,7 +18,7 @@ public class LevelActivity extends AppCompatActivity {
     }
 
     public void levelClick(View view) {
-        int id =  view.getId();
+        int id = view.getId();
         int levelNumber = 1;
         switch (id) {
             case R.id.level_1_button:
@@ -39,8 +39,8 @@ public class LevelActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == RESULT_CODE_PLAY) {
-            Toast.makeText(this,"Success", Toast.LENGTH_LONG).show();
+        if (resultCode == RESULT_OK && requestCode == RESULT_CODE_PLAY) {
+            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
         }
     }
 }

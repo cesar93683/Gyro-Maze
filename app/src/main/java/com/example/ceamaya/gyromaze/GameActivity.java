@@ -16,6 +16,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private Sensor accelerometer;
     private final String TAG = GameActivity.class.getSimpleName();
     private boolean isGameOver;
+    private GameView gameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
         isGameOver = false;
         Intent intent = getIntent();
         int levelNumber = intent.getIntExtra(LevelActivity.EXTRA_LEVEL_NUMBER, Levels.level1.levelNumber);
-        GameView gameView = findViewById(R.id.ball_view);
+        gameView = findViewById(R.id.ball_view);
         gameView.setLevel(levelNumber);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         if (sensorManager != null) {
@@ -49,7 +50,6 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        GameView gameView = findViewById(R.id.ball_view);
         gameView.move(event.values);
     }
 

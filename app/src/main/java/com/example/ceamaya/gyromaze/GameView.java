@@ -107,6 +107,17 @@ public class GameView extends View {
         HOLE_WIDTH = SPACE_BETWEEN_VERTICAL_WALLS;
     }
 
+    private void setUpWalls() {
+        for (Wall wall : level.verticalWalls) {
+            Rect newWall = createVerticalWall(wall.leftScale, wall.topScale, wall.size);
+            walls.add(newWall);
+        }
+        for (Wall wall : level.horizontalWalls) {
+            Rect newWall = createHorizontalWall(wall.leftScale, wall.topScale, wall.size);
+            walls.add(newWall);
+        }
+    }
+
     private void setUpFinishBox() {
         int top = getTopCord(level.finishBox.topScale);
         int left = getLeftCord(level.finishBox.leftScale) + VERTICAL_WALL_WIDTH;
@@ -114,6 +125,12 @@ public class GameView extends View {
                 + VERTICAL_WALL_WIDTH;
         int bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS + HORIZONTAL_WALL_HEIGHT;
         finishBox = new Rect(left, top, right, bottom);
+    }
+
+    private void setUpHoles() {
+        for (Hole hole : level.holes) {
+            createHole(hole.leftScale, hole.topScale);
+        }
     }
 
     private void createGrid(Canvas canvas) {
@@ -139,24 +156,14 @@ public class GameView extends View {
         }
     }
 
-    private void setUpHoles() {
-        for (Hole hole : level.holes) {
-            createHole(hole.leftScale, hole.topScale);
-        }
-    }
-
     private void createHole(int leftScale, int topScale) {
-        int top;
-        if (topScale == 0) {
-            top = 0;
-        } else {
-            top = getTopCord(topScale) + HORIZONTAL_WALL_HEIGHT;
+        int top = getTopCord(topScale);
+        if (top > 0) {
+            top += HORIZONTAL_WALL_HEIGHT;
         }
-        int left;
-        if (leftScale == 0) {
-            left = 0;
-        } else {
-            left = getLeftCord(leftScale) + VERTICAL_WALL_WIDTH;
+        int left = getLeftCord(leftScale);
+        if (left > 0) {
+            left += VERTICAL_WALL_WIDTH;
         }
         int right = left + HOLE_WIDTH;
         int bottom = top + HOLE_HEIGHT;
@@ -165,36 +172,20 @@ public class GameView extends View {
     }
 
     private int getLeftCord(int leftScale) {
-        int left = 0;
-        if (leftScale > 0) {
-            left = leftScale * SPACE_BETWEEN_VERTICAL_WALLS + (leftScale - 1) * VERTICAL_WALL_WIDTH;
+        if (leftScale == 0) {
+            return 0;
         }
-        return left;
+        return leftScale * SPACE_BETWEEN_VERTICAL_WALLS + (leftScale - 1) * VERTICAL_WALL_WIDTH;
     }
 
     private int getTopCord(int topScale) {
-        int top = 0;
-        if (topScale > 0) {
-            top = SPACE_BETWEEN_HORIZONTAL_WALLS * topScale + (topScale - 1) * HORIZONTAL_WALL_HEIGHT;
+        if (topScale == 0) {
+            return 0;
         }
-        return top;
-    }
-
-    private void setUpWalls() {
-        for (Wall wall : level.verticalWalls) {
-            Rect newWall = createVerticalWall(wall.leftScale, wall.topScale, wall.size);
-            walls.add(newWall);
-        }
-        for (Wall wall : level.horizontalWalls) {
-            Rect newWall = createHorizontalWall(wall.leftScale, wall.topScale, wall.size);
-            walls.add(newWall);
-        }
+        return SPACE_BETWEEN_HORIZONTAL_WALLS * topScale + (topScale - 1) * HORIZONTAL_WALL_HEIGHT;
     }
 
     private Rect createVerticalWall(int leftScale, int topScale, int size) {
-        if (leftScale < 1) {
-            throw new RuntimeException("ERROR: leftScale must be greater than 0");
-        }
         int top = getTopCord(topScale);
         int left = getLeftCord(leftScale);
         int right = left + VERTICAL_WALL_WIDTH;
@@ -208,9 +199,6 @@ public class GameView extends View {
     }
 
     private Rect createHorizontalWall(int leftScale, int topScale, int size) {
-        if (topScale < 1) {
-            throw new RuntimeException("ERROR: topScale must be greater than 0");
-        }
         int top = getTopCord(topScale);
         int left = getLeftCord(leftScale);
         int right;
@@ -336,12 +324,12 @@ public class GameView extends View {
         }
     }
 
-    private boolean intersectsFinish() {
-        return Rect.intersects(getBall(), finishBox);
-    }
-
     private void userWins() {
         ((GameActivity) context).userWins();
+    }
+
+    private boolean intersectsFinish() {
+        return Rect.intersects(getBall(), finishBox);
     }
 
     private boolean intersectsHole() {
@@ -352,11 +340,6 @@ public class GameView extends View {
             }
         }
         return false;
-    }
-
-    private void resetBall() {
-        BALL_LEFT = SCREEN_WIDTH / 2 - BALL_SIZE / 2;
-        BALL_TOP = SCREEN_HEIGHT - BALL_SIZE;
     }
 
     private Rect findIntersectingWall() {
@@ -373,5 +356,10 @@ public class GameView extends View {
     private Rect getBall() {
         return new Rect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
                 BALL_TOP + BALL_SIZE);
+    }
+
+    private void resetBall() {
+        BALL_LEFT = SCREEN_WIDTH / 2 - BALL_SIZE / 2;
+        BALL_TOP = SCREEN_HEIGHT - BALL_SIZE;
     }
 }
