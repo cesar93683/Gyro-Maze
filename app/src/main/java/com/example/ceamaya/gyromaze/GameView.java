@@ -158,8 +158,8 @@ public class GameView extends View {
         } else {
             left = getLeftCord(leftScale) + VERTICAL_WALL_WIDTH;
         }
-        int right = left + HOLE_HEIGHT;
-        int bottom = top + HOLE_WIDTH;
+        int right = left + HOLE_WIDTH;
+        int bottom = top + HOLE_HEIGHT;
         Rect wall = new Rect(left, top, right, bottom);
         holes.add(wall);
     }
