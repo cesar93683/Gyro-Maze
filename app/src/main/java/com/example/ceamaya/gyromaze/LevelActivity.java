@@ -40,7 +40,7 @@ public class LevelActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK && requestCode == RESULT_CODE_PLAY) {
-            Toast.makeText(this,"Succes", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Success", Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -67,7 +67,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
     private void createCongratsDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setMessage("Congratulations, you win!");
-        alertDialog.setCancelable(true);
+        alertDialog.setCancelable(false);
         alertDialog.setPositiveButton(
                 "Continue",
                 new DialogInterface.OnClickListener() {
