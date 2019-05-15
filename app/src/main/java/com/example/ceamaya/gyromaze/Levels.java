@@ -64,7 +64,7 @@ public final class Levels {
             new Hole(5, 5),
             new Hole(0, 0),
     };
-    private static final FinishBox level1FinishBox = new FinishBox(4, 0, 2);
+    private static final FinishBox level1FinishBox = new FinishBox(4, 13, 2);
     public static final Level level1 = new Level(1, level1VerticalWalls, level1HorizontalWalls, level1Holes, level1FinishBox);
 
     //
@@ -98,7 +98,7 @@ public final class Levels {
     private static final FinishBox level3FinishBox = new FinishBox(4, 0, 2);
     public static final Level level3 = new Level(3, level3VerticalWalls, level3HorizontalWalls, level3Holes, level3FinishBox);
 
-    
+
     private static final Level[] levels = new Level[]{level1, level2, level3};
 
     public static Level getLevelByNumber(int levelNumber) {

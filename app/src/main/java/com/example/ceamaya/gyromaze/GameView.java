@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -98,7 +97,7 @@ public class GameView extends View {
         int left = getLeftCord(level.finishBox.leftScale) + VERTICAL_WALL_WIDTH;
         int right = left + level.finishBox.horizontalSize * SPACE_BETWEEN_VERTICAL_WALLS
                 + VERTICAL_WALL_WIDTH;
-        int bottom = SPACE_BETWEEN_HORIZONTAL_WALLS + HORIZONTAL_WALL_HEIGHT;
+        int bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS + HORIZONTAL_WALL_HEIGHT;
         finishBox = new Rect(left,top,right,bottom);
     }
 
@@ -341,7 +340,7 @@ public class GameView extends View {
     }
 
     private void userWins() {
-        Toast.makeText(context, "You win", Toast.LENGTH_LONG).show();
+        ((GameActivity) context).userWins();
     }
 
     private boolean intersectsHole() {
