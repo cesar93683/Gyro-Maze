@@ -6,10 +6,14 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class GameActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -56,22 +60,31 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+        // do nothing
     }
 
     public void userWins() {
         isGameOver = true;
         sensorManager.unregisterListener(this, accelerometer);
-        createCongratsDialog();
+        createCongratsDialog(2);
     }
 
-    private void createCongratsDialog() {
+    private void createCongratsDialog(int numYellowStars) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.dialog_game_won, null);
 
+        setStars(numYellowStars, view);
+
         alertDialog.setView(view)
-                .setCancelable(false)
                 .setMessage("Congratulations, you win!")
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        Intent intent = getIntent();
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                })
                 .setPositiveButton("continue", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -82,5 +95,21 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
                 });
         AlertDialog alert = alertDialog.create();
         alert.show();
+    }
+
+    private void setStars(int numYellowStars, View view) {
+        if(numYellowStars >= 1) {
+            ImageView starOne = view.findViewById(R.id.star_one);
+            starOne.setBackgroundResource(R.drawable.ic_star_yellow);
+            if(numYellowStars >= 2) {
+                ImageView starTwo = view.findViewById(R.id.star_two);
+                starTwo.setBackgroundResource(R.drawable.ic_star_yellow);
+                if(numYellowStars >= 3) {
+                    ImageView starThree = view.findViewById(R.id.star_three);
+                    starThree.setBackgroundResource(R.drawable.ic_star_yellow);
+
+                }
+            }
+        }
     }
 }
