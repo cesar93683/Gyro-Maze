@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class LevelActivity extends AppCompatActivity {
@@ -15,6 +16,10 @@ public class LevelActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level);
+        Button level2Button = findViewById(R.id.level_2_button);
+        level2Button.setEnabled(false);
+        Button level3Button = findViewById(R.id.level_3_button);
+        level3Button.setEnabled(false);
     }
 
     public void levelClick(View view) {
