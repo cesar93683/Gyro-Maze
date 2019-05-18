@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class GameActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -66,18 +67,20 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     private void createCongratsDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setMessage("Congratulations, you win!");
-        alertDialog.setCancelable(false);
-        alertDialog.setPositiveButton(
-                "Continue",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+        View view = getLayoutInflater().inflate(R.layout.dialog_game_won, null);
+
+        alertDialog.setView(view)
+                .setCancelable(false)
+                .setMessage("Congratulations, you win!")
+                .setPositiveButton("continue", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = getIntent();
                         setResult(RESULT_OK, intent);
                         finish();
                     }
                 });
-        AlertDialog alert11 = alertDialog.create();
-        alert11.show();
+        AlertDialog alert = alertDialog.create();
+        alert.show();
     }
 }

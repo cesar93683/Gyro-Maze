@@ -218,6 +218,10 @@ public class GameView extends View {
             float x = values[0];
             float y = values[1];
             boolean didMove = false;
+            if (intersectsFinish()) {
+                userWins();
+                return;
+            }
             if (x > SENSITIVITY_THRESHOLD) {
                 int moveAmount = (int) (x * MOVE_SCALE);
                 moveLeft(moveAmount);
@@ -259,8 +263,6 @@ public class GameView extends View {
             BALL_LEFT = 0;
         } else if (moveAmount >= VERTICAL_WALL_WIDTH) {
             moveLeft(moveAmount - VERTICAL_WALL_WIDTH);
-        } else if (intersectsFinish()) {
-            userWins();
         }
     }
 
@@ -279,8 +281,6 @@ public class GameView extends View {
             BALL_LEFT = SCREEN_WIDTH - BALL_SIZE;
         } else if (moveAmount >= VERTICAL_WALL_WIDTH) {
             moveRight(moveAmount - VERTICAL_WALL_WIDTH);
-        } else if (intersectsFinish()) {
-            userWins();
         }
     }
 
@@ -299,8 +299,6 @@ public class GameView extends View {
             BALL_TOP = 0;
         } else if (moveAmount >= HORIZONTAL_WALL_HEIGHT) {
             moveUp(moveAmount - HORIZONTAL_WALL_HEIGHT);
-        } else if (intersectsFinish()) {
-            userWins();
         }
     }
 
@@ -319,8 +317,6 @@ public class GameView extends View {
             BALL_TOP = SCREEN_HEIGHT - BALL_SIZE;
         } else if (moveAmount >= HORIZONTAL_WALL_HEIGHT) {
             moveDown(moveAmount - HORIZONTAL_WALL_HEIGHT);
-        } else if (intersectsFinish()) {
-            userWins();
         }
     }
 
