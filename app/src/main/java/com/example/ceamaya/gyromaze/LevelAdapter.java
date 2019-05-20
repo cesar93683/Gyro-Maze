@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class LevelAdapter extends ArrayAdapter<Integer> {
+class LevelAdapter extends ArrayAdapter<Integer> {
 
-    private Context context;
-    private ArrayList<Integer> bestTimes;
+    private final Context context;
+    private final ArrayList<Integer> bestTimes;
 
     public LevelAdapter(@NonNull Context context, ArrayList<Integer> bestTimes) {
         super(context, 0, bestTimes);

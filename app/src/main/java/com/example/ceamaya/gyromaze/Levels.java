@@ -1,6 +1,6 @@
 package com.example.ceamaya.gyromaze;
 
-public final class Levels {
+final class Levels {
     private static final Wall[] level1VerticalWalls = new Wall[]{
             new Wall(1, 2, 2),
             new Wall(1, 3, 1),
@@ -80,8 +80,8 @@ public final class Levels {
     private static final Hole[] level2Holes = new Hole[]{
             new Hole(9, 10),
     };
-    private static final FinishBox level2FinishBox = new FinishBox(4, 0, 2);
-    private static final StarTimes level2StarTimes = new StarTimes(20000, 10000);
+    private static final FinishBox level2FinishBox = new FinishBox(3, 0, 1);
+    private static final StarTimes level2StarTimes = new StarTimes(20001, 10001);
     private static final Level level2 = new Level(2, level2VerticalWalls, level2HorizontalWalls, level2Holes, level2FinishBox, level2StarTimes);
 
     //
@@ -233,12 +233,12 @@ public final class Levels {
 }
 
 class Level {
-    public int levelNumber;
-    public Wall[] verticalWalls;
-    public Wall[] horizontalWalls;
-    public Hole[] holes;
-    public FinishBox finishBox;
-    private StarTimes starTimes;
+    public final int levelNumber;
+    public final Wall[] verticalWalls;
+    public final Wall[] horizontalWalls;
+    public final Hole[] holes;
+    public final FinishBox finishBox;
+    private final StarTimes starTimes;
 
     Level(int levelNumber, Wall[] verticalWalls, Wall[] horizontalWalls, Hole[] holes, FinishBox finishBox, StarTimes starTimes) {
         this.levelNumber = levelNumber;
@@ -260,9 +260,9 @@ class Level {
 }
 
 class Wall {
-    int leftCord;
-    int topCord;
-    int size;
+    final int leftCord;
+    final int topCord;
+    final int size;
 
     Wall(int leftCord, int topCord, int size) {
         this.leftCord = leftCord;
@@ -272,8 +272,8 @@ class Wall {
 }
 
 class Hole {
-    int leftCord;
-    int topCord;
+    final int leftCord;
+    final int topCord;
 
     Hole(int leftCord, int topCord) {
         this.leftCord = leftCord;
@@ -282,9 +282,9 @@ class Hole {
 }
 
 class FinishBox {
-    int leftCord;
-    int topCord;
-    int horizontalSize;
+    final int leftCord;
+    final int topCord;
+    final int horizontalSize;
 
     FinishBox(int leftCord, int topCord, int horizontalSize) {
         this.leftCord = leftCord;
@@ -294,8 +294,10 @@ class FinishBox {
 }
 
 class StarTimes {
+    @SuppressWarnings("CanBeFinal")
+    final
     int twoStarTime;
-    int threeStarTime;
+    final int threeStarTime;
 
     StarTimes(int twoStarTime, int threeStarTime) {
         this.twoStarTime = twoStarTime;

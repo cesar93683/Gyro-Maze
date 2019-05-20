@@ -33,7 +33,7 @@ public class GameView extends View {
     private ArrayList<Rect> holes;
     private Rect finishBox;
     private Level level;
-    private Context context;
+    private final Context context;
 
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
