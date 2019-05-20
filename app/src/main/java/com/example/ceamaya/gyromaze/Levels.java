@@ -65,7 +65,8 @@ public final class Levels {
             new Hole(0, 0),
     };
     private static final FinishBox level1FinishBox = new FinishBox(4, 13, 2);
-    public static final Level level1 = new Level(1, level1VerticalWalls, level1HorizontalWalls, level1Holes, level1FinishBox);
+    private static final StarTimes level1StarTimes = new StarTimes(20000, 10000);
+    private static final Level level1 = new Level(1, level1VerticalWalls, level1HorizontalWalls, level1Holes, level1FinishBox, level1StarTimes);
 
     //
     //  LEVEL 2
@@ -80,8 +81,8 @@ public final class Levels {
             new Hole(9, 10),
     };
     private static final FinishBox level2FinishBox = new FinishBox(4, 0, 2);
-
-    public static final Level level2 = new Level(2, level2VerticalWalls, level2HorizontalWalls, level2Holes, level2FinishBox);
+    private static final StarTimes level2StarTimes = new StarTimes(20000, 10000);
+    private static final Level level2 = new Level(2, level2VerticalWalls, level2HorizontalWalls, level2Holes, level2FinishBox, level2StarTimes);
 
     //
     //  LEVEL 3
@@ -96,10 +97,130 @@ public final class Levels {
             new Hole(9, 10),
     };
     private static final FinishBox level3FinishBox = new FinishBox(4, 0, 2);
-    public static final Level level3 = new Level(3, level3VerticalWalls, level3HorizontalWalls, level3Holes, level3FinishBox);
+    private static final StarTimes level3StarTimes = new StarTimes(20000, 10000);
+    private static final Level level3 = new Level(3, level3VerticalWalls, level3HorizontalWalls, level3Holes, level3FinishBox, level3StarTimes);
 
 
-    private static final Level[] levels = new Level[]{level1, level2, level3};
+    //
+    //  LEVEL 4
+    //
+    private static final Wall[] level4VerticalWalls = new Wall[]{
+            new Wall(1, 2, 2),
+    };
+    private static final Wall[] level4HorizontalWalls = new Wall[]{
+            new Wall(0, 11, 1),
+    };
+    private static final Hole[] level4Holes = new Hole[]{
+            new Hole(9, 10),
+    };
+    private static final FinishBox level4FinishBox = new FinishBox(4, 0, 2);
+    private static final StarTimes level4StarTimes = new StarTimes(20000, 10000);
+    private static final Level level4 = new Level(4, level4VerticalWalls, level4HorizontalWalls, level4Holes, level4FinishBox, level4StarTimes);
+
+
+    //
+    //  LEVEL 5
+    //
+    private static final Wall[] level5VerticalWalls = new Wall[]{
+            new Wall(1, 2, 2),
+    };
+    private static final Wall[] level5HorizontalWalls = new Wall[]{
+            new Wall(0, 11, 1),
+    };
+    private static final Hole[] level5Holes = new Hole[]{
+            new Hole(9, 10),
+    };
+    private static final FinishBox level5FinishBox = new FinishBox(4, 0, 2);
+    private static final StarTimes level5StarTimes = new StarTimes(20000, 10000);
+    private static final Level level5 = new Level(5, level5VerticalWalls, level5HorizontalWalls, level5Holes, level5FinishBox, level5StarTimes);
+
+
+    //
+    //  LEVEL 6
+    //
+    private static final Wall[] level6VerticalWalls = new Wall[]{
+            new Wall(1, 2, 2),
+    };
+    private static final Wall[] level6HorizontalWalls = new Wall[]{
+            new Wall(0, 11, 1),
+    };
+    private static final Hole[] level6Holes = new Hole[]{
+            new Hole(9, 10),
+    };
+    private static final FinishBox level6FinishBox = new FinishBox(4, 0, 2);
+    private static final StarTimes level6StarTimes = new StarTimes(20000, 10000);
+    private static final Level level6 = new Level(6, level6VerticalWalls, level6HorizontalWalls, level6Holes, level6FinishBox, level6StarTimes);
+
+
+    //
+    //  LEVEL 7
+    //
+    private static final Wall[] level7VerticalWalls = new Wall[]{
+            new Wall(1, 2, 2),
+    };
+    private static final Wall[] level7HorizontalWalls = new Wall[]{
+            new Wall(0, 11, 1),
+    };
+    private static final Hole[] level7Holes = new Hole[]{
+            new Hole(9, 10),
+    };
+    private static final FinishBox level7FinishBox = new FinishBox(4, 0, 2);
+    private static final StarTimes level7StarTimes = new StarTimes(20000, 10000);
+    private static final Level level7 = new Level(7, level7VerticalWalls, level7HorizontalWalls, level7Holes, level7FinishBox, level7StarTimes);
+
+
+    //
+    //  LEVEL 8
+    //
+    private static final Wall[] level8VerticalWalls = new Wall[]{
+            new Wall(1, 2, 2),
+    };
+    private static final Wall[] level8HorizontalWalls = new Wall[]{
+            new Wall(0, 11, 1),
+    };
+    private static final Hole[] level8Holes = new Hole[]{
+            new Hole(9, 10),
+    };
+    private static final FinishBox level8FinishBox = new FinishBox(4, 0, 2);
+    private static final StarTimes level8StarTimes = new StarTimes(20000, 10000);
+    private static final Level level8 = new Level(8, level8VerticalWalls, level8HorizontalWalls, level8Holes, level8FinishBox, level8StarTimes);
+
+
+    //
+    //  LEVEL 9
+    //
+    private static final Wall[] level9VerticalWalls = new Wall[]{
+            new Wall(1, 2, 2),
+    };
+    private static final Wall[] level9HorizontalWalls = new Wall[]{
+            new Wall(0, 11, 1),
+    };
+    private static final Hole[] level9Holes = new Hole[]{
+            new Hole(9, 10),
+    };
+    private static final FinishBox level9FinishBox = new FinishBox(4, 0, 2);
+    private static final StarTimes level9StarTimes = new StarTimes(20000, 10000);
+    private static final Level level9 = new Level(9, level9VerticalWalls, level9HorizontalWalls, level9Holes, level9FinishBox, level9StarTimes);
+
+
+    //
+    //  LEVEL 10
+    //
+    private static final Wall[] level10VerticalWalls = new Wall[]{
+            new Wall(1, 2, 2),
+    };
+    private static final Wall[] level10HorizontalWalls = new Wall[]{
+            new Wall(0, 11, 1),
+    };
+    private static final Hole[] level10Holes = new Hole[]{
+            new Hole(9, 10),
+    };
+    private static final FinishBox level10FinishBox = new FinishBox(4, 0, 2);
+    private static final StarTimes level10StarTimes = new StarTimes(20000, 10000);
+    private static final Level level10 = new Level(10, level10VerticalWalls, level10HorizontalWalls, level10Holes, level10FinishBox, level10StarTimes);
+
+
+    private static final Level[] levels = new Level[]{level1, level2, level3, level4, level5, level6, level7, level8, level9, level10};
 
     public static Level getLevelByNumber(int levelNumber) {
         for (Level level : levels) {
@@ -117,46 +238,67 @@ class Level {
     public Wall[] horizontalWalls;
     public Hole[] holes;
     public FinishBox finishBox;
+    private StarTimes starTimes;
 
-    Level(int levelNumber, Wall[] verticalWalls, Wall[] horizontalWalls, Hole[] holes, FinishBox finishBox) {
+    Level(int levelNumber, Wall[] verticalWalls, Wall[] horizontalWalls, Hole[] holes, FinishBox finishBox, StarTimes starTimes) {
         this.levelNumber = levelNumber;
         this.verticalWalls = verticalWalls;
         this.horizontalWalls = horizontalWalls;
         this.holes = holes;
         this.finishBox = finishBox;
+        this.starTimes = starTimes;
+    }
+
+    int getNumStars(int time) {
+        if (time < starTimes.threeStarTime) {
+            return 3;
+        } else if (time < starTimes.twoStarTime) {
+            return 2;
+        }
+        return 1;
     }
 }
 
 class Wall {
-    int leftScale;
-    int topScale;
+    int leftCord;
+    int topCord;
     int size;
 
-    Wall(int leftScale, int topScale, int size) {
-        this.leftScale = leftScale;
-        this.topScale = topScale;
+    Wall(int leftCord, int topCord, int size) {
+        this.leftCord = leftCord;
+        this.topCord = topCord;
         this.size = size;
     }
 }
 
 class Hole {
-    int leftScale;
-    int topScale;
+    int leftCord;
+    int topCord;
 
-    Hole(int leftScale, int topScale) {
-        this.leftScale = leftScale;
-        this.topScale = topScale;
+    Hole(int leftCord, int topCord) {
+        this.leftCord = leftCord;
+        this.topCord = topCord;
     }
 }
 
 class FinishBox {
-    int leftScale;
-    int topScale;
+    int leftCord;
+    int topCord;
     int horizontalSize;
 
-    FinishBox(int leftScale, int topScale, int horizontalSize) {
-        this.leftScale = leftScale;
-        this.topScale = topScale;
+    FinishBox(int leftCord, int topCord, int horizontalSize) {
+        this.leftCord = leftCord;
+        this.topCord = topCord;
         this.horizontalSize = horizontalSize;
+    }
+}
+
+class StarTimes {
+    int twoStarTime;
+    int threeStarTime;
+
+    StarTimes(int twoStarTime, int threeStarTime) {
+        this.twoStarTime = twoStarTime;
+        this.threeStarTime = threeStarTime;
     }
 }

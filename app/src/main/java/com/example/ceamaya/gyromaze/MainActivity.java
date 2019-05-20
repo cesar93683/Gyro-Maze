@@ -17,4 +17,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LevelActivity.class);
         startActivity(intent);
     }
+
+    public void settingsClick(View view) {
+
+    }
 }

@@ -1,29 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LevelActivity"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/level_1_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Level 1"
-        android:onClick="levelClick"/>
-    <Button
-        android:id="@+id/level_2_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Level 2"
-        android:onClick="levelClick"/>
-    <Button
-        android:id="@+id/level_3_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Level 3"
-        android:onClick="levelClick"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/level_list_view"/>
 
 </LinearLayout>
+
