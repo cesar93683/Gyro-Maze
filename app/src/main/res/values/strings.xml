@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Gyro Maze</string>
+    <string name="main_play_button_text">Play</string>
+    <string name="main_settings_button_text">Settings</string>
+    <string name="star_image_desc">Star Image</string>
+    <string name="level_locked_text_view_text">Locked.</string>
+    <string name="level_unlocked_text_view_text">Not completed yet.</string>
+    <string name="level_level_text_view_text">Level %d</string>
 </resources>

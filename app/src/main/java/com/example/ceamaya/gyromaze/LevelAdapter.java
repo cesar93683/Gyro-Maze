@@ -17,7 +17,7 @@ class LevelAdapter extends ArrayAdapter<Integer> {
     private final Context context;
     private final ArrayList<Integer> bestTimes;
 
-    public LevelAdapter(@NonNull Context context, ArrayList<Integer> bestTimes) {
+    LevelAdapter(@NonNull Context context, ArrayList<Integer> bestTimes) {
         super(context, 0, bestTimes);
         this.context = context;
         this.bestTimes = bestTimes;
@@ -33,7 +33,8 @@ class LevelAdapter extends ArrayAdapter<Integer> {
         int levelNumber = position + 1;
 
         TextView levelTextView = convertView.findViewById(R.id.level_text_view);
-        levelTextView.setText(String.format("Level %d", levelNumber));
+        levelTextView.setText(String.format(context.getString(R.string.level_level_text_view_text),
+                levelNumber));
 
         int bestTime = bestTimes.get(position);
 
@@ -41,11 +42,11 @@ class LevelAdapter extends ArrayAdapter<Integer> {
 
         switch (bestTime) {
             case LevelActivity.LEVEL_LOCKED:
-                bestTimeTextView.setText("Locked.");
+                bestTimeTextView.setText(R.string.level_locked_text_view_text);
                 setStars(0, convertView);
                 break;
             case LevelActivity.LEVEL_UNLOCKED:
-                bestTimeTextView.setText("Not completed yet.");
+                bestTimeTextView.setText(R.string.level_unlocked_text_view_text);
                 setStars(0, convertView);
                 break;
             default:
