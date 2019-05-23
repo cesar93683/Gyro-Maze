@@ -28,12 +28,16 @@ public class GameView extends View {
     private Paint BLACK_PAINT;
     private Paint GREEN_PAINT;
     private Paint YELLOW_PAINT;
+    private Paint PURPLE_PAINT;
     private boolean IS_FIRST_RUN = false;
     private ArrayList<Rect> walls;
     private ArrayList<Rect> holes;
+    private ArrayList<Rect> pads;
+    private ArrayList<Teleporter> teleporters;
     private Rect finishBox;
     private Level level;
     private final Context context;
+    private Teleporter used;
 
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
@@ -62,6 +66,9 @@ public class GameView extends View {
         YELLOW_PAINT = new Paint();
         YELLOW_PAINT.setARGB(255, 255, 255, 0);
         YELLOW_PAINT.setStyle(Paint.Style.FILL_AND_STROKE);
+        PURPLE_PAINT = new Paint();
+        PURPLE_PAINT.setARGB(255, 255, 0, 255);
+        PURPLE_PAINT.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
     @Override
@@ -346,6 +353,27 @@ public class GameView extends View {
         }
         return null;
     }
+
+    ///////////////////////////////////////
+    //Teleporting funcitons
+    private boolean intersectsTeleporter(){
+        Rect ball = getBall();
+        for (Rect tele : pads){
+            if (Rect.intersects(tele, ball)){
+                used = teleporters.get(pads.indexOf(tele));
+                return true;
+            }
+            else
+                used = null;
+        }
+        return false;
+    }
+    private void warp(Teleporter dest){
+
+        BALL_LEFT = dest.leftScale + 1;
+        BALL_TOP = dest.topScale - 1;
+    }
+    ////////////////////////////////////////
 
     @NonNull
     private Rect getBall() {

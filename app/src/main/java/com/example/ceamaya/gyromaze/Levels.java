@@ -281,6 +281,19 @@ class Hole {
     }
 }
 
+class Teleporter {
+    int leftScale;
+    int topScale;
+    //Rect pad = new Rect(leftScale, topScale,leftScale+2, topScale+2);
+    Teleporter destination;
+
+    Teleporter(int left, int top, Teleporter dest) {
+        leftScale = left;
+        topScale = top;
+        destination = dest;
+    }
+}
+
 class FinishBox {
     final int leftCord;
     final int topCord;
