@@ -52,27 +52,24 @@ public class GameView extends View {
     private Bitmap bFinish;
     public static int MOVE_SCALE;
 
-
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        if(MainActivity.theme == 1) {
+        if (MainActivity.theme == 1) {
             bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
             bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.lava);
             bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable.finishline);
             oPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.oportal);
             bPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.bportal);
             setBackgroundResource(R.drawable.background);
-        }
-        else if(MainActivity.theme == 2) {
+        } else if (MainActivity.theme == 2) {
             bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wood);
             bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.water);
             bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable.finishline);
             oPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.golftele);
             bPortal = oPortal;
             setBackgroundResource(R.drawable.grassbackground);
-        }
-        else{
+        } else {
             bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
             bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.golfhole);
             bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable.finishline);
@@ -139,11 +136,10 @@ public class GameView extends View {
             //canvas.drawRect(pad, PURPLE_PAINT);
         }*/
         //evens blue odds orange
-        for(int i = 0; i < level.pads.length; i++ ){
-            if(i % 2 == 0) {
+        for (int i = 0; i < level.pads.length; i++) {
+            if (i % 2 == 0) {
                 canvas.drawBitmap(bPortal, null, pads.get(i), null);
-            }
-            else{
+            } else {
                 canvas.drawBitmap(oPortal, null, pads.get(i), null);
             }
         }
@@ -163,12 +159,12 @@ public class GameView extends View {
         VERTICAL_WALL_WIDTH = (int) Math.round((double) SCREEN_WIDTH / 120.0);
         SPACE_BETWEEN_VERTICAL_WALLS = (int) Math.round((double) VERTICAL_WALL_WIDTH * 11.11);
         HORIZONTAL_WALL_HEIGHT = (int) Math.round((double) SCREEN_HEIGHT / 192.33);
-        SPACE_BETWEEN_HORIZONTAL_WALLS = (int) Math.round((double) HORIZONTAL_WALL_HEIGHT * 11.0625);
+        SPACE_BETWEEN_HORIZONTAL_WALLS =
+                (int) Math.round((double) HORIZONTAL_WALL_HEIGHT * 11.0625);
         HOLE_HEIGHT = SPACE_BETWEEN_HORIZONTAL_WALLS;
         HOLE_WIDTH = SPACE_BETWEEN_VERTICAL_WALLS;
         PAD_SIZE_Y = SPACE_BETWEEN_HORIZONTAL_WALLS;
         PAD_SIZE_X = SPACE_BETWEEN_VERTICAL_WALLS;
-
     }
 
     private void setUpWalls() {
@@ -181,8 +177,6 @@ public class GameView extends View {
             walls.add(newWall);
         }
     }
-
-
 
     private void setUpFinishBox() {
         int top = getTopCord(level.finishBox.topCord);
@@ -198,13 +192,14 @@ public class GameView extends View {
             createHole(hole.leftCord, hole.topCord);
         }
     }
+
     private void setUpPads() {
         int i = 0;
         for (Pad pad : level.pads) {
             createPad(pad.leftCord, pad.topCord);
-            if (i > 0 && i % 2 != 0){
-                teleporters.add(new Teleporter(level.pads[i-1], level.pads[i]));
-                teleporters.add(new Teleporter(level.pads[i], level.pads[i-1]));
+            if (i > 0 && i % 2 != 0) {
+                teleporters.add(new Teleporter(level.pads[i - 1], level.pads[i]));
+                teleporters.add(new Teleporter(level.pads[i], level.pads[i - 1]));
             }
             i++;
         }
@@ -284,7 +279,8 @@ public class GameView extends View {
         if (top == 0) {
             bottom = SPACE_BETWEEN_HORIZONTAL_WALLS * size + HORIZONTAL_WALL_HEIGHT * size;
         } else {
-            bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS * size + HORIZONTAL_WALL_HEIGHT * (1 + size);
+            bottom =
+                    top + SPACE_BETWEEN_HORIZONTAL_WALLS * size + HORIZONTAL_WALL_HEIGHT * (1 + size);
         }
         return new Rect(left, top, right, bottom);
     }
@@ -301,7 +297,6 @@ public class GameView extends View {
         int bottom = top + HORIZONTAL_WALL_HEIGHT;
         return new Rect(left, top, right, bottom);
     }
-
 
     public void move(float[] values) {
         float SENSITIVITY_THRESHOLD = 0.25f;
@@ -336,7 +331,7 @@ public class GameView extends View {
             if (didMove) {
                 postInvalidate();
             }
-            if (intersectsTeleporter()){
+            if (intersectsTeleporter()) {
                 warp(used.destination, System.currentTimeMillis());
             }
         }
@@ -444,23 +439,25 @@ public class GameView extends View {
 
     ///////////////////////////////////////
     //Teleporting funcitons
-    private boolean intersectsTeleporter(){
+    private boolean intersectsTeleporter() {
         Rect ball = getBall();
-        for (Rect pad : pads){
-            if (Rect.intersects(pad, ball)){
-                Log.d("Teleporter", "teleporters.size = " + teleporters.size() + "\npads.size= " + pads.size() + "\npads.indexOf(pad) = " + pads.indexOf(pad));
+        for (Rect pad : pads) {
+            if (Rect.intersects(pad, ball)) {
+                Log.d("Teleporter",
+                        "teleporters.size = " + teleporters.size() + "\npads.size= " + pads.size() + "\npads.indexOf(pad) = " + pads.indexOf(pad));
                 used = teleporters.get(pads.indexOf(pad));
                 return true;
-            }
-            else
+            } else
                 used = null;
         }
         return false;
     }
-    private void warp(final Pad dest, Long timer_start){
+
+    private void warp(final Pad dest, Long timer_start) {
         /*final Rect warpPad = pads.get(teleporters.indexOf(used));
         Long timer_leave;
-        for(timer_leave = System.currentTimeMillis(); timer_leave - timer_start < 500; timer_leave = System.currentTimeMillis()){}
+        for(timer_leave = System.currentTimeMillis(); timer_leave - timer_start < 500;
+        timer_leave = System.currentTimeMillis()){}
         if (Rect.intersects(getBall(), warpPad)) {
             BALL_LEFT = dest.leftCord + PAD_SIZE_X/2;
             BALL_TOP = dest.topCord + PAD_SIZE_Y/2;
@@ -470,7 +467,7 @@ public class GameView extends View {
         Log.d("Teleporter", "x,y = " + dest.leftCord + "," + dest.topCord);
         int top = getTopCord(dest.topCord);
         if (top > 0) {
-            top += (HORIZONTAL_WALL_HEIGHT + PAD_SIZE_Y/2);
+            top += (HORIZONTAL_WALL_HEIGHT + PAD_SIZE_Y / 2);
         }
         int left = getLeftCord(dest.leftCord);
         if (left > 0) {
