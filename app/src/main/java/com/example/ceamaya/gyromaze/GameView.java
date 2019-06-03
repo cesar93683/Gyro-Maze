@@ -28,6 +28,7 @@ public class GameView extends View {
     private final Context context;
     private final Bitmap bWall;
     private final Bitmap bHole;
+    private final Bitmap bBall;
     private final Bitmap bPortal;
     private final Bitmap oPortal;
     private final Bitmap bFinish;
@@ -59,6 +60,7 @@ public class GameView extends View {
         this.context = context;
         switch (MainActivity.theme) {
             case 1:
+                bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.lava);
                 bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
                 bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.lava);
                 bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable
@@ -68,6 +70,7 @@ public class GameView extends View {
                 setBackgroundResource(R.drawable.background);
                 break;
             case 2:
+                bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.lava);
                 bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wood);
                 bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.water);
                 bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable
@@ -77,6 +80,7 @@ public class GameView extends View {
                 setBackgroundResource(R.drawable.grassbackground);
                 break;
             default:
+                bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.lava);
                 bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
                 bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.golfhole);
                 bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable
@@ -139,8 +143,7 @@ public class GameView extends View {
 
         canvas.drawRect(finishBox, YELLOW_PAINT);
         canvas.drawBitmap(bFinish, null, finishBox, null);
-        canvas.drawRect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
-                BALL_TOP + BALL_SIZE, RED_PAINT);
+        canvas.drawBitmap(bBall, null, getBall(),null);
     }
 
     private void setUpDimensions() {
@@ -190,7 +193,7 @@ public class GameView extends View {
         int i = 0;
         for (Pad pad : level.pads) {
             createPad(pad.leftCord, pad.topCord);
-            if (i > 0 && i % 2 != 0) {
+            if (i % 2 != 0) {
                 level.pads[i].destPad = level.pads[i - 1];
                 level.pads[i - 1].destPad = level.pads[i];
             }
