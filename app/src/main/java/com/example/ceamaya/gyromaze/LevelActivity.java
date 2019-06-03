@@ -60,8 +60,8 @@ public class LevelActivity extends AppCompatActivity {
         bestTimes.clear();
         bestTimes.add(prefs.getInt(Integer.toString(1), LEVEL_UNLOCKED));
         for (int i = 2; i <= 10; i++) {
-//            bestTimes.add(prefs.getInt(Integer.toString(i), LEVEL_LOCKED));
-            bestTimes.add(0);
+            bestTimes.add(prefs.getInt(Integer.toString(i), LEVEL_LOCKED));
+//            bestTimes.add(0);
         }
     }
 

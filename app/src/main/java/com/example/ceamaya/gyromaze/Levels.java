@@ -1,6 +1,13 @@
 package com.example.ceamaya.gyromaze;
 
+import static com.example.ceamaya.gyromaze.Levels.WARP_ANY;
+
 final class Levels {
+    static final int WARP_ANY = 0;
+    static final int WARP_ONLY_UP = 1;
+    static final int WARP_ONLY_RIGHT = 2;
+    static final int WARP_ONLY_DOWN = 3;
+    private static final int WARP_ONLY_LEFT = 4;
 
     //Level 1
     private static final Wall[] level1VerticalWalls = new Wall[]{
@@ -142,8 +149,8 @@ final class Levels {
             new Hole(8, 15),
     };
     private static Pad[] level2Pads = new Pad[]{
-            new Pad(8, 4),
-            new Pad(0, 15),
+            new Pad(8, 4, WARP_ONLY_LEFT),
+            new Pad(0, 15, WARP_ONLY_RIGHT),
             new Pad(1, 12),
             new Pad(0, 6),
     };
@@ -395,8 +402,8 @@ final class Levels {
             new Hole(8, 15),
     };
     private static final Pad[] level6Pads = new Pad[]{
-            new Pad(8, 0),
-            new Pad(0, 0),
+            new Pad(8, 0, WARP_ONLY_LEFT),
+            new Pad(0, 0, WARP_ONLY_RIGHT),
     };
     private static final FinishBox level6FinishBox = new FinishBox(0, 15, 2);
     private static final StarTimes level6StarTimes = new StarTimes(20000, 10000);
@@ -717,11 +724,11 @@ final class Levels {
             new Hole(8, 8),
     };
     private static final Pad[] level10Pads = new Pad[]{
-            new Pad(8, 7),
-            new Pad(1, 7),
+            new Pad(8, 7, WARP_ONLY_UP),
+            new Pad(1, 7, WARP_ONLY_LEFT),
 
-            new Pad(1, 3),
-            new Pad(0, 0),
+            new Pad(1, 3, WARP_ONLY_LEFT),
+            new Pad(0, 0, WARP_ONLY_RIGHT),
     };
     private static final FinishBox level10FinishBox = new FinishBox(4, 0, 2);
     private static final StarTimes level10StarTimes = new StarTimes(20000, 10000);
@@ -798,11 +805,20 @@ class Pad {
     final int leftCord;
     final int topCord;
     Pad destPad;
+    final int warpOnly;
 
     Pad(int leftCord, int topCord) {
         this.leftCord = leftCord;
         this.topCord = topCord;
         this.destPad = null;
+        this.warpOnly = WARP_ANY;
+    }
+
+    Pad(int leftCord, int topCord, int warpOnly) {
+        this.leftCord = leftCord;
+        this.topCord = topCord;
+        this.destPad = null;
+        this.warpOnly = warpOnly;
     }
 }
 

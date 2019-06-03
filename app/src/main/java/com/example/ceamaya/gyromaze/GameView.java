@@ -10,17 +10,20 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
+
+import static com.example.ceamaya.gyromaze.Levels.WARP_ANY;
+import static com.example.ceamaya.gyromaze.Levels.WARP_ONLY_DOWN;
+import static com.example.ceamaya.gyromaze.Levels.WARP_ONLY_RIGHT;
+import static com.example.ceamaya.gyromaze.Levels.WARP_ONLY_UP;
 
 public class GameView extends View {
     private static final int MOVING_LEFT = 1;
     private static final int MOVING_RIGHT = 2;
     private static final int MOVING_UP = 3;
     private static final int MOVING_DOWN = 4;
-    private static final String TAG = "GameView";
     public static int MOVE_SCALE;
     private final Context context;
     private final Bitmap bWall;
@@ -338,7 +341,6 @@ public class GameView extends View {
                     }
                     warp(destPad, movingDirection);
                 }
-                Log.d(TAG, "top:" + BALL_TOP + "  left:" + BALL_LEFT);
                 postInvalidate();
             }
         }
@@ -461,26 +463,43 @@ public class GameView extends View {
     private void warp(final Pad destPad, final int movingDirection) {
         int top = getTopCord(destPad.topCord);
         int left = getLeftCord(destPad.leftCord);
-        switch (movingDirection) {
-            case MOVING_LEFT:
-                Log.d(TAG, "warp: movingLeft");
-                top += PAD_HEIGHT / 2;
-                left -= BALL_SIZE + VERTICAL_WALL_WIDTH;
+        switch (destPad.warpOnly) {
+            case WARP_ANY:
+                switch (movingDirection) {
+                    case MOVING_LEFT:
+                        top += PAD_HEIGHT / 2;
+                        left -= BALL_SIZE + VERTICAL_WALL_WIDTH;
+                        break;
+                    case MOVING_RIGHT:
+                        top += PAD_HEIGHT / 2;
+                        left += PAD_WIDTH + VERTICAL_WALL_WIDTH;
+                        break;
+                    case MOVING_DOWN:
+                        top += PAD_HEIGHT + HORIZONTAL_WALL_HEIGHT;
+                        left += PAD_WIDTH / 2;
+                        break;
+                    default:
+                        top -= BALL_SIZE + HORIZONTAL_WALL_HEIGHT;
+                        left += PAD_WIDTH / 2;
+                        break;
+                }
                 break;
-            case MOVING_RIGHT:
-                Log.d(TAG, "warp: movingRight");
+            case WARP_ONLY_UP:
+                top -= BALL_SIZE + HORIZONTAL_WALL_HEIGHT;
+                left += PAD_WIDTH / 2;
+                break;
+            case WARP_ONLY_RIGHT:
                 top += PAD_HEIGHT / 2;
                 left += PAD_WIDTH + VERTICAL_WALL_WIDTH;
                 break;
-            case MOVING_DOWN:
-                Log.d(TAG, "warp: movingDown");
+
+            case WARP_ONLY_DOWN:
                 top += PAD_HEIGHT + HORIZONTAL_WALL_HEIGHT;
                 left += PAD_WIDTH / 2;
                 break;
             default:
-                Log.d(TAG, "warp: movingUp");
-                top -= BALL_SIZE + HORIZONTAL_WALL_HEIGHT;
-                left += PAD_WIDTH / 2;
+                top += PAD_HEIGHT / 2;
+                left -= BALL_SIZE + VERTICAL_WALL_WIDTH;
                 break;
         }
 
