@@ -803,20 +803,20 @@ class Pad {
     final int leftCord;
     final int topCord;
     Pad destPad;
-    final int warpOnly;
+    final int warpOnlyDirection;
 
     Pad(int leftCord, int topCord) {
         this.leftCord = leftCord;
         this.topCord = topCord;
         this.destPad = null;
-        this.warpOnly = WARP_ANY;
+        this.warpOnlyDirection = WARP_ANY;
     }
 
-    Pad(int leftCord, int topCord, int warpOnly) {
+    Pad(int leftCord, int topCord, int warpOnlyDirection) {
         this.leftCord = leftCord;
         this.topCord = topCord;
         this.destPad = null;
-        this.warpOnly = warpOnly;
+        this.warpOnlyDirection = warpOnlyDirection;
     }
 }
 

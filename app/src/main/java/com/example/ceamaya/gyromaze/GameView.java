@@ -451,7 +451,7 @@ public class GameView extends View {
     private void warp(final Pad destPad, final int movingDirection) {
         int top = getTopCord(destPad.topCord);
         int left = getLeftCord(destPad.leftCord);
-        switch (destPad.warpOnly) {
+        switch (destPad.warpOnlyDirection) {
             case WARP_ANY:
                 switch (movingDirection) {
                     case MOVING_LEFT:
@@ -490,7 +490,6 @@ public class GameView extends View {
                 left -= BALL_SIZE + VERTICAL_WALL_WIDTH;
                 break;
         }
-
         BALL_LEFT = left;
         BALL_TOP = top;
     }
