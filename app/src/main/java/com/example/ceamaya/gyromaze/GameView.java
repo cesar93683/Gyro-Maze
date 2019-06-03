@@ -16,6 +16,11 @@ import android.view.View;
 import java.util.ArrayList;
 
 public class GameView extends View {
+    private static final int MOVING_LEFT = 1;
+    private static final int MOVING_RIGHT = 2;
+    private static final int MOVING_UP = 3;
+    private static final int MOVING_DOWN = 4;
+    private static final String TAG = "GameView";
     public static int MOVE_SCALE;
     private final Context context;
     private final Bitmap bWall;
@@ -34,8 +39,8 @@ public class GameView extends View {
     private int HORIZONTAL_WALL_HEIGHT;
     private int HOLE_HEIGHT;
     private int HOLE_WIDTH;
-    private int PAD_SIZE_Y;
-    private int PAD_SIZE_X;
+    private int PAD_HEIGHT;
+    private int PAD_WIDTH;
     private Paint RED_PAINT;
     private Paint YELLOW_PAINT;
     private boolean IS_FIRST_RUN = false;
@@ -120,10 +125,6 @@ public class GameView extends View {
         for (Rect hole : holes) {
             canvas.drawBitmap(bHole, null, hole, null);
         }
-        /*for (Rect pad : pads){
-            canvas.drawBitmap(bTele, null, pad, null);
-            //canvas.drawRect(pad, PURPLE_PAINT);
-        }*/
         //evens blue odds orange
         for (int i = 0; i < level.pads.length; i++) {
             if (i % 2 == 0) {
@@ -152,8 +153,8 @@ public class GameView extends View {
                 (int) Math.round((double) HORIZONTAL_WALL_HEIGHT * 11.0625);
         HOLE_HEIGHT = SPACE_BETWEEN_HORIZONTAL_WALLS;
         HOLE_WIDTH = SPACE_BETWEEN_VERTICAL_WALLS;
-        PAD_SIZE_Y = SPACE_BETWEEN_HORIZONTAL_WALLS;
-        PAD_SIZE_X = SPACE_BETWEEN_VERTICAL_WALLS;
+        PAD_HEIGHT = SPACE_BETWEEN_HORIZONTAL_WALLS;
+        PAD_WIDTH = SPACE_BETWEEN_VERTICAL_WALLS;
     }
 
     private void setUpWalls() {
@@ -260,8 +261,8 @@ public class GameView extends View {
         if (left > 0) {
             left += VERTICAL_WALL_WIDTH;
         }
-        int right = left + PAD_SIZE_X;
-        int bottom = top + PAD_SIZE_Y;
+        int right = left + PAD_WIDTH;
+        int bottom = top + PAD_HEIGHT;
         pads.add(new Rect(left, top, right, bottom));
     }
 
@@ -298,31 +299,47 @@ public class GameView extends View {
                 userWins();
                 return;
             }
+            int moveUpAmount = 0;
+            int moveRightAmount = 0;
+            int moveDownAmount = 0;
+            int moveLeftAmount = 0;
             if (x > SENSITIVITY_THRESHOLD) {
-                int moveAmount = (int) (x * MOVE_SCALE);
-                moveLeft(moveAmount);
+                moveLeftAmount = (int) (x * MOVE_SCALE);
+                moveLeft(moveLeftAmount);
                 didMove = true;
             }
             if (x * -1 > SENSITIVITY_THRESHOLD) {
-                int moveAmount = (int) (-1 * x * MOVE_SCALE);
-                moveRight(moveAmount);
+                moveRightAmount = (int) (-1 * x * MOVE_SCALE);
+                moveRight(moveRightAmount);
                 didMove = true;
             }
             if (y > SENSITIVITY_THRESHOLD) {
-                int moveAmount = (int) (y * MOVE_SCALE);
-                moveDown(moveAmount);
+                moveDownAmount = (int) (y * MOVE_SCALE);
+                moveDown(moveDownAmount);
                 didMove = true;
             }
             if (y * -1 > SENSITIVITY_THRESHOLD) {
-                int moveAmount = (int) (-1 * y * MOVE_SCALE);
-                moveUp(moveAmount);
+                moveUpAmount = (int) (-1 * y * MOVE_SCALE);
+                moveUp(moveUpAmount);
                 didMove = true;
             }
             if (didMove) {
+                if (intersectsTeleporter()) {
+                    int movingDirection = MOVING_LEFT;
+                    if (moveRightAmount > moveDownAmount && moveRightAmount > moveUpAmount &&
+                            moveRightAmount > moveLeftAmount) {
+                        movingDirection = MOVING_RIGHT;
+                    } else if (moveDownAmount > moveRightAmount && moveDownAmount > moveUpAmount &&
+                            moveDownAmount > moveLeftAmount) {
+                        movingDirection = MOVING_DOWN;
+                    } else if (moveUpAmount > moveRightAmount && moveUpAmount > moveDownAmount &&
+                            moveUpAmount > moveLeftAmount) {
+                        movingDirection = MOVING_UP;
+                    }
+                    warp(destPad, movingDirection);
+                }
+                Log.d(TAG, "top:" + BALL_TOP + "  left:" + BALL_LEFT);
                 postInvalidate();
-            }
-            if (intersectsTeleporter()) {
-                warp(destPad);
             }
         }
     }
@@ -441,16 +458,32 @@ public class GameView extends View {
         return false;
     }
 
-    private void warp(final Pad destPad) {
-        Log.d("Teleporter", "x,y = " + destPad.leftCord + "," + destPad.topCord);
+    private void warp(final Pad destPad, final int movingDirection) {
         int top = getTopCord(destPad.topCord);
-        if (top > 0) {
-            top += (HORIZONTAL_WALL_HEIGHT + PAD_SIZE_Y / 2);
-        }
         int left = getLeftCord(destPad.leftCord);
-        if (left > 0) {
-            left += VERTICAL_WALL_WIDTH - BALL_SIZE;
+        switch (movingDirection) {
+            case MOVING_LEFT:
+                Log.d(TAG, "warp: movingLeft");
+                top += PAD_HEIGHT / 2;
+                left -= BALL_SIZE + VERTICAL_WALL_WIDTH;
+                break;
+            case MOVING_RIGHT:
+                Log.d(TAG, "warp: movingRight");
+                top += PAD_HEIGHT / 2;
+                left += PAD_WIDTH + VERTICAL_WALL_WIDTH;
+                break;
+            case MOVING_DOWN:
+                Log.d(TAG, "warp: movingDown");
+                top += PAD_HEIGHT + HORIZONTAL_WALL_HEIGHT;
+                left += PAD_WIDTH / 2;
+                break;
+            default:
+                Log.d(TAG, "warp: movingUp");
+                top -= BALL_SIZE + HORIZONTAL_WALL_HEIGHT;
+                left += PAD_WIDTH / 2;
+                break;
         }
+
         BALL_LEFT = left;
         BALL_TOP = top;
     }

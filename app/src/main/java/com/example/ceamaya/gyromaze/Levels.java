@@ -1,6 +1,7 @@
 package com.example.ceamaya.gyromaze;
 
 final class Levels {
+
     //Level 1
     private static final Wall[] level1VerticalWalls = new Wall[]{
             //Side Walls
