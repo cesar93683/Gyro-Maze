@@ -6,4 +6,8 @@
     <string name="level_locked_text_view_text">Locked.</string>
     <string name="level_unlocked_text_view_text">Not completed yet.</string>
     <string name="level_level_text_view_text">Level %d</string>
+    <string name="video_game_theme">Video Game Theme</string>
+    <string name="golf_theme">Golf Theme</string>
+    <string name="old_school">Old School</string>
+    <string name="double_speed">Double Speed</string>
 </resources>

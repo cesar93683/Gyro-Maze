@@ -178,11 +178,21 @@ public class GameView extends View {
     }
 
     private void setUpFinishBox() {
+        int size = level.finishBox.horizontalSize;
         int top = getTopCord(level.finishBox.topCord) + HORIZONTAL_WALL_HEIGHT;
+        int bottom;
+        if (top == HORIZONTAL_WALL_HEIGHT) {
+            bottom = SPACE_BETWEEN_HORIZONTAL_WALLS;
+        } else {
+            bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS;
+        }
         int left = getLeftCord(level.finishBox.leftCord) + VERTICAL_WALL_WIDTH;
-        int right = left + level.finishBox.horizontalSize * SPACE_BETWEEN_VERTICAL_WALLS
-                + (level.finishBox.horizontalSize - 1) * VERTICAL_WALL_WIDTH;
-        int bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS;
+        int right;
+        if (left == VERTICAL_WALL_WIDTH) {
+            right = size * SPACE_BETWEEN_VERTICAL_WALLS + (size - 1) * VERTICAL_WALL_WIDTH;
+        } else {
+            right = left + size * SPACE_BETWEEN_VERTICAL_WALLS + (size - 1) * VERTICAL_WALL_WIDTH;
+        }
         finishBox = new Rect(left, top, right, bottom);
     }
 

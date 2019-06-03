@@ -1,5 +1,6 @@
 package com.example.ceamaya.gyromaze;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -96,7 +97,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
 
     private void createCongratsDialog(int numYellowStars, int time) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_game_won, null);
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.dialog_game_won, null);
 
         setStars(numYellowStars, view);
 

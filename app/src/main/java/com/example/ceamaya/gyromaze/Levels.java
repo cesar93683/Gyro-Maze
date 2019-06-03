@@ -148,7 +148,7 @@ final class Levels {
             new Hole(7, 3),
             new Hole(8, 15),
     };
-    private static Pad[] level2Pads = new Pad[]{
+    private static final Pad[] level2Pads = new Pad[]{
             new Pad(8, 4, WARP_ONLY_LEFT),
             new Pad(0, 15, WARP_ONLY_RIGHT),
             new Pad(1, 12),
