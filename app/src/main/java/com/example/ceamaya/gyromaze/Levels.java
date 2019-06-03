@@ -74,11 +74,10 @@ final class Levels {
             new Hole(0, 0),
     };
     private static final Pad[] level1Pads = new Pad[]{};
-    private static final Teleporter[] level1Teleporters = new Teleporter[]{};
     private static final FinishBox level1FinishBox = new FinishBox(4, 0, 2);
     private static final StarTimes level1StarTimes = new StarTimes(20000, 10000);
     private static final Level level1 = new Level(1, level1VerticalWalls, level1HorizontalWalls,
-            level1Holes, level1Pads, level1Teleporters, level1FinishBox, level1StarTimes);
+            level1Holes, level1Pads, level1FinishBox, level1StarTimes);
 
     //
     //  LEVEL 2
@@ -141,22 +140,16 @@ final class Levels {
             new Hole(7, 3),
             new Hole(8, 15),
     };
-    private static final Pad[] level2Pads = new Pad[]{
+    private static Pad[] level2Pads = new Pad[]{
             new Pad(8, 4),
             new Pad(0, 15),
             new Pad(1, 12),
             new Pad(0, 6),
     };
-    private static final Teleporter[] level2Teleporters = new Teleporter[]{
-            new Teleporter(level2Pads[0], level2Pads[1]),
-            new Teleporter(level2Pads[1], level2Pads[0]),
-            new Teleporter(level2Pads[2], level2Pads[3]),
-            new Teleporter(level2Pads[3], level2Pads[2]),
-    };
     private static final FinishBox level2FinishBox = new FinishBox(0, 0, 2);
     private static final StarTimes level2StarTimes = new StarTimes(20001, 10001);
     private static final Level level2 = new Level(2, level2VerticalWalls, level2HorizontalWalls,
-            level2Holes, level2Pads, level2Teleporters, level2FinishBox, level2StarTimes);
+            level2Holes, level2Pads, level2FinishBox, level2StarTimes);
 
     //
     //  LEVEL 3
@@ -212,14 +205,10 @@ final class Levels {
             new Pad(3, 12),
             new Pad(8, 0),
     };
-    private static final Teleporter[] level3Teleporters = new Teleporter[]{
-            new Teleporter(level3Pads[0], level3Pads[1]),
-            new Teleporter(level3Pads[1], level3Pads[0]),
-    };
     private static final FinishBox level3FinishBox = new FinishBox(4, 4, 2);
     private static final StarTimes level3StarTimes = new StarTimes(20000, 10000);
     private static final Level level3 = new Level(3, level3VerticalWalls, level3HorizontalWalls,
-            level3Holes, level3Pads, level3Teleporters, level3FinishBox, level3StarTimes);
+            level3Holes, level3Pads, level3FinishBox, level3StarTimes);
 
     //
     //  LEVEL 4
@@ -276,11 +265,10 @@ final class Levels {
             new Hole(3, 14),
     };
     private static final Pad[] level4Pads = new Pad[]{};
-    private static final Teleporter[] level4Teleporters = new Teleporter[]{};
     private static final FinishBox level4FinishBox = new FinishBox(6, 0, 2);
     private static final StarTimes level4StarTimes = new StarTimes(20000, 10000);
     private static final Level level4 = new Level(4, level4VerticalWalls, level4HorizontalWalls,
-            level4Holes, level4Pads, level4Teleporters, level4FinishBox, level4StarTimes);
+            level4Holes, level4Pads, level4FinishBox, level4StarTimes);
 
     // LEVEL 5
     private static final Wall[] level5VerticalWalls = new Wall[]{
@@ -345,11 +333,10 @@ final class Levels {
             new Hole(8, 8),
     };
     private static final Pad[] level5Pads = new Pad[]{};
-    private static final Teleporter[] level5Teleporters = new Teleporter[]{};
     private static final FinishBox level5FinishBox = new FinishBox(3, 0, 2);
     private static final StarTimes level5StarTimes = new StarTimes(20000, 10000);
     private static final Level level5 = new Level(5, level5VerticalWalls, level5HorizontalWalls,
-            level5Holes, level5Pads, level5Teleporters, level5FinishBox, level5StarTimes);
+            level5Holes, level5Pads, level5FinishBox, level5StarTimes);
 
     //
     //  LEVEL 6
@@ -410,14 +397,10 @@ final class Levels {
             new Pad(8, 0),
             new Pad(0, 0),
     };
-    private static final Teleporter[] level6Teleporters = new Teleporter[]{
-            new Teleporter(level6Pads[0], level6Pads[1]),
-            new Teleporter(level6Pads[1], level6Pads[0]),
-    };
     private static final FinishBox level6FinishBox = new FinishBox(0, 15, 2);
     private static final StarTimes level6StarTimes = new StarTimes(20000, 10000);
     private static final Level level6 = new Level(6, level6VerticalWalls, level6HorizontalWalls,
-            level6Holes, level6Pads, level6Teleporters, level6FinishBox, level6StarTimes);
+            level6Holes, level6Pads, level6FinishBox, level6StarTimes);
 
     //
     //  LEVEL 7
@@ -480,11 +463,10 @@ final class Levels {
             new Hole(8, 4),
     };
     private static final Pad[] level7Pads = new Pad[]{};
-    private static final Teleporter[] level7Teleporters = new Teleporter[]{};
     private static final FinishBox level7FinishBox = new FinishBox(0, 0, 2);
     private static final StarTimes level7StarTimes = new StarTimes(20000, 10000);
     private static final Level level7 = new Level(7, level7VerticalWalls, level7HorizontalWalls,
-            level7Holes, level7Pads, level7Teleporters, level7FinishBox, level7StarTimes);
+            level7Holes, level7Pads, level7FinishBox, level7StarTimes);
 
     //
     //  LEVEL 8
@@ -550,14 +532,10 @@ final class Levels {
             new Pad(4, 3),
             new Pad(8, 2),
     };
-    private static final Teleporter[] level8Teleporters = new Teleporter[]{
-            new Teleporter(level8Pads[0], level8Pads[1]),
-            new Teleporter(level8Pads[1], level8Pads[0]),
-    };
     private static final FinishBox level8FinishBox = new FinishBox(7, 15, 2);
     private static final StarTimes level8StarTimes = new StarTimes(20000, 10000);
     private static final Level level8 = new Level(8, level8VerticalWalls, level8HorizontalWalls,
-            level8Holes, level8Pads, level8Teleporters, level8FinishBox, level8StarTimes);
+            level8Holes, level8Pads, level8FinishBox, level8StarTimes);
 
     //
     //  LEVEL 9
@@ -667,32 +645,10 @@ final class Levels {
             new Pad(4, 10),
             new Pad(5, 3),
     };
-    private static final Teleporter[] level9Teleporters = new Teleporter[]{
-            new Teleporter(level9Pads[0], level9Pads[1]),
-            new Teleporter(level9Pads[1], level9Pads[0]),
-
-            new Teleporter(level9Pads[2], level9Pads[3]),
-            new Teleporter(level9Pads[3], level9Pads[2]),
-
-            new Teleporter(level9Pads[4], level9Pads[5]),
-            new Teleporter(level9Pads[5], level9Pads[4]),
-
-            new Teleporter(level9Pads[6], level9Pads[7]),
-            new Teleporter(level9Pads[7], level9Pads[6]),
-
-            new Teleporter(level9Pads[8], level9Pads[9]),
-            new Teleporter(level9Pads[9], level9Pads[8]),
-
-            new Teleporter(level9Pads[10], level9Pads[11]),
-            new Teleporter(level9Pads[11], level9Pads[10]),
-
-            new Teleporter(level9Pads[12], level9Pads[13]),
-            new Teleporter(level9Pads[13], level9Pads[12]),
-    };
     private static final FinishBox level9FinishBox = new FinishBox(3, 2, 2);
     private static final StarTimes level9StarTimes = new StarTimes(20000, 10000);
     private static final Level level9 = new Level(9, level9VerticalWalls, level9HorizontalWalls,
-            level9Holes, level9Pads, level9Teleporters, level9FinishBox, level9StarTimes);
+            level9Holes, level9Pads, level9FinishBox, level9StarTimes);
 
     //
     //  LEVEL 10
@@ -766,17 +722,10 @@ final class Levels {
             new Pad(1, 3),
             new Pad(0, 0),
     };
-    private static final Teleporter[] level10Teleporters = new Teleporter[]{
-            new Teleporter(level10Pads[0], level10Pads[1]),
-            new Teleporter(level9Pads[1], level9Pads[0]),
-
-            new Teleporter(level10Pads[2], level10Pads[3]),
-            new Teleporter(level9Pads[3], level10Pads[2]),
-    };
     private static final FinishBox level10FinishBox = new FinishBox(4, 0, 2);
     private static final StarTimes level10StarTimes = new StarTimes(20000, 10000);
     private static final Level level10 = new Level(10, level10VerticalWalls,
-            level10HorizontalWalls, level10Holes, level10Pads, level10Teleporters,
+            level10HorizontalWalls, level10Holes, level10Pads,
             level10FinishBox, level10StarTimes);
 
     private static final Level[] levels = new Level[]{level1, level2, level3, level4, level5,
@@ -798,18 +747,16 @@ class Level {
     public final Wall[] horizontalWalls;
     public final Hole[] holes;
     public final Pad[] pads;
-    public final Teleporter[] teleporters;
     public final FinishBox finishBox;
     private final StarTimes starTimes;
 
     Level(int levelNumber, Wall[] verticalWalls, Wall[] horizontalWalls, Hole[] holes, Pad[]
-            pads, Teleporter[] teleporters, FinishBox finishBox, StarTimes starTimes) {
+            pads, FinishBox finishBox, StarTimes starTimes) {
         this.levelNumber = levelNumber;
         this.verticalWalls = verticalWalls;
         this.horizontalWalls = horizontalWalls;
         this.holes = holes;
         this.pads = pads;
-        this.teleporters = teleporters;
         this.finishBox = finishBox;
         this.starTimes = starTimes;
     }
@@ -849,31 +796,12 @@ class Hole {
 class Pad {
     final int leftCord;
     final int topCord;
+    Pad destPad;
 
     Pad(int leftCord, int topCord) {
         this.leftCord = leftCord;
         this.topCord = topCord;
-    }
-}
-
-class Teleporter {
-    /*int leftScale;
-    int topScale;
-    //Rect pad = new Rect(leftScale, topScale,leftScale+2, topScale+2);
-    Rect destination;
-
-    Teleporter(int left, int top, Rect dest) {
-        leftScale = left;
-        topScale = top;
-        destination = dest;
-    }
-}*/
-    Pad home;
-    Pad destination;
-
-    Teleporter(Pad start, Pad end) {
-        home = start;
-        destination = end;
+        this.destPad = null;
     }
 }
 

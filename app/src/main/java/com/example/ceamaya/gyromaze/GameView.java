@@ -42,11 +42,9 @@ public class GameView extends View {
     private ArrayList<Rect> walls;
     private ArrayList<Rect> holes;
     private ArrayList<Rect> pads;
-    private ArrayList<Teleporter> teleporters;
     private Rect finishBox;
     private Level level;
-    private Teleporter used;
-    private Bitmap bTele;
+    private Pad destPad;
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -98,7 +96,6 @@ public class GameView extends View {
         walls = new ArrayList<>(level.verticalWalls.length + level.horizontalWalls.length);
         holes = new ArrayList<>(level.holes.length);
         pads = new ArrayList<>(level.pads.length);
-        teleporters = new ArrayList<>(level.pads.length);
     }
 
     @Override
@@ -180,7 +177,7 @@ public class GameView extends View {
         int top = getTopCord(level.finishBox.topCord) + HORIZONTAL_WALL_HEIGHT;
         int left = getLeftCord(level.finishBox.leftCord) + VERTICAL_WALL_WIDTH;
         int right = left + level.finishBox.horizontalSize * SPACE_BETWEEN_VERTICAL_WALLS
-                + VERTICAL_WALL_WIDTH;
+                + (level.finishBox.horizontalSize - 1) * VERTICAL_WALL_WIDTH;
         int bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS;
         finishBox = new Rect(left, top, right, bottom);
     }
@@ -190,8 +187,8 @@ public class GameView extends View {
         for (Pad pad : level.pads) {
             createPad(pad.leftCord, pad.topCord);
             if (i > 0 && i % 2 != 0) {
-                teleporters.add(new Teleporter(level.pads[i - 1], level.pads[i]));
-                teleporters.add(new Teleporter(level.pads[i], level.pads[i - 1]));
+                level.pads[i].destPad = level.pads[i - 1];
+                level.pads[i - 1].destPad = level.pads[i];
             }
             i++;
         }
@@ -325,7 +322,7 @@ public class GameView extends View {
                 postInvalidate();
             }
             if (intersectsTeleporter()) {
-                warp(used.destination);
+                warp(destPad);
             }
         }
     }
@@ -436,24 +433,21 @@ public class GameView extends View {
         Rect ball = getBall();
         for (Rect pad : pads) {
             if (Rect.intersects(pad, ball)) {
-                Log.d("Teleporter",
-                        "teleporters.size = " + teleporters.size() + "\npads.size= " + pads.size
-                                () + "\npads.indexOf(pad) = " + pads.indexOf(pad));
-                used = teleporters.get(pads.indexOf(pad));
+                destPad = level.pads[pads.indexOf(pad)].destPad;
                 return true;
             } else
-                used = null;
+                destPad = null;
         }
         return false;
     }
 
-    private void warp(final Pad dest) {
-        Log.d("Teleporter", "x,y = " + dest.leftCord + "," + dest.topCord);
-        int top = getTopCord(dest.topCord);
+    private void warp(final Pad destPad) {
+        Log.d("Teleporter", "x,y = " + destPad.leftCord + "," + destPad.topCord);
+        int top = getTopCord(destPad.topCord);
         if (top > 0) {
             top += (HORIZONTAL_WALL_HEIGHT + PAD_SIZE_Y / 2);
         }
-        int left = getLeftCord(dest.leftCord);
+        int left = getLeftCord(destPad.leftCord);
         if (left > 0) {
             left += VERTICAL_WALL_WIDTH - BALL_SIZE;
         }
