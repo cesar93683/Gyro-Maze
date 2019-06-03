@@ -1,6 +1,8 @@
 package com.example.ceamaya.gyromaze;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -42,11 +44,42 @@ public class GameView extends View {
     private Level level;
     private final Context context;
     private Teleporter used;
+    private Bitmap bWall;
+    private Bitmap bHole;
+    private Bitmap bTele;
+    private Bitmap bPortal;
+    private Bitmap oPortal;
+    private Bitmap bFinish;
+    public static int MOVE_SCALE;
 
 
     public GameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        if(MainActivity.theme == 1) {
+            bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
+            bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.lava);
+            bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable.finishline);
+            oPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.oportal);
+            bPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.bportal);
+            setBackgroundResource(R.drawable.background);
+        }
+        else if(MainActivity.theme == 2) {
+            bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wood);
+            bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.water);
+            bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable.finishline);
+            oPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.golftele);
+            bPortal = oPortal;
+            setBackgroundResource(R.drawable.grassbackground);
+        }
+        else{
+            bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
+            bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.golfhole);
+            bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable.finishline);
+            oPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.portal);
+            bPortal = oPortal;
+            setBackgroundResource(R.drawable.wood);
+        }
         setUpPaints();
     }
 
@@ -90,19 +123,33 @@ public class GameView extends View {
         }
 
         // for easier maze creation
-        createGrid(canvas);
+        //createGrid(canvas);
 
         for (Rect wall : walls) {
-            canvas.drawRect(wall, BLACK_PAINT);
+            canvas.drawBitmap(bWall, null, wall, null);
+            //canvas.drawRect(wall, BLACK_PAINT);
         }
 
         for (Rect hole : holes) {
-            canvas.drawRect(hole, GREEN_PAINT);
+            canvas.drawBitmap(bHole, null, hole, null);
+            //canvas.drawRect(hole, GREEN_PAINT);
         }
-        for (Rect pad : pads){
-            canvas.drawRect(pad, PURPLE_PAINT);
+        /*for (Rect pad : pads){
+            canvas.drawBitmap(bTele, null, pad, null);
+            //canvas.drawRect(pad, PURPLE_PAINT);
+        }*/
+        //evens blue odds orange
+        for(int i = 0; i < level.pads.length; i++ ){
+            if(i % 2 == 0) {
+                canvas.drawBitmap(bPortal, null, pads.get(i), null);
+            }
+            else{
+                canvas.drawBitmap(oPortal, null, pads.get(i), null);
+            }
         }
+
         canvas.drawRect(finishBox, YELLOW_PAINT);
+        canvas.drawBitmap(bFinish, null, finishBox, null);
         canvas.drawRect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
                 BALL_TOP + BALL_SIZE, RED_PAINT);
     }
@@ -257,7 +304,6 @@ public class GameView extends View {
 
 
     public void move(float[] values) {
-        int MOVE_SCALE = 7;
         float SENSITIVITY_THRESHOLD = 0.25f;
         if (SCREEN_HEIGHT > 0 && SCREEN_WIDTH > 0) {
             float x = values[0];
