@@ -146,18 +146,18 @@ public class GameView extends View {
     private void setUpDimensions() {
         SCREEN_HEIGHT = getHeight();
         SCREEN_WIDTH = getWidth();
-        BALL_SIZE = SCREEN_HEIGHT / 86;
-        BALL_LEFT = SCREEN_WIDTH / 2 - BALL_SIZE / 2;
-        BALL_TOP = SCREEN_HEIGHT - BALL_SIZE;
-        VERTICAL_WALL_WIDTH = (int) Math.round((double) SCREEN_WIDTH / 120.0);
-        SPACE_BETWEEN_VERTICAL_WALLS = (int) Math.round((double) VERTICAL_WALL_WIDTH * 12.44);
-        HORIZONTAL_WALL_HEIGHT = (int) Math.round((double) SCREEN_HEIGHT / 192.33);
+        VERTICAL_WALL_WIDTH = (int) Math.round((double) SCREEN_WIDTH / 135.0);
+        SPACE_BETWEEN_VERTICAL_WALLS = (int) Math.round((double) SCREEN_WIDTH / 135.0 * 13.88);
+        HORIZONTAL_WALL_HEIGHT = (int) Math.round((double) SCREEN_HEIGHT / 216.375);
         SPACE_BETWEEN_HORIZONTAL_WALLS =
-                (int) Math.round((double) HORIZONTAL_WALL_HEIGHT * 11.0625);
+                (int) Math.round((double) SCREEN_HEIGHT / 216.375 * 12.461);
         HOLE_HEIGHT = SPACE_BETWEEN_HORIZONTAL_WALLS;
         HOLE_WIDTH = SPACE_BETWEEN_VERTICAL_WALLS;
         PAD_HEIGHT = SPACE_BETWEEN_HORIZONTAL_WALLS;
         PAD_WIDTH = SPACE_BETWEEN_VERTICAL_WALLS;
+        BALL_SIZE = SCREEN_HEIGHT / 86;
+        BALL_LEFT = SCREEN_WIDTH / 2 - BALL_SIZE / 2;
+        BALL_TOP = SCREEN_HEIGHT - HORIZONTAL_WALL_HEIGHT - BALL_SIZE;
     }
 
     private void setUpWalls() {
@@ -179,20 +179,10 @@ public class GameView extends View {
 
     private void setUpFinishBox() {
         int size = level.finishBox.horizontalSize;
-        int top = getTopCord(level.finishBox.topCord) + HORIZONTAL_WALL_HEIGHT;
-        int bottom;
-        if (top == HORIZONTAL_WALL_HEIGHT) {
-            bottom = SPACE_BETWEEN_HORIZONTAL_WALLS;
-        } else {
-            bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS;
-        }
-        int left = getLeftCord(level.finishBox.leftCord) + VERTICAL_WALL_WIDTH;
-        int right;
-        if (left == VERTICAL_WALL_WIDTH) {
-            right = size * SPACE_BETWEEN_VERTICAL_WALLS + (size - 1) * VERTICAL_WALL_WIDTH;
-        } else {
-            right = left + size * SPACE_BETWEEN_VERTICAL_WALLS + (size - 1) * VERTICAL_WALL_WIDTH;
-        }
+        int top = getObjectTopCord(level.finishBox.topCord);
+        int bottom = top + SPACE_BETWEEN_HORIZONTAL_WALLS;
+        int left = getObjectLeftCord(level.finishBox.leftCord);
+        int right = left + size * SPACE_BETWEEN_VERTICAL_WALLS + (size - 1) * VERTICAL_WALL_WIDTH;
         finishBox = new Rect(left, top, right, bottom);
     }
 
@@ -206,6 +196,71 @@ public class GameView extends View {
             }
             i++;
         }
+    }
+
+    private void createHole(int leftCord, int topCord) {
+        int top = getObjectTopCord(topCord);
+        int bottom = top + HOLE_HEIGHT;
+        int left = getObjectLeftCord(leftCord);
+        int right = left + HOLE_WIDTH;
+        Rect wall = new Rect(left, top, right, bottom);
+        holes.add(wall);
+    }
+
+    private int getObjectTopCord(int topCord) {
+        return getTopCord(topCord) + HORIZONTAL_WALL_HEIGHT;
+    }
+
+    private void createPad(int leftCord, int topCord) {
+        int top = getObjectTopCord(topCord);
+        int bottom = top + PAD_HEIGHT;
+        int left = getObjectLeftCord(leftCord);
+        int right = left + PAD_WIDTH;
+        pads.add(new Rect(left, top, right, bottom));
+    }
+
+    private int getObjectLeftCord(int leftCord) {
+        return getLeftCord(leftCord) + VERTICAL_WALL_WIDTH;
+    }
+
+    private void createGrid(Canvas canvas) {
+        Paint blackPaint = new Paint();
+        blackPaint.setColor(Color.BLACK);
+        blackPaint.setTextSize(40);
+
+        ArrayList<Rect> grid = new ArrayList<>();
+        for (int i = 0; i <= 16; i++) {
+            grid.add(createHorizontalWall(0, i, 10));
+            int topCord = getTopCord(i);
+            canvas.drawText("" + i, 10, topCord, blackPaint);
+        }
+
+        for (int i = 0; i <= 9; i++) {
+            grid.add(createVerticalWall(i, 0, 16));
+            int leftCord = getLeftCord(i);
+            canvas.drawText("" + i, leftCord + 5, 40, blackPaint);
+        }
+
+        for (Rect wall : grid) {
+            canvas.drawRect(wall, RED_PAINT);
+        }
+    }
+
+    private Rect createHorizontalWall(int leftCord, int topCord, int size) {
+        int top = getTopCord(topCord);
+        int left = getLeftCord(leftCord);
+        int right;
+        if (left == 0) {
+            right = SPACE_BETWEEN_VERTICAL_WALLS * size + VERTICAL_WALL_WIDTH * size;
+        } else {
+            right = left + SPACE_BETWEEN_VERTICAL_WALLS * size + VERTICAL_WALL_WIDTH * (1 + size);
+        }
+        int bottom = top + HORIZONTAL_WALL_HEIGHT;
+        return new Rect(left, top, right, bottom);
+    }
+
+    private int getTopCord(int topCord) {
+        return topCord * SPACE_BETWEEN_HORIZONTAL_WALLS + topCord * HORIZONTAL_WALL_HEIGHT;
     }
 
     private Rect createVerticalWall(int leftCord, int topCord, int size) {
@@ -223,83 +278,8 @@ public class GameView extends View {
         return new Rect(left, top, right, bottom);
     }
 
-    private Rect createHorizontalWall(int leftCord, int topCord, int size) {
-        int top = getTopCord(topCord);
-        int left = getLeftCord(leftCord);
-        int right;
-        if (left == 0) {
-            right = SPACE_BETWEEN_VERTICAL_WALLS * size + VERTICAL_WALL_WIDTH * size;
-        } else {
-            right = left + SPACE_BETWEEN_VERTICAL_WALLS * size + VERTICAL_WALL_WIDTH * (1 + size);
-        }
-        int bottom = top + HORIZONTAL_WALL_HEIGHT;
-        return new Rect(left, top, right, bottom);
-    }
-
-    private void createHole(int leftCord, int topCord) {
-        int top = getTopCord(topCord);
-        if (top > 0) {
-            top += HORIZONTAL_WALL_HEIGHT;
-        }
-        int left = getLeftCord(leftCord);
-        if (left > 0) {
-            left += VERTICAL_WALL_WIDTH;
-        }
-        int right = left + HOLE_WIDTH;
-        int bottom = top + HOLE_HEIGHT;
-        Rect wall = new Rect(left, top, right, bottom);
-        holes.add(wall);
-    }
-
-    private int getTopCord(int topCord) {
-        if (topCord == 0) {
-            return 0;
-        }
-        return SPACE_BETWEEN_HORIZONTAL_WALLS * topCord + (topCord - 1) * HORIZONTAL_WALL_HEIGHT;
-    }
-
     private int getLeftCord(int leftCord) {
-        if (leftCord == 0) {
-            return 0;
-        }
-        return leftCord * SPACE_BETWEEN_VERTICAL_WALLS + (leftCord - 1) * VERTICAL_WALL_WIDTH;
-    }
-
-    private void createPad(int leftCord, int topCord) {
-        int top = getTopCord(topCord);
-        if (top > 0) {
-            top += HORIZONTAL_WALL_HEIGHT;
-        }
-        int left = getLeftCord(leftCord);
-        if (left > 0) {
-            left += VERTICAL_WALL_WIDTH;
-        }
-        int right = left + PAD_WIDTH;
-        int bottom = top + PAD_HEIGHT;
-        pads.add(new Rect(left, top, right, bottom));
-    }
-
-    private void createGrid(Canvas canvas) {
-        Paint blackPaint = new Paint();
-        blackPaint.setColor(Color.BLACK);
-        blackPaint.setTextSize(40);
-
-        ArrayList<Rect> grid = new ArrayList<>();
-        for (int i = 1; i < 16; i++) {
-            grid.add(createHorizontalWall(0, i, 10));
-            int topCord = getTopCord(i);
-            canvas.drawText("" + i, 10, topCord, blackPaint);
-        }
-
-        for (int i = 1; i < 10; i++) {
-            grid.add(createVerticalWall(i, 0, 16));
-            int leftCord = getLeftCord(i);
-            canvas.drawText("" + i, leftCord + 5, 40, blackPaint);
-        }
-
-        for (Rect wall : grid) {
-            canvas.drawRect(wall, RED_PAINT);
-        }
+        return leftCord * SPACE_BETWEEN_VERTICAL_WALLS + leftCord * VERTICAL_WALL_WIDTH;
     }
 
     public void move(float[] values) {
@@ -456,8 +436,6 @@ public class GameView extends View {
         return null;
     }
 
-    ///////////////////////////////////////
-    //Teleporting functions
     private boolean intersectsTeleporter() {
         Rect ball = getBall();
         for (Rect pad : pads) {
@@ -517,8 +495,6 @@ public class GameView extends View {
         BALL_TOP = top;
     }
 
-    ////////////////////////////////////////
-
     @NonNull
     private Rect getBall() {
         return new Rect(BALL_LEFT, BALL_TOP, BALL_LEFT + BALL_SIZE,
@@ -527,6 +503,6 @@ public class GameView extends View {
 
     private void resetBall() {
         BALL_LEFT = SCREEN_WIDTH / 2 - BALL_SIZE / 2;
-        BALL_TOP = SCREEN_HEIGHT - BALL_SIZE;
+        BALL_TOP = SCREEN_HEIGHT - HORIZONTAL_WALL_HEIGHT - BALL_SIZE;
     }
 }

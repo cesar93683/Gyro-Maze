@@ -43,13 +43,11 @@ final class Levels {
             new Wall(8, 2, 1),
             new Wall(8, 5, 1),
             new Wall(8, 9, 1),
-            new Wall(9, 1, 2),
-            new Wall(9, 5, 3),
     };
     private static final Wall[] level1HorizontalWalls = new Wall[]{
             //Top/Bot Walls
             new Wall(0, 0, 9),
-            new Wall(9, 16, 9),
+            new Wall(0, 16, 9),
 
             new Wall(0, 11, 1),
             new Wall(0, 13, 1),
@@ -116,7 +114,7 @@ final class Levels {
     private static final Wall[] level2HorizontalWalls = new Wall[]{
             //Top/Bot Walls
             new Wall(0, 0, 9),
-            new Wall(9, 16, 9),
+            new Wall(0, 16, 9),
 
             new Wall(3, 1, 5),
             new Wall(3, 2, 1),
@@ -183,7 +181,7 @@ final class Levels {
     private static final Wall[] level3HorizontalWalls = new Wall[]{
             //Top/Bot Walls
             new Wall(0, 0, 9),
-            new Wall(9, 16, 9),
+            new Wall(0, 16, 9),
 
             new Wall(1, 2, 1),
             new Wall(1, 3, 6),
@@ -242,7 +240,7 @@ final class Levels {
     private static final Wall[] level4HorizontalWalls = new Wall[]{
             //Top/Bot Walls
             new Wall(0, 0, 9),
-            new Wall(9, 16, 9),
+            new Wall(0, 16, 9),
 
             new Wall(0, 2, 4),
             new Wall(1, 1, 7),
@@ -310,7 +308,7 @@ final class Levels {
     private static final Wall[] level5HorizontalWalls = new Wall[]{
             //Top/Bot Walls
             new Wall(0, 0, 9),
-            new Wall(9, 16, 9),
+            new Wall(0, 16, 9),
 
             new Wall(0, 4, 1),
             new Wall(0, 14, 1),
@@ -369,7 +367,7 @@ final class Levels {
     private static final Wall[] level6HorizontalWalls = new Wall[]{
             //Top/Bot Walls
             new Wall(0, 0, 9),
-            new Wall(9, 16, 9),
+            new Wall(0, 16, 9),
 
             new Wall(0, 1, 1),
             new Wall(1, 2, 2),
@@ -431,7 +429,7 @@ final class Levels {
     private static final Wall[] level7HorizontalWalls = new Wall[]{
             //Top/Bot Walls
             new Wall(0, 0, 9),
-            new Wall(9, 16, 9),
+            new Wall(0, 16, 9),
 
             new Wall(0, 14, 2),
             new Wall(1, 8, 4),
@@ -495,7 +493,7 @@ final class Levels {
     private static final Wall[] level8HorizontalWalls = new Wall[]{
             //Top/Bot Walls
             new Wall(0, 0, 9),
-            new Wall(9, 16, 9),
+            new Wall(0, 16, 9),
 
             new Wall(1, 5, 3),
             new Wall(1, 10, 3),
@@ -564,7 +562,7 @@ final class Levels {
     private static final Wall[] level9HorizontalWalls = new Wall[]{
             //Top/Bot Walls
             new Wall(0, 0, 9),
-            new Wall(9, 16, 9),
+            new Wall(0, 16, 9),
 
             new Wall(1, 10, 2),
             new Wall(1, 12, 7),
@@ -687,7 +685,7 @@ final class Levels {
     private static final Wall[] level10HorizontalWalls = new Wall[]{
             //Top/Bot Walls
             new Wall(0, 0, 9),
-            new Wall(9, 16, 9),
+            new Wall(0, 16, 9),
 
             new Wall(0, 2, 3),
             new Wall(0, 3, 2),
