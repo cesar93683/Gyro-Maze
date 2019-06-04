@@ -61,7 +61,7 @@ public class GameView extends View {
         this.context = context;
         switch (MainActivity.theme) {
             case 1:
-                bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.lava);
+                bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.pokeball);
                 bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
                 bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.lava);
                 bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable
@@ -71,7 +71,7 @@ public class GameView extends View {
                 setBackgroundResource(R.drawable.background);
                 break;
             case 2:
-                bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.lava);
+                bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.golfball);
                 bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wood);
                 bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.water);
                 bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable
@@ -81,12 +81,12 @@ public class GameView extends View {
                 setBackgroundResource(R.drawable.grassbackground);
                 break;
             default:
-                bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.lava);
+                bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.marble);
                 bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
-                bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.golfhole);
+                bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.oshole);
                 bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable
                         .finishline);
-                oPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.portal);
+                oPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.osportal);
                 bPortal = oPortal;
                 setBackgroundResource(R.drawable.wood);
                 break;
@@ -156,7 +156,7 @@ public class GameView extends View {
         HOLE_WIDTH = SPACE_BETWEEN_VERTICAL_WALLS;
         PAD_HEIGHT = SPACE_BETWEEN_HORIZONTAL_WALLS;
         PAD_WIDTH = SPACE_BETWEEN_VERTICAL_WALLS;
-        BALL_SIZE = SCREEN_HEIGHT / 86;
+        BALL_SIZE = SCREEN_HEIGHT / 43; //orig 86
         BALL_LEFT = SCREEN_WIDTH / 2 - BALL_SIZE / 2;
         BALL_TOP = SCREEN_HEIGHT - HORIZONTAL_WALL_HEIGHT - BALL_SIZE;
     }
