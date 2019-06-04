@@ -10,22 +10,20 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
 
-import static com.example.ceamaya.gyromaze.Levels.WARP_ANY;
-import static com.example.ceamaya.gyromaze.Levels.WARP_ONLY_DOWN;
-import static com.example.ceamaya.gyromaze.Levels.WARP_ONLY_RIGHT;
-import static com.example.ceamaya.gyromaze.Levels.WARP_ONLY_UP;
+import static com.example.ceamaya.gyromaze.Levels.WARP_DOWN;
+import static com.example.ceamaya.gyromaze.Levels.WARP_LEFT;
+import static com.example.ceamaya.gyromaze.Levels.WARP_RIGHT;
+import static com.example.ceamaya.gyromaze.Levels.WARP_UP;
 
 public class GameView extends View {
     private static final int MOVING_LEFT = 1;
     private static final int MOVING_RIGHT = 2;
     private static final int MOVING_UP = 3;
     private static final int MOVING_DOWN = 4;
-    private static final String TAG = "GameView";
     public static int MOVE_SCALE;
     private final Context context;
     private final Bitmap bWall;
@@ -91,10 +89,10 @@ public class GameView extends View {
                 setBackgroundResource(R.drawable.wood);
                 break;
         }
-        setUpPaints();
+        initPaints();
     }
 
-    private void setUpPaints() {
+    private void initPaints() {
         YELLOW_PAINT = new Paint();
         YELLOW_PAINT.setARGB(255, 255, 255, 0);
         YELLOW_PAINT.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -130,7 +128,7 @@ public class GameView extends View {
         for (Rect hole : holes) {
             canvas.drawBitmap(bHole, null, hole, null);
         }
-        //evens blue odds orange
+
         for (int i = 0; i < pads.size(); i++) {
             if (i % 2 == 0) {
                 canvas.drawBitmap(bPortal, null, pads.get(i), null);
@@ -156,7 +154,7 @@ public class GameView extends View {
         HOLE_WIDTH = SPACE_BETWEEN_VERTICAL_WALLS;
         PAD_HEIGHT = SPACE_BETWEEN_HORIZONTAL_WALLS;
         PAD_WIDTH = SPACE_BETWEEN_VERTICAL_WALLS;
-        BALL_SIZE = SCREEN_HEIGHT / 43; //orig 86
+        BALL_SIZE = SCREEN_HEIGHT / 43;
         BALL_LEFT = SCREEN_WIDTH / 2 - BALL_SIZE / 2;
         BALL_TOP = SCREEN_HEIGHT - HORIZONTAL_WALL_HEIGHT - BALL_SIZE;
     }
@@ -200,7 +198,6 @@ public class GameView extends View {
     }
 
     private void createHole(int leftCord, int topCord, int horizontalSize, int verticalSize) {
-        Log.d(TAG, "createHole: ");
         int top = getObjectTopCord(topCord);
         int bottom = top + HOLE_HEIGHT * verticalSize + (verticalSize - 1) * HORIZONTAL_WALL_HEIGHT;
         int holeHeight = (bottom - top) / verticalSize;
@@ -334,18 +331,43 @@ public class GameView extends View {
             }
             if (didMove) {
                 if (intersectsTeleporter()) {
-                    int movingDirection = MOVING_LEFT;
-                    if (moveRightAmount > moveDownAmount && moveRightAmount > moveUpAmount &&
-                            moveRightAmount > moveLeftAmount) {
-                        movingDirection = MOVING_RIGHT;
-                    } else if (moveDownAmount > moveRightAmount && moveDownAmount > moveUpAmount &&
-                            moveDownAmount > moveLeftAmount) {
-                        movingDirection = MOVING_DOWN;
-                    } else if (moveUpAmount > moveRightAmount && moveUpAmount > moveDownAmount &&
-                            moveUpAmount > moveLeftAmount) {
-                        movingDirection = MOVING_UP;
+                    boolean isMovingUp = moveUpAmount > 0;
+                    boolean isMovingRight = moveRightAmount > 0;
+                    boolean isMovingDown = moveDownAmount > 0;
+                    boolean isMovingLeft = moveLeftAmount > 0;
+                    if (isMovingUp && isMovingRight) {
+                        if (moveUpAmount > moveRightAmount) {
+                            warp(MOVING_UP, MOVING_RIGHT);
+                        } else {
+                            warp(MOVING_RIGHT, MOVING_UP);
+                        }
+                    } else if (isMovingUp && isMovingLeft) {
+                        if (moveUpAmount > moveLeftAmount) {
+                            warp(MOVING_UP, MOVING_LEFT);
+                        } else {
+                            warp(MOVING_LEFT, MOVING_UP);
+                        }
+                    } else if (isMovingDown && isMovingRight) {
+                        if (moveDownAmount > moveRightAmount) {
+                            warp(MOVING_DOWN, MOVING_RIGHT);
+                        } else {
+                            warp(MOVING_RIGHT, MOVING_DOWN);
+                        }
+                    } else if (isMovingDown && isMovingLeft) {
+                        if (moveDownAmount > moveLeftAmount) {
+                            warp(MOVING_DOWN, MOVING_LEFT);
+                        } else {
+                            warp(MOVING_LEFT, MOVING_DOWN);
+                        }
+                    } else if (isMovingUp) {
+                        warp(MOVING_UP);
+                    } else if (isMovingDown) {
+                        warp(MOVING_DOWN);
+                    } else if (isMovingRight) {
+                        warp(MOVING_RIGHT);
+                    } else if (isMovingLeft) {
+                        warp(MOVING_LEFT);
                     }
-                    warp(destPad, movingDirection);
                 }
                 postInvalidate();
             }
@@ -454,60 +476,102 @@ public class GameView extends View {
 
     private boolean intersectsTeleporter() {
         Rect ball = getBall();
+        destPad = null;
         for (Rect pad : pads) {
             if (Rect.intersects(pad, ball)) {
                 destPad = level.pads[pads.indexOf(pad)].destPad;
                 return true;
-            } else
-                destPad = null;
+            }
         }
         return false;
     }
 
-    private void warp(final Pad destPad, final int movingDirection) {
+    private void warp(final int movingDirection) {
         int top = getTopCord(destPad.topCord);
         int left = getLeftCord(destPad.leftCord);
-        switch (destPad.warpOnlyDirection) {
-            case WARP_ANY:
-                switch (movingDirection) {
-                    case MOVING_LEFT:
-                        top += PAD_HEIGHT / 2;
-                        left -= BALL_SIZE + VERTICAL_WALL_WIDTH;
-                        break;
-                    case MOVING_RIGHT:
-                        top += PAD_HEIGHT / 2;
-                        left += PAD_WIDTH + VERTICAL_WALL_WIDTH;
-                        break;
-                    case MOVING_DOWN:
-                        top += PAD_HEIGHT + HORIZONTAL_WALL_HEIGHT;
-                        left += PAD_WIDTH / 2;
-                        break;
-                    default:
-                        top -= BALL_SIZE + HORIZONTAL_WALL_HEIGHT;
-                        left += PAD_WIDTH / 2;
-                        break;
-                }
-                break;
-            case WARP_ONLY_UP:
-                top -= BALL_SIZE + HORIZONTAL_WALL_HEIGHT;
-                left += PAD_WIDTH / 2;
-                break;
-            case WARP_ONLY_RIGHT:
-                top += PAD_HEIGHT / 2;
-                left += PAD_WIDTH + VERTICAL_WALL_WIDTH;
-                break;
-
-            case WARP_ONLY_DOWN:
-                top += PAD_HEIGHT + HORIZONTAL_WALL_HEIGHT;
-                left += PAD_WIDTH / 2;
-                break;
-            default:
-                top += PAD_HEIGHT / 2;
-                left -= BALL_SIZE + VERTICAL_WALL_WIDTH;
-                break;
+        boolean canWarpUp = (destPad.warpDirection & WARP_UP) == WARP_UP;
+        boolean canWarpRight = (destPad.warpDirection & WARP_RIGHT) == WARP_RIGHT;
+        boolean canWarpDown = (destPad.warpDirection & WARP_DOWN) == WARP_DOWN;
+        boolean canWarpLeft = (destPad.warpDirection & WARP_LEFT) == WARP_LEFT;
+        if (movingDirection == MOVING_UP && canWarpUp) {
+            warpUp(top, left);
+        } else if (movingDirection == MOVING_RIGHT && canWarpRight) {
+            warpRight(top, left);
+        } else if (movingDirection == MOVING_DOWN && canWarpDown) {
+            warpDown(top, left);
+        } else if (movingDirection == MOVING_LEFT && canWarpLeft) {
+            warpLeft(top, left);
+        } else if (canWarpUp) {
+            warpUp(top, left);
+        } else if (canWarpRight) {
+            warpRight(top, left);
+        } else if (canWarpDown) {
+            warpDown(top, left);
+        } else {
+            warpLeft(top, left);
         }
+    }
+
+    private void warpUp(int top, int left) {
+        top -= BALL_SIZE + HORIZONTAL_WALL_HEIGHT;
+        left += PAD_WIDTH / 2;
         BALL_LEFT = left;
         BALL_TOP = top;
+    }
+
+    private void warpRight(int top, int left) {
+        top += PAD_HEIGHT / 2;
+        left += PAD_WIDTH + VERTICAL_WALL_WIDTH;
+        BALL_LEFT = left;
+        BALL_TOP = top;
+    }
+
+    private void warpDown(int top, int left) {
+        top += PAD_HEIGHT + HORIZONTAL_WALL_HEIGHT;
+        left += PAD_WIDTH / 2;
+        BALL_LEFT = left;
+        BALL_TOP = top;
+    }
+
+    private void warpLeft(int top, int left) {
+        top += PAD_HEIGHT / 2;
+        left -= BALL_SIZE + VERTICAL_WALL_WIDTH;
+        BALL_LEFT = left;
+        BALL_TOP = top;
+    }
+
+    private void warp(final int movingDirectionFast, int movingDirectionSlow) {
+        int top = getTopCord(destPad.topCord);
+        int left = getLeftCord(destPad.leftCord);
+        boolean canWarpUp = (destPad.warpDirection & WARP_UP) == WARP_UP;
+        boolean canWarpRight = (destPad.warpDirection & WARP_RIGHT) == WARP_RIGHT;
+        boolean canWarpDown = (destPad.warpDirection & WARP_DOWN) == WARP_DOWN;
+        boolean canWarpLeft = (destPad.warpDirection & WARP_LEFT) == WARP_LEFT;
+        if (movingDirectionFast == MOVING_UP && canWarpUp) {
+            warpUp(top, left);
+        } else if (movingDirectionFast == MOVING_RIGHT && canWarpRight) {
+            warpRight(top, left);
+        } else if (movingDirectionFast == MOVING_DOWN && canWarpDown) {
+            warpDown(top, left);
+        } else if (movingDirectionFast == MOVING_LEFT && canWarpLeft) {
+            warpLeft(top, left);
+        } else if (movingDirectionSlow == MOVING_UP && canWarpUp) {
+            warpUp(top, left);
+        } else if (movingDirectionSlow == MOVING_RIGHT && canWarpRight) {
+            warpRight(top, left);
+        } else if (movingDirectionSlow == MOVING_DOWN && canWarpDown) {
+            warpDown(top, left);
+        } else if (movingDirectionSlow == MOVING_LEFT && canWarpLeft) {
+            warpLeft(top, left);
+        } else if (canWarpUp) {
+            warpUp(top, left);
+        } else if (canWarpRight) {
+            warpRight(top, left);
+        } else if (canWarpDown) {
+            warpDown(top, left);
+        } else {
+            warpLeft(top, left);
+        }
     }
 
     @NonNull

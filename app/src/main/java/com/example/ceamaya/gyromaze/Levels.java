@@ -3,11 +3,11 @@ package com.example.ceamaya.gyromaze;
 import static com.example.ceamaya.gyromaze.Levels.WARP_ANY;
 
 final class Levels {
-    static final int WARP_ANY = 0;
-    static final int WARP_ONLY_UP = 1;
-    static final int WARP_ONLY_RIGHT = 2;
-    static final int WARP_ONLY_DOWN = 3;
-    private static final int WARP_ONLY_LEFT = 4;
+    static final int WARP_UP = 0b1;
+    static final int WARP_RIGHT = 0b10;
+    static final int WARP_DOWN = 0b100;
+    static final int WARP_LEFT = 0b1000;
+    static final int WARP_ANY = WARP_UP | WARP_RIGHT | WARP_DOWN | WARP_LEFT;
 
     //Level 1
     private static final Wall[] level1VerticalWalls = new Wall[]{
@@ -135,18 +135,18 @@ final class Levels {
             new Wall(8, 12, 1),
     };
     private static final Hole[] level2Holes = new Hole[]{
-            new Hole(0,7,2,1),
-            new Hole(0, 9, 2,1),
-            new Hole(0, 11,2,1),
-            new Hole(3,11,1,3),
+            new Hole(0, 7, 2, 1),
+            new Hole(0, 9, 2, 1),
+            new Hole(0, 11, 2, 1),
+            new Hole(3, 11, 1, 3),
             new Hole(7, 3),
             new Hole(8, 15),
     };
     private static final Pad[] level2Pads = new Pad[]{
-            new Pad(8, 4, WARP_ONLY_LEFT),
-            new Pad(0, 15, WARP_ONLY_RIGHT),
-            new Pad(1, 12),
-            new Pad(0, 6),
+            new Pad(8, 4, WARP_LEFT),
+            new Pad(0, 15, WARP_UP | WARP_RIGHT),
+            new Pad(1, 12, WARP_DOWN | WARP_LEFT),
+            new Pad(0, 6, WARP_UP | WARP_RIGHT)
     };
     private static final FinishBox level2FinishBox = new FinishBox(0, 0, 2);
     private static final StarTimes level2StarTimes = new StarTimes(20001, 10001);
@@ -204,8 +204,8 @@ final class Levels {
             new Hole(6, 1),
     };
     private static final Pad[] level3Pads = new Pad[]{
-            new Pad(3, 12),
-            new Pad(8, 0),
+            new Pad(3, 12, WARP_RIGHT),
+            new Pad(8, 0, WARP_LEFT),
     };
     private static final FinishBox level3FinishBox = new FinishBox(4, 4, 2);
     private static final StarTimes level3StarTimes = new StarTimes(12000, 7000);
@@ -251,8 +251,8 @@ final class Levels {
             new Wall(8, 10, 1),
     };
     private static final Hole[] level4Holes = new Hole[]{
-            new Hole(5, 1,2,1),
-            new Hole(3, 12,4,3),
+            new Hole(5, 1, 2, 1),
+            new Hole(3, 12, 4, 3),
     };
     private static final Pad[] level4Pads = new Pad[]{};
     private static final FinishBox level4FinishBox = new FinishBox(6, 0, 2);
@@ -367,12 +367,12 @@ final class Levels {
             new Wall(8, 1, 1),
     };
     private static final Hole[] level6Holes = new Hole[]{
-            new Hole(2, 7,2,4),
-            new Hole(6, 14,3,2),
+            new Hole(2, 7, 2, 4),
+            new Hole(6, 14, 3, 2),
     };
     private static final Pad[] level6Pads = new Pad[]{
-            new Pad(8, 0, WARP_ONLY_LEFT),
-            new Pad(0, 0, WARP_ONLY_RIGHT),
+            new Pad(8, 0, WARP_LEFT),
+            new Pad(0, 0, WARP_RIGHT),
     };
     private static final FinishBox level6FinishBox = new FinishBox(0, 15, 2);
     private static final StarTimes level6StarTimes = new StarTimes(20000, 10000);
@@ -410,12 +410,12 @@ final class Levels {
             new Wall(5, 7, 3),
     };
     private static final Hole[] level7Holes = new Hole[]{
-            new Hole(4, 0,5,1),
-            new Hole(2, 1,1,2),
-            new Hole(2, 2,6,1),
-            new Hole(1, 3,1,5),
-            new Hole(3, 4,1,3),
-            new Hole(3, 4,6,1),
+            new Hole(4, 0, 5, 1),
+            new Hole(2, 1, 1, 2),
+            new Hole(2, 2, 6, 1),
+            new Hole(1, 3, 1, 5),
+            new Hole(3, 4, 1, 3),
+            new Hole(3, 4, 6, 1),
     };
     private static final Pad[] level7Pads = new Pad[]{};
     private static final FinishBox level7FinishBox = new FinishBox(0, 0, 2);
@@ -457,13 +457,13 @@ final class Levels {
             new Wall(7, 11, 2),
     };
     private static final Hole[] level8Holes = new Hole[]{
-            new Hole(0, 0,1,16),
-            new Hole(3, 2,1,2),
-            new Hole(4, 0,5,1),
+            new Hole(0, 0, 1, 16),
+            new Hole(3, 2, 1, 2),
+            new Hole(4, 0, 5, 1),
     };
     private static final Pad[] level8Pads = new Pad[]{
-            new Pad(4, 3),
-            new Pad(8, 2),
+            new Pad(4, 3, WARP_UP | WARP_RIGHT),
+            new Pad(8, 2, WARP_UP | WARP_DOWN | WARP_LEFT),
     };
     private static final FinishBox level8FinishBox = new FinishBox(7, 15, 2);
     private static final StarTimes level8StarTimes = new StarTimes(20000, 10000);
@@ -506,32 +506,32 @@ final class Levels {
             new Wall(5, 13, 1),
     };
     private static final Hole[] level9Holes = new Hole[]{
-            new Hole(0, 0,1,16),
-            new Hole(8, 0,1,16),
-            new Hole(0, 0,9,1),
-            new Hole(0, 5,9,1),
+            new Hole(0, 0, 1, 16),
+            new Hole(8, 0, 1, 16),
+            new Hole(0, 0, 9, 1),
+            new Hole(0, 5, 9, 1),
     };
     private static final Pad[] level9Pads = new Pad[]{
-            new Pad(2, 15),
-            new Pad(6, 15),
+            new Pad(2, 15, WARP_RIGHT | WARP_LEFT),
+            new Pad(6, 15, WARP_RIGHT | WARP_LEFT),
 
-            new Pad(7, 13),
-            new Pad(1, 13),
+            new Pad(7, 13, WARP_DOWN | WARP_LEFT),
+            new Pad(1, 13, WARP_RIGHT | WARP_UP),
 
-            new Pad(5, 13),
-            new Pad(6, 11),
+            new Pad(5, 13, WARP_LEFT),
+            new Pad(6, 11, WARP_RIGHT),
 
-            new Pad(7, 12),
-            new Pad(6, 9),
+            new Pad(7, 12, WARP_LEFT),
+            new Pad(6, 9, WARP_RIGHT),
 
-            new Pad(6, 10),
-            new Pad(4, 8),
+            new Pad(6, 10, WARP_RIGHT),
+            new Pad(4, 8, WARP_LEFT),
 
-            new Pad(6, 8),
-            new Pad(2, 11),
+            new Pad(6, 8, WARP_RIGHT),
+            new Pad(2, 11, WARP_LEFT),
 
-            new Pad(4, 10),
-            new Pad(5, 3),
+            new Pad(4, 10, WARP_ANY),
+            new Pad(5, 3, WARP_ANY),
     };
     private static final FinishBox level9FinishBox = new FinishBox(3, 2, 2);
     private static final StarTimes level9StarTimes = new StarTimes(25000, 20000);
@@ -598,15 +598,15 @@ final class Levels {
             new Wall(0, 1, 1),
     };
     private static final Hole[] level10Holes = new Hole[]{
-            new Hole(0, 8,2,1),
+            new Hole(0, 8, 2, 1),
             new Hole(8, 8),
     };
     private static final Pad[] level10Pads = new Pad[]{
-            new Pad(8, 7, WARP_ONLY_UP),
-            new Pad(1, 7, WARP_ONLY_LEFT),
+            new Pad(8, 7, WARP_UP),
+            new Pad(1, 7, WARP_LEFT),
 
-            new Pad(1, 3, WARP_ONLY_LEFT),
-            new Pad(0, 0, WARP_ONLY_RIGHT),
+            new Pad(1, 3, WARP_LEFT),
+            new Pad(0, 0, WARP_RIGHT),
     };
     private static final FinishBox level10FinishBox = new FinishBox(4, 0, 2);
     private static final StarTimes level10StarTimes = new StarTimes(25000, 20000);
@@ -693,21 +693,21 @@ class Hole {
 class Pad {
     final int leftCord;
     final int topCord;
+    final int warpDirection;
     Pad destPad;
-    final int warpOnlyDirection;
 
     Pad(int leftCord, int topCord) {
         this.leftCord = leftCord;
         this.topCord = topCord;
         this.destPad = null;
-        this.warpOnlyDirection = WARP_ANY;
+        this.warpDirection = WARP_ANY;
     }
 
-    Pad(int leftCord, int topCord, int warpOnlyDirection) {
+    Pad(int leftCord, int topCord, int warpDirection) {
         this.leftCord = leftCord;
         this.topCord = topCord;
         this.destPad = null;
-        this.warpOnlyDirection = warpOnlyDirection;
+        this.warpDirection = warpDirection;
     }
 }
 
