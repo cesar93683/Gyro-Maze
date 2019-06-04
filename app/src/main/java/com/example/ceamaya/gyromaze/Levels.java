@@ -135,14 +135,10 @@ final class Levels {
             new Wall(8, 12, 1),
     };
     private static final Hole[] level2Holes = new Hole[]{
-            new Hole(0, 7),
-            new Hole(0, 9),
-            new Hole(0, 11),
-            new Hole(1, 7),
-            new Hole(1, 9),
-            new Hole(1, 11),
-            new Hole(3, 11),
-            new Hole(3, 12),
+            new Hole(0,7,2,1),
+            new Hole(0, 9, 2,1),
+            new Hole(0, 11,2,1),
+            new Hole(3,11,1,3),
             new Hole(7, 3),
             new Hole(8, 15),
     };
@@ -255,20 +251,8 @@ final class Levels {
             new Wall(8, 10, 1),
     };
     private static final Hole[] level4Holes = new Hole[]{
-            new Hole(5, 1),
-            new Hole(6, 1),
-            new Hole(4, 12),
-            new Hole(4, 13),
-            new Hole(4, 14),
-            new Hole(5, 12),
-            new Hole(5, 13),
-            new Hole(5, 14),
-            new Hole(6, 12),
-            new Hole(6, 13),
-            new Hole(6, 14),
-            new Hole(3, 12),
-            new Hole(3, 13),
-            new Hole(3, 14),
+            new Hole(5, 1,2,1),
+            new Hole(3, 12,4,3),
     };
     private static final Pad[] level4Pads = new Pad[]{};
     private static final FinishBox level4FinishBox = new FinishBox(6, 0, 2);
@@ -383,21 +367,8 @@ final class Levels {
             new Wall(8, 1, 1),
     };
     private static final Hole[] level6Holes = new Hole[]{
-            new Hole(2, 7),
-            new Hole(2, 8),
-            new Hole(2, 9),
-            new Hole(2, 10),
-            new Hole(3, 7),
-            new Hole(3, 8),
-            new Hole(3, 9),
-            new Hole(3, 10),
-
-            new Hole(6, 14),
-            new Hole(6, 15),
-            new Hole(7, 14),
-            new Hole(7, 15),
-            new Hole(8, 14),
-            new Hole(8, 15),
+            new Hole(2, 7,2,4),
+            new Hole(6, 14,3,2),
     };
     private static final Pad[] level6Pads = new Pad[]{
             new Pad(8, 0, WARP_ONLY_LEFT),
@@ -439,34 +410,12 @@ final class Levels {
             new Wall(5, 7, 3),
     };
     private static final Hole[] level7Holes = new Hole[]{
-            new Hole(4, 0),
-            new Hole(5, 0),
-            new Hole(6, 0),
-            new Hole(7, 0),
-            new Hole(8, 0),
-
-            new Hole(2, 1),
-            new Hole(2, 2),
-            new Hole(3, 2),
-            new Hole(4, 2),
-            new Hole(5, 2),
-            new Hole(6, 2),
-            new Hole(7, 2),
-
-            new Hole(1, 3),
-            new Hole(1, 4),
-            new Hole(1, 5),
-            new Hole(1, 6),
-            new Hole(1, 7),
-
-            new Hole(3, 6),
-            new Hole(3, 5),
-            new Hole(3, 4),
-            new Hole(4, 4),
-            new Hole(5, 4),
-            new Hole(6, 4),
-            new Hole(7, 4),
-            new Hole(8, 4),
+            new Hole(4, 0,5,1),
+            new Hole(2, 1,1,2),
+            new Hole(2, 2,6,1),
+            new Hole(1, 3,1,5),
+            new Hole(3, 4,1,3),
+            new Hole(3, 4,6,1),
     };
     private static final Pad[] level7Pads = new Pad[]{};
     private static final FinishBox level7FinishBox = new FinishBox(0, 0, 2);
@@ -508,31 +457,9 @@ final class Levels {
             new Wall(7, 11, 2),
     };
     private static final Hole[] level8Holes = new Hole[]{
-            new Hole(0, 0),
-            new Hole(0, 1),
-            new Hole(0, 2),
-            new Hole(0, 3),
-            new Hole(0, 4),
-            new Hole(0, 5),
-            new Hole(0, 6),
-            new Hole(0, 7),
-            new Hole(0, 8),
-            new Hole(0, 9),
-            new Hole(0, 10),
-            new Hole(0, 11),
-            new Hole(0, 12),
-            new Hole(0, 13),
-            new Hole(0, 14),
-            new Hole(0, 15),
-
-            new Hole(3, 2),
-            new Hole(3, 3),
-
-            new Hole(4, 0),
-            new Hole(5, 0),
-            new Hole(6, 0),
-            new Hole(7, 0),
-            new Hole(8, 0),
+            new Hole(0, 0,1,16),
+            new Hole(3, 2,1,2),
+            new Hole(4, 0,5,1),
     };
     private static final Pad[] level8Pads = new Pad[]{
             new Pad(4, 3),
@@ -579,55 +506,10 @@ final class Levels {
             new Wall(5, 13, 1),
     };
     private static final Hole[] level9Holes = new Hole[]{
-            new Hole(0, 15),
-            new Hole(0, 14),
-            new Hole(0, 13),
-            new Hole(0, 12),
-            new Hole(0, 11),
-            new Hole(0, 10),
-            new Hole(0, 9),
-            new Hole(0, 8),
-            new Hole(0, 7),
-            new Hole(0, 6),
-            new Hole(0, 5),
-            new Hole(0, 4),
-            new Hole(0, 3),
-            new Hole(0, 2),
-            new Hole(0, 1),
-            new Hole(0, 0),
-
-            new Hole(1, 0),
-            new Hole(2, 0),
-            new Hole(3, 0),
-            new Hole(4, 0),
-            new Hole(5, 0),
-            new Hole(6, 0),
-            new Hole(7, 0),
-
-            new Hole(1, 5),
-            new Hole(2, 5),
-            new Hole(3, 5),
-            new Hole(4, 5),
-            new Hole(5, 5),
-            new Hole(6, 5),
-            new Hole(7, 5),
-
-            new Hole(8, 15),
-            new Hole(8, 14),
-            new Hole(8, 13),
-            new Hole(8, 12),
-            new Hole(8, 11),
-            new Hole(8, 10),
-            new Hole(8, 9),
-            new Hole(8, 8),
-            new Hole(8, 7),
-            new Hole(8, 6),
-            new Hole(8, 5),
-            new Hole(8, 4),
-            new Hole(8, 3),
-            new Hole(8, 2),
-            new Hole(8, 1),
-            new Hole(8, 0),
+            new Hole(0, 0,1,16),
+            new Hole(8, 0,1,16),
+            new Hole(0, 0,9,1),
+            new Hole(0, 5,9,1),
     };
     private static final Pad[] level9Pads = new Pad[]{
             new Pad(2, 15),
@@ -716,9 +598,7 @@ final class Levels {
             new Wall(0, 1, 1),
     };
     private static final Hole[] level10Holes = new Hole[]{
-            new Hole(0, 8),
-            new Hole(1, 8),
-
+            new Hole(0, 8,2,1),
             new Hole(8, 8),
     };
     private static final Pad[] level10Pads = new Pad[]{
@@ -792,10 +672,21 @@ class Wall {
 class Hole {
     final int leftCord;
     final int topCord;
+    final int horizontalSize;
+    final int verticalSize;
 
     Hole(int leftCord, int topCord) {
         this.leftCord = leftCord;
         this.topCord = topCord;
+        this.horizontalSize = 1;
+        this.verticalSize = 1;
+    }
+
+    Hole(int leftCord, int topCord, int horizontalSize, int verticalSize) {
+        this.leftCord = leftCord;
+        this.topCord = topCord;
+        this.horizontalSize = horizontalSize;
+        this.verticalSize = verticalSize;
     }
 }
 

@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class GameView extends View {
     private static final int MOVING_RIGHT = 2;
     private static final int MOVING_UP = 3;
     private static final int MOVING_DOWN = 4;
+    private static final String TAG = "GameView";
     public static int MOVE_SCALE;
     private final Context context;
     private final Bitmap bWall;
@@ -45,7 +47,6 @@ public class GameView extends View {
     private int HOLE_WIDTH;
     private int PAD_HEIGHT;
     private int PAD_WIDTH;
-    private Paint RED_PAINT;
     private Paint YELLOW_PAINT;
     private boolean IS_FIRST_RUN = false;
     private ArrayList<Rect> walls;
@@ -94,9 +95,6 @@ public class GameView extends View {
     }
 
     private void setUpPaints() {
-        RED_PAINT = new Paint();
-        RED_PAINT.setARGB(255, 255, 0, 0);
-        RED_PAINT.setStyle(Paint.Style.FILL_AND_STROKE);
         YELLOW_PAINT = new Paint();
         YELLOW_PAINT.setARGB(255, 255, 255, 0);
         YELLOW_PAINT.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -133,7 +131,7 @@ public class GameView extends View {
             canvas.drawBitmap(bHole, null, hole, null);
         }
         //evens blue odds orange
-        for (int i = 0; i < level.pads.length; i++) {
+        for (int i = 0; i < pads.size(); i++) {
             if (i % 2 == 0) {
                 canvas.drawBitmap(bPortal, null, pads.get(i), null);
             } else {
@@ -143,7 +141,7 @@ public class GameView extends View {
 
         canvas.drawRect(finishBox, YELLOW_PAINT);
         canvas.drawBitmap(bFinish, null, finishBox, null);
-        canvas.drawBitmap(bBall, null, getBall(),null);
+        canvas.drawBitmap(bBall, null, getBall(), null);
     }
 
     private void setUpDimensions() {
@@ -176,7 +174,7 @@ public class GameView extends View {
 
     private void setUpHoles() {
         for (Hole hole : level.holes) {
-            createHole(hole.leftCord, hole.topCord);
+            createHole(hole.leftCord, hole.topCord, hole.horizontalSize, hole.verticalSize);
         }
     }
 
@@ -201,11 +199,23 @@ public class GameView extends View {
         }
     }
 
-    private void createHole(int leftCord, int topCord) {
+    private void createHole(int leftCord, int topCord, int horizontalSize, int verticalSize) {
+        Log.d(TAG, "createHole: ");
         int top = getObjectTopCord(topCord);
-        int bottom = top + HOLE_HEIGHT;
+        int bottom = top + HOLE_HEIGHT * verticalSize + (verticalSize - 1) * HORIZONTAL_WALL_HEIGHT;
+        int holeHeight = (bottom - top) / verticalSize;
         int left = getObjectLeftCord(leftCord);
-        int right = left + HOLE_WIDTH;
+        int right = left + HOLE_WIDTH * horizontalSize + (horizontalSize - 1) * VERTICAL_WALL_WIDTH;
+        int holeWidth = (right - left) / horizontalSize;
+        for (int i = 0; i < horizontalSize; i++) {
+            int topTemp = top;
+            for (int j = 0; j < verticalSize; j++) {
+                Rect wall = new Rect(left, topTemp, left + holeWidth, topTemp + holeHeight);
+                topTemp += holeHeight;
+                holes.add(wall);
+            }
+            left += holeWidth;
+        }
         Rect wall = new Rect(left, top, right, bottom);
         holes.add(wall);
     }
@@ -230,6 +240,9 @@ public class GameView extends View {
         Paint blackPaint = new Paint();
         blackPaint.setColor(Color.BLACK);
         blackPaint.setTextSize(40);
+        Paint redPaint = new Paint();
+        blackPaint.setColor(Color.RED);
+        redPaint.setStyle(Paint.Style.FILL_AND_STROKE);
 
         ArrayList<Rect> grid = new ArrayList<>();
         for (int i = 0; i <= 16; i++) {
@@ -245,7 +258,7 @@ public class GameView extends View {
         }
 
         for (Rect wall : grid) {
-            canvas.drawRect(wall, RED_PAINT);
+            canvas.drawRect(wall, redPaint);
         }
     }
 
