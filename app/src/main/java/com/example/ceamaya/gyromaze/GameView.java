@@ -68,7 +68,7 @@ public class GameView extends View {
                         .finishline);
                 oPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.oportal);
                 bPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.bportal);
-                setBackgroundResource(R.drawable.background);
+                setBackgroundResource(R.drawable.background2);
                 break;
             case 2:
                 bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.golfball);
@@ -83,7 +83,7 @@ public class GameView extends View {
             default:
                 bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.marble);
                 bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
-                bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.oshole);
+                bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.oshole2);
                 bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable
                         .finishline);
                 oPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.osportal);
