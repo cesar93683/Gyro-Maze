@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="10dp"
+  android:orientation="vertical">
+
+  <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/level_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="30sp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <include
-                android:id="@+id/star_one"
-                layout="@layout/gray_star" />
-
-            <include
-                android:id="@+id/star_two"
-                layout="@layout/gray_star" />
-
-            <include
-                android:id="@+id/star_three"
-                layout="@layout/gray_star" />
-        </LinearLayout>
-
-    </RelativeLayout>
+    android:layout_height="wrap_content">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:id="@+id/best_time_text_view"/>
+      android:id="@+id/level_text_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="30sp"/>
+
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentEnd="true"
+      android:layout_alignParentRight="true"
+      android:layout_gravity="center_horizontal"
+      android:orientation="horizontal">
+
+      <include
+        android:id="@+id/star_one"
+        layout="@layout/gray_star"/>
+
+      <include
+        android:id="@+id/star_two"
+        layout="@layout/gray_star"/>
+
+      <include
+        android:id="@+id/star_three"
+        layout="@layout/gray_star"/>
+    </LinearLayout>
+
+  </RelativeLayout>
+
+  <TextView
+    android:id="@+id/best_time_text_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="20sp"/>
 
 </LinearLayout>

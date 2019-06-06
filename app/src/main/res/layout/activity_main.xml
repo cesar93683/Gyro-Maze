@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/button_blue"
-        android:layout_marginBottom="10dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        android:onClick="playClick"
-        android:text="@string/main_play_button_text"
-        android:id="@+id/play_button"
-        android:textColor="@color/white"
-        android:textSize="25sp" />
+  <Button
+    android:id="@+id/play_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_centerInParent="true"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:background="@drawable/button_blue"
+    android:onClick="playClick"
+    android:text="@string/main_play_button_text"
+    android:textColor="@color/white"
+    android:textSize="25sp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/play_button"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/button_gray"
-        android:onClick="settingsClick"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp"
-        android:text="@string/main_settings_button_text"
-        android:textColor="@color/white"
-        android:textSize="25sp" />
+  <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/play_button"
+    android:layout_centerHorizontal="true"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:background="@drawable/button_gray"
+    android:onClick="settingsClick"
+    android:text="@string/main_settings_button_text"
+    android:textColor="@color/white"
+    android:textSize="25sp"/>
 
 </RelativeLayout>

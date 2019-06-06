@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Settings">
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".Settings">
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+  <RadioGroup
+    android:id="@+id/radioGroup"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true">
 
-        <RadioButton
-            android:id="@+id/videoGameTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/video_game_theme"
-            android:textSize="20sp" />
+    <RadioButton
+      android:id="@+id/videoGameTheme"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/video_game_theme"
+      android:textSize="20sp"/>
 
-        <RadioButton
-            android:id="@+id/golfTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/golf_theme"
-            android:textSize="20sp" />
+    <RadioButton
+      android:id="@+id/golfTheme"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/golf_theme"
+      android:textSize="20sp"/>
 
-        <RadioButton
-            android:id="@+id/oldSchoolTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/old_school"
-            android:textSize="20sp" />
-    </RadioGroup>
+    <RadioButton
+      android:id="@+id/oldSchoolTheme"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/old_school"
+      android:textSize="20sp"/>
+  </RadioGroup>
 
-    <Switch
-        android:id="@+id/speed_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/radioGroup"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"
-        android:text="@string/double_speed"
-        android:textSize="20sp" />
+  <Switch
+    android:id="@+id/speed_switch"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_below="@+id/radioGroup"
+    android:layout_centerHorizontal="true"
+    android:text="@string/double_speed"
+    android:textSize="20sp"/>
 </RelativeLayout>
