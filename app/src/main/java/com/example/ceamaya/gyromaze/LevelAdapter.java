@@ -27,7 +27,8 @@ class LevelAdapter extends ArrayAdapter<Integer> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.level_list_item, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.level_list_item, parent,
+                    false);
         }
 
         int levelNumber = position + 1;
@@ -63,18 +64,17 @@ class LevelAdapter extends ArrayAdapter<Integer> {
         ImageView starOne = view.findViewById(R.id.star_one);
         ImageView starTwo = view.findViewById(R.id.star_two);
         ImageView starThree = view.findViewById(R.id.star_three);
+        starOne.setBackgroundResource(R.drawable.ic_star_gray);
+        starTwo.setBackgroundResource(R.drawable.ic_star_gray);
+        starThree.setBackgroundResource(R.drawable.ic_star_gray);
         if (numYellowStars >= 1) {
             starOne.setBackgroundResource(R.drawable.ic_star_yellow);
             if (numYellowStars >= 2) {
                 starTwo.setBackgroundResource(R.drawable.ic_star_yellow);
+                if (numYellowStars == 3) {
+                    starThree.setBackgroundResource(R.drawable.ic_star_yellow);
+                }
             }
-            if (numYellowStars >= 3) {
-                starThree.setBackgroundResource(R.drawable.ic_star_yellow);
-            }
-        } else {
-            starOne.setBackgroundResource(R.drawable.ic_star_gray);
-            starTwo.setBackgroundResource(R.drawable.ic_star_gray);
-            starThree.setBackgroundResource(R.drawable.ic_star_gray);
         }
     }
 }
