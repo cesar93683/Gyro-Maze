@@ -19,12 +19,12 @@ public class MainActivity extends AppCompatActivity {
     speedup = false;
   }
 
-  public void playClick(View view) {
+  public void playClick(@SuppressWarnings("unused") View view) {
     Intent intent = new Intent(this, LevelActivity.class);
     startActivity(intent);
   }
 
-  public void settingsClick(View view) {
+  public void settingsClick(@SuppressWarnings("unused") View view) {
     Intent intent = new Intent(this, Settings.class);
     startActivity(intent);
   }

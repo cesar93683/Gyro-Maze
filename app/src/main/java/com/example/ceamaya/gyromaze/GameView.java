@@ -62,31 +62,31 @@ public class GameView extends View {
     this.context = context;
     switch (MainActivity.theme) {
       case THEME_GAME:
-        bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.pokeball);
-        bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
-        bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.lava);
-        bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable.finishline);
-        oPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.oportal);
-        bPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.bportal);
-        setBackgroundResource(R.drawable.background2);
+        bBall = BitmapFactory.decodeResource(context.getResources(), R.mipmap.pokeball);
+        bWall = BitmapFactory.decodeResource(context.getResources(), R.mipmap.wall);
+        bHole = BitmapFactory.decodeResource(context.getResources(), R.mipmap.lava);
+        bFinish = BitmapFactory.decodeResource(context.getResources(), R.mipmap.finishline);
+        oPortal = BitmapFactory.decodeResource(context.getResources(), R.mipmap.oportal);
+        bPortal = BitmapFactory.decodeResource(context.getResources(), R.mipmap.bportal);
+        setBackgroundResource(R.mipmap.background2);
         break;
       case THEME_GOLF:
-        bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.golfball);
-        bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wood);
-        bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.water);
-        bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable.finishline);
-        oPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.golftele);
+        bBall = BitmapFactory.decodeResource(context.getResources(), R.mipmap.golfball);
+        bWall = BitmapFactory.decodeResource(context.getResources(), R.mipmap.wood);
+        bHole = BitmapFactory.decodeResource(context.getResources(), R.mipmap.water);
+        bFinish = BitmapFactory.decodeResource(context.getResources(), R.mipmap.finishline);
+        oPortal = BitmapFactory.decodeResource(context.getResources(), R.mipmap.golftele);
         bPortal = oPortal;
-        setBackgroundResource(R.drawable.grassbackground);
+        setBackgroundResource(R.mipmap.grassbackground);
         break;
       default:
-        bBall = BitmapFactory.decodeResource(context.getResources(), R.drawable.marble);
-        bWall = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
-        bHole = BitmapFactory.decodeResource(context.getResources(), R.drawable.oshole2);
-        bFinish = BitmapFactory.decodeResource(context.getResources(), R.drawable.finishline);
-        oPortal = BitmapFactory.decodeResource(context.getResources(), R.drawable.osportal);
+        bBall = BitmapFactory.decodeResource(context.getResources(), R.mipmap.marble);
+        bWall = BitmapFactory.decodeResource(context.getResources(), R.mipmap.wall);
+        bHole = BitmapFactory.decodeResource(context.getResources(), R.mipmap.oshole2);
+        bFinish = BitmapFactory.decodeResource(context.getResources(), R.mipmap.finishline);
+        oPortal = BitmapFactory.decodeResource(context.getResources(), R.mipmap.osportal);
         bPortal = oPortal;
-        setBackgroundResource(R.drawable.wood);
+        setBackgroundResource(R.mipmap.wood);
         break;
     }
     initPaints();
@@ -232,6 +232,7 @@ public class GameView extends View {
     return getLeftCord(leftCord) + VERTICAL_WALL_WIDTH;
   }
 
+  @SuppressWarnings("unused")
   private void createGrid(Canvas canvas) {
     Paint blackPaint = new Paint();
     blackPaint.setColor(Color.BLACK);
