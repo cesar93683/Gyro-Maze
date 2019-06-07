@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -39,7 +40,7 @@ public class LevelActivity extends AppCompatActivity {
   }
 
   private void setUpBestTimes() {
-    SharedPreferences prefs = getSharedPreferences(BEST_TIMES, MODE_PRIVATE);
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
     bestTimes.clear();
     bestTimes.add(prefs.getInt(Integer.toString(1), LEVEL_UNLOCKED));
     for (int i = 2; i <= 10; i++) {

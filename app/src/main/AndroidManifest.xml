@@ -10,7 +10,7 @@
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
     <activity
-      android:name="com.gyromaze.Settings"
+      android:name="com.gyromaze.SettingsActivity"
       android:screenOrientation="portrait"/>
     <activity android:name="com.gyromaze.LevelActivity"/>
     <activity android:name="com.gyromaze.MainActivity">

@@ -9,6 +9,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -79,7 +80,7 @@ public class GameActivity extends AppCompatActivity implements SensorEventListen
   }
 
   private void updateBestTime(int newTime) {
-    SharedPreferences prefs = getSharedPreferences(LevelActivity.BEST_TIMES, MODE_PRIVATE);
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
     SharedPreferences.Editor prefsEditor = prefs.edit();
     int prevTime = prefs.getInt(Integer.toString(levelNumber), LevelActivity.LEVEL_UNLOCKED);
     if (prevTime == LevelActivity.LEVEL_UNLOCKED || newTime < prevTime) {

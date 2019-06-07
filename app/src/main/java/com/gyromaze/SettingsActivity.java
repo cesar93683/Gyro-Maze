@@ -5,16 +5,15 @@ import static com.gyromaze.GameView.THEME_GAME;
 import static com.gyromaze.GameView.THEME_GOLF;
 import static com.gyromaze.GameView.THEME_OLD_SCHOOL;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 
-public class Settings extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
-  public static final String PREF_SETTINGS = "PREF_SETTINGS";
   public static final String PREF_THEME = "PREF_THEME";
   public static final String PREF_MOVE_SCALE = "PREF_MOVE_SCALE";
 
@@ -47,12 +46,13 @@ public class Settings extends AppCompatActivity {
             GameView.THEME = THEME_OLD_SCHOOL;
             break;
         }
-        SharedPreferences prefs = getSharedPreferences(PREF_SETTINGS, MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = prefs.edit();
-        prefsEditor.putInt(PREF_THEME, GameView.THEME);
-        prefsEditor.apply();
+        PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this)
+            .edit()
+            .putInt(PREF_THEME, GameView.THEME)
+            .apply();
       }
     });
+
     Switch speedSwitch = findViewById(R.id.speed_switch);
     speedSwitch.setChecked(GameView.MOVE_SCALE != DEFAULT_SCALE);
     speedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -63,10 +63,10 @@ public class Settings extends AppCompatActivity {
         } else {
           GameView.MOVE_SCALE = DEFAULT_SCALE;
         }
-        SharedPreferences prefs = getSharedPreferences(PREF_SETTINGS, MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = prefs.edit();
-        prefsEditor.putInt(PREF_MOVE_SCALE, GameView.MOVE_SCALE);
-        prefsEditor.apply();
+        PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this)
+            .edit()
+            .putInt(PREF_MOVE_SCALE, GameView.MOVE_SCALE)
+            .apply();
       }
     });
   }
