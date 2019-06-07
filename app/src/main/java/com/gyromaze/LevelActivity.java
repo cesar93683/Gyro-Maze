@@ -1,4 +1,4 @@
-package com.example.ceamaya.gyromaze;
+package com.gyromaze;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -38,6 +38,17 @@ public class LevelActivity extends AppCompatActivity {
     levelListView.setOnItemClickListener(levelClickListener());
   }
 
+  private void setUpBestTimes() {
+    SharedPreferences prefs = getSharedPreferences(BEST_TIMES, MODE_PRIVATE);
+    bestTimes.clear();
+    bestTimes.add(prefs.getInt(Integer.toString(1), LEVEL_UNLOCKED));
+    for (int i = 2; i <= 10; i++) {
+      bestTimes.add(prefs.getInt(Integer.toString(i), LEVEL_LOCKED));
+//      to unlock all levels
+//      bestTimes.add(0);
+    }
+  }
+
   @NonNull
   private AdapterView.OnItemClickListener levelClickListener() {
     return new AdapterView.OnItemClickListener() {
@@ -52,17 +63,6 @@ public class LevelActivity extends AppCompatActivity {
         }
       }
     };
-  }
-
-  private void setUpBestTimes() {
-    SharedPreferences prefs = getSharedPreferences(BEST_TIMES, MODE_PRIVATE);
-    bestTimes.clear();
-    bestTimes.add(prefs.getInt(Integer.toString(1), LEVEL_UNLOCKED));
-    for (int i = 2; i <= 10; i++) {
-      bestTimes.add(prefs.getInt(Integer.toString(i), LEVEL_LOCKED));
-//      to unlock all levels
-//      bestTimes.add(0);
-    }
   }
 
   @Override

@@ -1,4 +1,4 @@
-package com.example.ceamaya.gyromaze;
+package com.gyromaze;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -1,10 +1,11 @@
-package com.example.ceamaya.gyromaze;
+package com.gyromaze;
 
-import static com.example.ceamaya.gyromaze.GameView.THEME_GAME;
-import static com.example.ceamaya.gyromaze.GameView.THEME_GOLF;
-import static com.example.ceamaya.gyromaze.GameView.THEME_OLD_SCHOOL;
-import static com.example.ceamaya.gyromaze.MainActivity.speedup;
+import static com.gyromaze.GameView.DEFAULT_SCALE;
+import static com.gyromaze.GameView.THEME_GAME;
+import static com.gyromaze.GameView.THEME_GOLF;
+import static com.gyromaze.GameView.THEME_OLD_SCHOOL;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.CompoundButton;
@@ -13,12 +14,16 @@ import android.widget.Switch;
 
 public class Settings extends AppCompatActivity {
 
+  public static final String PREF_SETTINGS = "PREF_SETTINGS";
+  public static final String PREF_THEME = "PREF_THEME";
+  public static final String PREF_MOVE_SCALE = "PREF_MOVE_SCALE";
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     super.setContentView(R.layout.activity_settings);
     RadioGroup radioGroup = findViewById(R.id.radioGroup);
-    switch (MainActivity.theme) {
+    switch (GameView.THEME) {
       case 1:
         radioGroup.check(R.id.videoGameTheme);
         break;
@@ -33,28 +38,35 @@ public class Settings extends AppCompatActivity {
       public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
           case R.id.videoGameTheme:
-            MainActivity.theme = THEME_GAME;
+            GameView.THEME = THEME_GAME;
             break;
           case R.id.golfTheme:
-            MainActivity.theme = THEME_GOLF;
+            GameView.THEME = THEME_GOLF;
             break;
           default:
-            MainActivity.theme = THEME_OLD_SCHOOL;
+            GameView.THEME = THEME_OLD_SCHOOL;
             break;
         }
+        SharedPreferences prefs = getSharedPreferences(PREF_SETTINGS, MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putInt(PREF_THEME, GameView.THEME);
+        prefsEditor.apply();
       }
     });
     Switch speedSwitch = findViewById(R.id.speed_switch);
-    speedSwitch.setChecked(speedup);
+    speedSwitch.setChecked(GameView.MOVE_SCALE != DEFAULT_SCALE);
     speedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        speedup = !speedup;
-        if (speedup) {
-          GameView.MOVE_SCALE = 14;
+        if (GameView.MOVE_SCALE == DEFAULT_SCALE) {
+          GameView.MOVE_SCALE = DEFAULT_SCALE * 2;
         } else {
-          GameView.MOVE_SCALE = 7;
+          GameView.MOVE_SCALE = DEFAULT_SCALE;
         }
+        SharedPreferences prefs = getSharedPreferences(PREF_SETTINGS, MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+        prefsEditor.putInt(PREF_MOVE_SCALE, GameView.MOVE_SCALE);
+        prefsEditor.apply();
       }
     });
   }

@@ -1,4 +1,4 @@
-package com.example.ceamaya.gyromaze;
+package com.gyromaze;
 
 import static org.junit.Assert.assertEquals;
 

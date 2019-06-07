@@ -1,9 +1,9 @@
-package com.example.ceamaya.gyromaze;
+package com.gyromaze;
 
-import static com.example.ceamaya.gyromaze.Levels.WARP_DOWN;
-import static com.example.ceamaya.gyromaze.Levels.WARP_LEFT;
-import static com.example.ceamaya.gyromaze.Levels.WARP_RIGHT;
-import static com.example.ceamaya.gyromaze.Levels.WARP_UP;
+import static com.gyromaze.Levels.WARP_DOWN;
+import static com.gyromaze.Levels.WARP_LEFT;
+import static com.gyromaze.Levels.WARP_RIGHT;
+import static com.gyromaze.Levels.WARP_UP;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -20,14 +20,16 @@ import java.util.ArrayList;
 
 public class GameView extends View {
 
+  public static final int THEME_GAME = 1;
+  public static final int THEME_GOLF = 2;
+  public static final int THEME_OLD_SCHOOL = 3;
   private static final int MOVING_LEFT = 1;
   private static final int MOVING_RIGHT = 2;
   private static final int MOVING_UP = 3;
   private static final int MOVING_DOWN = 4;
-  public static final int THEME_GAME = 1;
-  public static final int THEME_GOLF = 2;
-  public static final int THEME_OLD_SCHOOL = 3;
   public static int MOVE_SCALE;
+  public static int THEME;
+  public static int DEFAULT_SCALE = 7;
   private final Context context;
   private final Bitmap bWall;
   private final Bitmap bHole;
@@ -60,7 +62,7 @@ public class GameView extends View {
   public GameView(Context context, @Nullable AttributeSet attrs) {
     super(context, attrs);
     this.context = context;
-    switch (MainActivity.theme) {
+    switch (THEME) {
       case THEME_GAME:
         bBall = BitmapFactory.decodeResource(context.getResources(), R.mipmap.pokeball);
         bWall = BitmapFactory.decodeResource(context.getResources(), R.mipmap.wall);

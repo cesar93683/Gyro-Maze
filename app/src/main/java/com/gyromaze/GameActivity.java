@@ -1,4 +1,4 @@
-package com.example.ceamaya.gyromaze;
+package com.gyromaze;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
